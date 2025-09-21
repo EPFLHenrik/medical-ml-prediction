@@ -2,7 +2,7 @@
 """Exercise 2.
 
 Grid Search
-"""
+""" 
 
 import numpy as np
 from costs import compute_loss

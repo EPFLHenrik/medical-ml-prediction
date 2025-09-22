@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Exercise 2.
 
-Grid Search
+Grid Search 
 """ 
 
 import numpy as np

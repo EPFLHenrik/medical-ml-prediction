@@ -1,3 +1,4 @@
+import numpy as np 
 # -*- coding: utf-8 -*-
 """Problem Sheet 2.
 
@@ -51,8 +52,9 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
     for n_iter in range(max_iters):
         
         for y_minibatch, mini_batch in batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
-            loss = compute_loss(y_minibatch, mini_batch, w)
             w = w - gamma*compute_stoch_gradient(y_minibatch, mini_batch, w)
+       
+        loss = compute_loss(y, tx, w) 
         ws.append(w)
         losses.append(loss)
         print(

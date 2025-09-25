@@ -1,5 +1,5 @@
 import numpy as np
-from costs import compute_loss
+from .costs import compute_loss
 # -*- coding: utf-8 -*-
 """Problem Sheet 2.
 

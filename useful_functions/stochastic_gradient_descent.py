@@ -4,8 +4,8 @@ import numpy as np
 
 Stochastic Gradient Descent
 """
-from helpers import batch_iter
-from costs import compute_loss
+from .helpers import batch_iter
+from .costs import compute_loss
 
 
 def compute_stoch_gradient(y, tx, w):

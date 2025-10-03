@@ -1,4 +1,3 @@
 # Ignore files
 *.csv
-boxplot*
-__pycache__/
+implementations/__pycache__/

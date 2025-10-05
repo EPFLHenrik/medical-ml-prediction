@@ -25,14 +25,10 @@
 10. Retrying everything (implementations count much more than expected), maybe GPT-check
 11. Report
 
-## 1 - Exploratory data analysis 
+## 1 - Exploratory data analysis
 
-1. Cleaning in case of high frequency of NA - find continuous and categorical variables 
-2. descriptive statistics: mean, median, variance, pencentiles
-3. just visualizing: boxplots, hists, runchart, barchart, heat map -> find and managing outliers
-4. correlation: scatterplots, np.corrcoef
-5. Variable evaluation : R_squared -> NO DATA DREDGING, always remember the context 
-6. Dimensionality reduction
+1. Variable evaluation : R_squared -> NO DATA DREDGING, always remember the context
+2. Dimensionality reduction
 
 ## 2 - Feature processing
 

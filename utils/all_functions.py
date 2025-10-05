@@ -384,11 +384,7 @@ def build_poly(x, degree):
     array([[1.  , 0.  , 0.  ],
            [1.  , 1.5 , 2.25]])
     """
-    N = len(x)
-    tx = np.ones((N, degree + 1))
-    for d in range(1, degree + 1):
-        tx[:, d] = x ** d
-    return tx
+    return np.array([np.array(x.T**i) for i in range(degree+1)]).T
 
 
 def polynomial_regression():
@@ -460,3 +456,101 @@ def split_data(x, y, ratio, seed=1):
 
     return x[train_idx], x[test_idx], y[train_idx], y[test_idx]
     
+def build_k_indices(y, k_fold, seed):
+    """build k indices for k-fold.
+
+    Args:
+        y:      shape=(N,)
+        k_fold: K in K-fold, i.e. the fold num
+        seed:   the random seed
+
+    Returns:
+        A 2D array of shape=(k_fold, N/k_fold) that indicates the data indices for each fold
+
+    >>> build_k_indices(np.array([1., 2., 3., 4.]), 2, 1)
+    array([[3, 2],
+           [0, 1]])
+    """
+    num_row = y.shape[0]
+    interval = int(num_row / k_fold)
+    np.random.seed(seed)
+    indices = np.random.permutation(num_row)
+    k_indices = [indices[k * interval : (k + 1) * interval] for k in range(k_fold)]
+    return np.array(k_indices)
+
+def cross_validation(y, x, k_indices, k, lambda_, degree):
+    """return the loss of ridge regression for a fold corresponding to k_indices
+
+    Args:
+        y:          shape=(N,)
+        x:          shape=(N,)
+        k_indices:  2D array returned by build_k_indices()
+        k:          scalar, the k-th fold (N.B.: not to confused with k_fold which is the fold nums)
+        lambda_:    scalar, cf. ridge_regression()
+        degree:     scalar, cf. build_poly()
+
+    Returns:
+        train and test root mean square errors rmse = sqrt(2 mse)
+
+    >>> cross_validation(np.array([1.,2.,3.,4.]), np.array([6.,7.,8.,9.]), np.array([[3,2], [0,1]]), 1, 2, 3)
+    (0.019866645527597114, 0.33555914361295175)
+    """
+
+    # ***************************************************
+    # INSERT YOUR CODE HERE
+    # get k'th subgroup in test, others in train: TODO
+    # ***************************************************
+    ind = k_indices[k]
+    x_test = x[ind]
+    y_test = y[ind]
+    mask = np.ones(len(x), dtype=bool)  # start with all True
+    mask[ind] = False
+    x_train = x[mask]
+    y_train = y[mask]
+    # ***************************************************
+    # INSERT YOUR CODE HERE
+    # form data with polynomial degree: TODO
+    # ***************************************************
+    x_test_poly = build_poly(x_test, degree)
+    x_train_poly = build_poly(x_train, degree)
+    # ***************************************************
+    # INSERT YOUR CODE HERE
+    # ridge regression: TODO
+    # ***************************************************
+    weights = ridge_regression(y_train, x_train_poly, lambda_)
+    # ***************************************************
+    # INSERT YOUR CODE HERE
+    # calculate the loss for train and test data: TODO
+    # ***************************************************
+    loss_tr = np.sqrt(2*compute_loss(y_train, x_train_poly, weights))
+    loss_te = np.sqrt(2*compute_loss(y_test, x_test_poly, weights))
+    return loss_tr, loss_te
+
+def plot_fitted_curve(y, x, weights, degree, ax):
+    """plot the fitted curve."""
+    ax.scatter(x, y, color="b", s=12, facecolors="none", edgecolors="r")
+    xvals = np.arange(min(x) - 0.1, max(x) + 0.1, 0.1)
+    tx = build_poly(xvals, degree)
+    f = tx.dot(weights)
+    ax.plot(xvals, f)
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_title("Polynomial degree " + str(degree))
+
+
+def plot_train_test(train_errors, test_errors, lambdas, degree):
+    """
+    train_errors, test_errors and lambas should be list (of the same size) the respective train error and test error for a given lambda,
+    * lambda[0] = 1
+    * train_errors[0] = RMSE of a ridge regression on the train set
+    * test_errors[0] = RMSE of the parameter found by ridge regression applied on the test set
+
+    degree is just used for the title of the plot.
+    """
+    plt.semilogx(lambdas, train_errors, color="b", marker="*", label="Train error")
+    plt.semilogx(lambdas, test_errors, color="r", marker="*", label="Test error")
+    plt.xlabel("lambda")
+    plt.ylabel("RMSE")
+    plt.title("Ridge regression for polynomial degree " + str(degree))
+    leg = plt.legend(loc=1, shadow=True)
+    leg.draw_frame(False)

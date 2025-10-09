@@ -1,7 +1,4 @@
-from useful_functions.gradient_descent import gradient_descent
-from useful_functions.stochastic_gradient_descent import stochastic_gradient_descent
-from useful_functions.least_squares import least_squares_method
-from useful_functions.ridge_regression import ridge_regression_method
+from utils.all_functions import least_squares_method, ridge_regression_method, gradient_descent, stochastic_gradient_descent
 
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     return gradient_descent(y, tx, initial_w, max_iters, gamma)

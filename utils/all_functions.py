@@ -192,7 +192,7 @@ def least_squares(y, tx):
     return w, mse
 
 
-def ridge_regression(y, tx, lambda_):
+def ridge_regression_method(y, tx, lambda_):
     """implement ridge regression.
 
     Args:
@@ -231,7 +231,7 @@ def ridge_regression_demo(x, y, degree, ratio, seed):
     rmse_te = []
     for ind, lambda_ in enumerate(lambdas):
         # 3. ridge regression with a given lambda
-        w = ridge_regression(y_tr, tx_tr, lambda_)
+        w = ridge_regression_method(y_tr, tx_tr, lambda_)
 
         # training RMSE
         e_tr = y_tr - tx_tr @ w
@@ -495,11 +495,6 @@ def cross_validation(y, x, k_indices, k, lambda_, degree):
     >>> cross_validation(np.array([1.,2.,3.,4.]), np.array([6.,7.,8.,9.]), np.array([[3,2], [0,1]]), 1, 2, 3)
     (0.019866645527597114, 0.33555914361295175)
     """
-
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # get k'th subgroup in test, others in train: TODO
-    # ***************************************************
     ind = k_indices[k]
     x_test = x[ind]
     y_test = y[ind]
@@ -507,21 +502,12 @@ def cross_validation(y, x, k_indices, k, lambda_, degree):
     mask[ind] = False
     x_train = x[mask]
     y_train = y[mask]
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # form data with polynomial degree: TODO
-    # ***************************************************
+    
     x_test_poly = build_poly(x_test, degree)
     x_train_poly = build_poly(x_train, degree)
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # ridge regression: TODO
-    # ***************************************************
-    weights = ridge_regression(y_train, x_train_poly, lambda_)
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # calculate the loss for train and test data: TODO
-    # ***************************************************
+    
+    weights = ridge_regression_method(y_train, x_train_poly, lambda_)
+    
     loss_tr = np.sqrt(2*compute_loss(y_train, x_train_poly, weights))
     loss_te = np.sqrt(2*compute_loss(y_test, x_test_poly, weights))
     return loss_tr, loss_te
@@ -554,3 +540,178 @@ def plot_train_test(train_errors, test_errors, lambdas, degree):
     plt.title("Ridge regression for polynomial degree " + str(degree))
     leg = plt.legend(loc=1, shadow=True)
     leg.draw_frame(False)
+
+
+
+# ------------ Logistic regression -> sigmoid, calculate_loss, calculate_gradient ------------
+def sigmoid(t):
+    """apply sigmoid function on t.
+
+    Args:
+        t: scalar or numpy array
+
+    Returns:
+        scalar or numpy array
+
+    >>> sigmoid(np.array([0.1]))
+    array([0.52497919])
+    >>> sigmoid(np.array([0.1, 0.1]))
+    array([0.52497919, 0.52497919])
+    """
+    sig = (1 + np.exp(-t)) ** (-1)
+    return sig
+
+
+def calculate_loss(y, tx, w):
+    """compute the cost by negative log likelihood.
+
+    Args:
+        y:  shape=(N, 1)
+        tx: shape=(N, D)
+        w:  shape=(D, 1)
+
+    Returns:
+        a non-negative loss
+
+    >>> y = np.c_[[0., 1.]]
+    >>> tx = np.arange(4).reshape(2, 2)
+    >>> w = np.c_[[2., 3.]]
+    >>> round(calculate_loss(y, tx, w), 8)
+    1.52429481
+    """
+    assert y.shape[0] == tx.shape[0]
+    assert tx.shape[1] == w.shape[0]
+
+    n = y.shape[0]
+    pred = sigmoid(tx @ w)
+    
+    # optional clip for numerical stability
+    # eps = 1e-15
+    # pred = np.clip(pred, eps, 1 - eps)
+
+    L = - (1 / n) * np.sum(y * np.log(pred) + (1 - y) * np.log(1 - pred))
+    return float(L)
+
+
+def calculate_gradient(y, tx, w):
+    """compute the gradient of loss.
+
+    Args:
+        y:  shape=(N, 1)
+        tx: shape=(N, D)
+        w:  shape=(D, 1)
+
+    Returns:
+        a vector of shape (D, 1)
+
+    >>> np.set_printoptions(8)
+    >>> y = np.c_[[0., 1.]]
+    >>> tx = np.arange(6).reshape(2, 3)
+    >>> w = np.array([[0.1], [0.2], [0.3]])
+    >>> calculate_gradient(y, tx, w)
+    array([[-0.10370763],
+           [ 0.2067104 ],
+           [ 0.51712843]])
+    """
+    grad = tx.T @ (sigmoid(tx @ w) - y) / y.shape[0]
+    return grad
+
+
+def learning_by_gradient_descent(y, tx, w, gamma):
+    """
+    Do one step of gradient descent using logistic regression. Return the loss and the updated w.
+
+    Args:
+        y:  shape=(N, 1)
+        tx: shape=(N, D)
+        w:  shape=(D, 1)
+        gamma: float
+
+    Returns:
+        loss: scalar number
+        w: shape=(D, 1)
+
+    >>> y = np.c_[[0., 1.]]
+    >>> tx = np.arange(6).reshape(2, 3)
+    >>> w = np.array([[0.1], [0.2], [0.3]])
+    >>> gamma = 0.1
+    >>> loss, w = learning_by_gradient_descent(y, tx, w, gamma)
+    >>> round(loss, 8)
+    0.62137268
+    >>> w
+    array([[0.11037076],
+           [0.17932896],
+           [0.24828716]])
+    """
+    grad = calculate_gradient(y, tx, w)
+    w = w - gamma * grad
+    loss = calculate_loss(y, tx, w)
+    return loss, w
+
+
+def penalized_logistic_regression(y, tx, w, lambda_):
+    """return the loss and gradient.
+
+    Args:
+        y:  shape=(N, 1)
+        tx: shape=(N, D)
+        w:  shape=(D, 1)
+        lambda_: scalar
+
+    Returns:
+        loss: scalar number
+        gradient: shape=(D, 1)
+
+    >>> y = np.c_[[0., 1.]]
+    >>> tx = np.arange(6).reshape(2, 3)
+    >>> w = np.array([[0.1], [0.2], [0.3]])
+    >>> lambda_ = 0.1
+    >>> loss, gradient = penalized_logistic_regression(y, tx, w, lambda_)
+    >>> round(loss, 8)
+    0.62137268
+    >>> gradient
+    array([[-0.08370763],
+           [ 0.2467104 ],
+           [ 0.57712843]])
+    """
+    loss = calculate_loss(y, tx, w) 
+    gradient = tx.T @ (sigmoid(tx @ w) - y) / y.shape[0] + 2*lambda_*w
+    #hessian = calculate_hessian(y, tx, w)
+    return float(loss), gradient
+
+
+def learning_by_penalized_gradient(y, tx, w, gamma, lambda_):
+    """
+    Do one step of gradient descent, using the penalized logistic regression.
+    Return the loss and updated w.
+
+    Args:
+        y:  shape=(N, 1)
+        tx: shape=(N, D)
+        w:  shape=(D, 1)
+        gamma: scalar
+        lambda_: scalar
+
+    Returns:
+        loss: scalar number
+        w: shape=(D, 1)
+
+    >>> np.set_printoptions(8)
+    >>> y = np.c_[[0., 1.]]
+    >>> tx = np.arange(6).reshape(2, 3)
+    >>> w = np.array([[0.1], [0.2], [0.3]])
+    >>> lambda_ = 0.1
+    >>> gamma = 0.1
+    >>> loss, w = learning_by_penalized_gradient(y, tx, w, gamma, lambda_)
+    >>> round(loss, 8)
+    0.62137268
+    >>> w
+    array([[0.10837076],
+           [0.17532896],
+           [0.24228716]])
+    """
+    loss, gradient = penalized_logistic_regression(y, tx, w, lambda_)
+    w = w - gradient*gamma
+    loss =  calculate_loss(y,tx,w)
+    return loss, w
+

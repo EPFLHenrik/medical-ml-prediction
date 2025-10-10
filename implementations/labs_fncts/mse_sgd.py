@@ -1,7 +1,7 @@
 import numpy as np
 
 
-#just copy-pasted professor's batch_iter function
+# just copy-pasted professor's batch_iter function
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
     """
     Generate a minibatch iterator for a dataset.
@@ -64,6 +64,7 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
 
 ##our implementation of stochastic gradient descent for mse
 
+
 def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     N = y.shape[0]  # number of samples
     w = initial_w
@@ -73,14 +74,16 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
         e = y - tx @ w
 
         # mini-batch
-        for y_minibatch, mini_batch in batch_iter(y, tx, 1, num_batches=1, shuffle=True):
+        for y_minibatch, mini_batch in batch_iter(
+            y, tx, 1, num_batches=1, shuffle=True
+        ):
             e = y_minibatch - mini_batch @ w
             N = y_minibatch.shape[0]
             loss = np.sum(e**2) / (2 * N)
             grad = -(mini_batch.T @ e) / N
             # update weights
             w = w - gamma * grad
-        
+
         # print progress (generalized)
         w_str = ", ".join([f"w{i}={wi:.4f}" for i, wi in enumerate(w)])
         print(f"GD iter. {n_iter}/{max_iters-1}: loss={loss:.6f}, {w_str}")

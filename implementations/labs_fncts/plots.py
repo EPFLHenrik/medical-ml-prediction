@@ -1,4 +1,5 @@
 """a function of ploting figures."""
+
 import numpy as np
 from build_polynomial import *
 import matplotlib.pyplot as plt
@@ -87,6 +88,7 @@ def gradient_descent_visualization(
     ax2.plot(pred_x, pred_y, "r")
 
     return fig
+
 
 def plot_fitted_curve(y, x, weights, degree, ax):
     """plot the fitted curve."""

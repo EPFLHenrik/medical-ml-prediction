@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Exercise 2.
 
-Grid Search 
-""" 
+Grid Search
+"""
 
 import numpy as np
 from costs import compute_loss
@@ -19,6 +19,7 @@ def get_best_parameters(w0, w1, losses):
     """Get the best w from the result of grid search."""
     min_row, min_col = np.unravel_index(np.argmin(losses), losses.shape)
     return losses[min_row, min_col], w0[min_row], w1[min_col]
+
 
 def grid_search(y, tx, grid_w0, grid_w1):
     """Algorithm for grid search.
@@ -37,6 +38,6 @@ def grid_search(y, tx, grid_w0, grid_w1):
 
     for ii in range(len(grid_w0)):
         for jj in range(len(grid_w1)):
-            losses[ii,jj] = compute_loss(y, tx, np.array([grid_w0[ii],grid_w1[jj]]))
-    
+            losses[ii, jj] = compute_loss(y, tx, np.array([grid_w0[ii], grid_w1[jj]]))
+
     return losses

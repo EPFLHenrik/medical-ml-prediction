@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from all_functions import get_best_parameters
 
+
 def plot_train_test(train_errors, test_errors, lambdas, degree):
     """
     train_errors, test_errors and lambas should be list (of the same size) the respective train error and test error for a given lambda,

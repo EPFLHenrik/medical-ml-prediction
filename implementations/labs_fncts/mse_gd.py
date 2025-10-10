@@ -1,6 +1,7 @@
-#first stint of mse_gd that will be later copy-pasted into implementations.py
+# first stint of mse_gd that will be later copy-pasted into implementations.py
 
 import numpy as np
+
 
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     N = y.shape[0]  # number of samples
@@ -8,13 +9,13 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
 
     for n_iter in range(max_iters):
         e = y - tx @ w
-        
+
         # compute loss (MSE)
         loss = np.sum(e**2) / (2 * N)
-        
+
         # compute gradient
         grad = -(tx.T @ e) / N
-        
+
         # update weights
         w = w - gamma * grad
 

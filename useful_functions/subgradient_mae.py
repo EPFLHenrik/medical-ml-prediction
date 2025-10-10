@@ -15,7 +15,7 @@ def compute_subgradient_mae(y, tx, w):
     N = y.shape[0]
     e = y - tx @ w
     tx = np.transpose(tx)
-    #e = e.transpose
+    # e = e.transpose
     sgn = np.sign(e)
     grad = -(tx @ sgn) / N
     return grad
@@ -35,15 +35,15 @@ def subgradient_descent(y, tx, initial_w, max_iters, gamma):
         losses: a list of length max_iters containing the loss value (scalar) for each iteration of SubGD
         ws: a list of length max_iters containing the model parameters as numpy arrays of shape (2, ), for each iteration of SubGD
     """
- # Define parameters to store w and loss
+    # Define parameters to store w and loss
     ws = [initial_w]
     losses = []
     w = initial_w
     for n_iter in range(max_iters):
         grad = compute_subgradient_mae(y, tx, w)
         e = y - tx @ w
-        loss = np.mean(np.abs(e))   
-        w = w - gamma*grad
+        loss = np.mean(np.abs(e))
+        w = w - gamma * grad
 
         # store w and loss
         ws.append(w)

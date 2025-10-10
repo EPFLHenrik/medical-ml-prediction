@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def ridge_regression(y, tx, lambda_):
     """implement ridge regression.
 
@@ -22,6 +23,7 @@ def ridge_regression(y, tx, lambda_):
     w = np.linalg.solve(A, b)
     return w
 
+
 def ridge_regression_demo(x, y, degree, ratio, seed):
     """ridge regression demo."""
     # define parameter
@@ -37,7 +39,7 @@ def ridge_regression_demo(x, y, degree, ratio, seed):
     # form train and test data with polynomial basis function: TODO
     # ***************************************************
     tx_test = build_poly(x_te, degree)
-    tx_train = build_poly(x_tr,degree)
+    tx_train = build_poly(x_tr, degree)
 
     rmse_tr = []
     rmse_te = []
@@ -50,8 +52,8 @@ def ridge_regression_demo(x, y, degree, ratio, seed):
         mse_train = compute_loss(y_tr, tx_train, w_train)
         mse_test = compute_loss(y_te, tx_test, w_train)
 
-        rmse_train = np.sqrt(2*mse_train)
-        rmse_test = np.sqrt(2*mse_test)
+        rmse_train = np.sqrt(2 * mse_train)
+        rmse_test = np.sqrt(2 * mse_test)
         rmse_tr.append(rmse_train)
         rmse_te.append(rmse_test)
         print(

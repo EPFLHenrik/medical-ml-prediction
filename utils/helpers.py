@@ -47,6 +47,7 @@ def load_csv_data(data_path, sub_sample=False):
 
     return x_train, x_test, y_train, train_ids, test_ids
 
+
 def load_csv_data_streamed(data_path, sub_sample=False):
     """
     More memory-efficient loader for large CSVs using the csv module.
@@ -98,6 +99,7 @@ def load_csv_data_streamed(data_path, sub_sample=False):
 
     return x_train, x_test, y_train, train_ids, test_ids
 
+
 def create_csv_submission(ids, y_pred, name):
     """
     This function creates a csv file named 'name' in the format required for a submission in Kaggle or AIcrowd.
@@ -120,6 +122,7 @@ def create_csv_submission(ids, y_pred, name):
         for r1, r2 in zip(ids, y_pred):
             writer.writerow({"Id": int(r1), "Prediction": int(r2)})
 
+
 def convert_to_serializable(obj):
     """
     Recursively convert numpy data types to native Python types
@@ -137,7 +140,8 @@ def convert_to_serializable(obj):
         return obj.tolist()
     else:
         return obj
-    
+
+
 def save_json(obj, filename, save_dir=None):
     """
     Save a Python / NumPy object as JSON.
@@ -159,6 +163,7 @@ def save_json(obj, filename, save_dir=None):
         json.dump(convert_to_serializable(obj), f, indent=2)
 
     print(f"Saved {filename}.json to {path}")
+
 
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
     """
@@ -266,5 +271,3 @@ def build_model_data(height, weight):
     num_samples = len(y)
     tx = np.c_[np.ones(num_samples), x]
     return y, tx
-
-

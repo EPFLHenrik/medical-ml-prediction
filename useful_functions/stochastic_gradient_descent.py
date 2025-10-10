@@ -1,4 +1,5 @@
-import numpy as np 
+import numpy as np
+
 # -*- coding: utf-8 -*-
 """Problem Sheet 2.
 
@@ -23,8 +24,8 @@ def compute_stoch_gradient(y, tx, w):
     N = y.shape[0]
     e = y - tx @ w
     tx = np.transpose(tx)
-    #e = e.transpose
-    grad = -(tx @ e) / N;
+    # e = e.transpose
+    grad = -(tx @ e) / N
     return grad
 
 
@@ -50,11 +51,13 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
     w = initial_w
 
     for n_iter in range(max_iters):
-        
-        for y_minibatch, mini_batch in batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
-            w = w - gamma*compute_stoch_gradient(y_minibatch, mini_batch, w)
-       
-        loss = compute_loss(y, tx, w) 
+
+        for y_minibatch, mini_batch in batch_iter(
+            y, tx, batch_size, num_batches=1, shuffle=True
+        ):
+            w = w - gamma * compute_stoch_gradient(y_minibatch, mini_batch, w)
+
+        loss = compute_loss(y, tx, w)
         ws.append(w)
         losses.append(loss)
         print(

@@ -3,30 +3,32 @@ from helpers import batch_iter, load_data
 import matplotlib.pyplot as plt
 from plots import *
 
-def compute_loss(y, tx, w, loss_type = "MSE"):
+
+def compute_loss(y, tx, w, loss_type="MSE"):
     """Calculate the loss using either MSE or MAE.
 
     Args:
         y: numpy array of shape=(N, )
         tx: numpy array of shape=(N,2)
         w: numpy array of shape=(2,). The vector of model parameters.
-        loss_type (optional) : string, 'MSE' or 'MAE', denoting the type of loss we compute 
+        loss_type (optional) : string, 'MSE' or 'MAE', denoting the type of loss we compute
 
     Returns:
         the value of the loss (a scalar), corresponding to the input parameters w.
     """
     e = y - tx @ w
     N = len(y)
-        
+
     MAE = np.mean(np.abs(e))
-    MSE = 1 / (2*N) * (e.T @ e) 
-    
+    MSE = 1 / (2 * N) * (e.T @ e)
+
     if loss_type == "MSE":
         return MSE
     elif loss_type == "MAE":
         return MAE
     else:
         raise ValueError("loss_type must be 'MSE' or 'MAE'")
+
 
 def compute_mse(y, tx, w):
     """compute the loss by mse.
@@ -46,6 +48,7 @@ def compute_mse(y, tx, w):
     mse = e.dot(e) / (2 * len(e))
     return mse
 
+
 def compute_gradient(y, tx, w):
     """Computes the gradient at w.
 
@@ -59,12 +62,12 @@ def compute_gradient(y, tx, w):
     """
     N = y.shape[0]
     e = y - tx @ w
-    grad_L = - (1/N) * tx.T @ e
-    
+    grad_L = -(1 / N) * tx.T @ e
+
     return grad_L
 
 
-def gradient_descent(y, tx, initial_w, max_iters, gamma, loss_type = "MSE"):
+def gradient_descent(y, tx, initial_w, max_iters, gamma, loss_type="MSE"):
     """The Gradient Descent (GD) algorithm.
 
     Args:
@@ -82,18 +85,20 @@ def gradient_descent(y, tx, initial_w, max_iters, gamma, loss_type = "MSE"):
     """
     # Define parameters to store w and loss
     ws = [initial_w]
-    losses = [compute_loss(y,tx, initial_w, loss_type)] # compute loss for initial_w as well
+    losses = [
+        compute_loss(y, tx, initial_w, loss_type)
+    ]  # compute loss for initial_w as well
     w = initial_w.copy()
 
     for n_iter in range(max_iters):
         # compute gradient
-        grad_L = compute_gradient(y,tx, w)
+        grad_L = compute_gradient(y, tx, w)
 
         # update weights
-        w = w - gamma* grad_L
+        w = w - gamma * grad_L
 
         # compute loss with new weights
-        loss = compute_loss(y,tx, w, loss_type)
+        loss = compute_loss(y, tx, w, loss_type)
 
         # store w and loss
         ws.append(w)
@@ -105,6 +110,7 @@ def gradient_descent(y, tx, initial_w, max_iters, gamma, loss_type = "MSE"):
         )
 
     return losses, ws
+
 
 def compute_gradient(y, tx, w):
     """Computes the gradient at w.
@@ -119,8 +125,8 @@ def compute_gradient(y, tx, w):
     """
     N = y.shape[0]
     e = y - tx @ w
-    grad_L = - (1/N) * tx.T @ e
-    
+    grad_L = -(1 / N) * tx.T @ e
+
     return grad_L
 
 
@@ -136,7 +142,8 @@ def get_best_parameters(w0, w1, losses):
     min_row, min_col = np.unravel_index(np.argmin(losses), losses.shape)
     return losses[min_row, min_col], w0[min_row], w1[min_col]
 
-def grid_search(y, tx, grid_w0, grid_w1, loss_type = "MSE"):
+
+def grid_search(y, tx, grid_w0, grid_w1, loss_type="MSE"):
     """Algorithm for grid search.
 
     Args:
@@ -153,14 +160,13 @@ def grid_search(y, tx, grid_w0, grid_w1, loss_type = "MSE"):
     m = len(grid_w1)
     losses = np.zeros((n, m))
 
-    for i, w0 in enumerate(grid_w0) : 
-        for j, w1 in enumerate(grid_w1) :
-            # w = np.array([grid_w0[i], grid_w1[j]]) 
-            w = np.array([w0, w1]) # equiv
-            losses[i,j] = compute_loss(y, tx, w, loss_type)
+    for i, w0 in enumerate(grid_w0):
+        for j, w1 in enumerate(grid_w1):
+            # w = np.array([grid_w0[i], grid_w1[j]])
+            w = np.array([w0, w1])  # equiv
+            losses[i, j] = compute_loss(y, tx, w, loss_type)
 
     return losses
-
 
 
 def least_squares(y, tx):
@@ -179,8 +185,8 @@ def least_squares(y, tx):
     (array([ 0.21212121, -0.12121212]), 8.666684749742561e-33)
     """
     # Normal equations
-    a = tx.T @ tx     # Gram matrix
-    b = tx.T @ y      # right-hand side
+    a = tx.T @ tx  # Gram matrix
+    b = tx.T @ y  # right-hand side
 
     # Solve the system a w = b
     w = np.linalg.solve(a, b)
@@ -215,6 +221,7 @@ def ridge_regression_method(y, tx, lambda_):
     w = np.linalg.solve(a, b)
     return w
 
+
 def ridge_regression_demo(x, y, degree, ratio, seed):
     """ridge regression demo."""
     # define parameter
@@ -222,7 +229,7 @@ def ridge_regression_demo(x, y, degree, ratio, seed):
 
     # 1. split the data, and return train and test data
     x_tr, x_te, y_tr, y_te = split_data(x, y, ratio, seed)
-    
+
     # 2. form train and test data with polynomial basis function
     tx_tr = build_poly(x_tr, degree)
     tx_te = build_poly(x_te, degree)
@@ -242,7 +249,7 @@ def ridge_regression_demo(x, y, degree, ratio, seed):
         e_te = y_te - tx_te @ w
         mse_te = (e_te @ e_te) / (2 * len(y_te))
         rmse_te.append(np.sqrt(2 * mse_te))
-        
+
         print(
             "proportion={p}, degree={d}, lambda={l:.3f}, Training RMSE={tr:.3f}, Testing RMSE={te:.3f}".format(
                 p=ratio, d=degree, l=lambda_, tr=rmse_tr[ind], te=rmse_te[ind]
@@ -265,11 +272,13 @@ def compute_stoch_gradient(y, tx, w):
     # same as before, gradient computation, just on minibatch of size b = len(y)
     e = y - tx @ w
     N = y.shape[0]
-    grad_L = -1/N * tx.T @ e
+    grad_L = -1 / N * tx.T @ e
     return grad_L
 
 
-def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma, loss_type = "MSE"):
+def stochastic_gradient_descent(
+    y, tx, initial_w, batch_size, max_iters, gamma, loss_type="MSE"
+):
     """The Stochastic Gradient Descent algorithm (SGD).
 
     Args:
@@ -292,16 +301,18 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma, 
     w = initial_w.copy()
 
     for n_iter in range(max_iters):
-        for y_batch, tx_batch in batch_iter(y,tx,batch_size, num_batches=1, shuffle=True) : 
- 
-            # compute stochastic gradient on bathc 
-            g =  compute_stoch_gradient(y_batch, tx_batch, w)
+        for y_batch, tx_batch in batch_iter(
+            y, tx, batch_size, num_batches=1, shuffle=True
+        ):
 
-            # update weights 
+            # compute stochastic gradient on bathc
+            g = compute_stoch_gradient(y_batch, tx_batch, w)
+
+            # update weights
             w = w - gamma * g
 
             # compute loss on full batch with current set of weights
-            loss = compute_loss(y,tx, w, loss_type)
+            loss = compute_loss(y, tx, w, loss_type)
 
             losses.append(loss)
             ws.append(w)
@@ -325,11 +336,11 @@ def compute_subgradient_mae(y, tx, w):
     Returns:
         A numpy array of shape (2, ) (same shape as w), containing the subgradient of the MAE at w.
     """
-    e = y - tx@w
+    e = y - tx @ w
     s = np.sign(e)
-    s[e==0] = 0
+    s[e == 0] = 0
     N = y.shape[0]
-    return -1/N*(tx.T @ s)
+    return -1 / N * (tx.T @ s)
 
 
 def subgradient_descent(y, tx, initial_w, max_iters, gamma):
@@ -349,16 +360,17 @@ def subgradient_descent(y, tx, initial_w, max_iters, gamma):
     # Define parameters to store w and loss
     loss_type = "MAE"
     ws = [initial_w]
-    losses = [compute_loss(y,tx,initial_w,loss_type)] # initialize with loss of initial w vector
+    losses = [
+        compute_loss(y, tx, initial_w, loss_type)
+    ]  # initialize with loss of initial w vector
     w = initial_w.copy()
-    
+
     for n_iter in range(max_iters):
 
-        subgr_L = compute_subgradient_mae(y,tx,w)
-        w = w - gamma*subgr_L
-        loss = compute_loss(y,tx,w,loss_type) # loss of new w vector
+        subgr_L = compute_subgradient_mae(y, tx, w)
+        w = w - gamma * subgr_L
+        loss = compute_loss(y, tx, w, loss_type)  # loss of new w vector
 
-        
         ws.append(w)
         losses.append(loss)
         print(
@@ -384,7 +396,7 @@ def build_poly(x, degree):
     array([[1.  , 0.  , 0.  ],
            [1.  , 1.5 , 2.25]])
     """
-    return np.array([np.array(x.T**i) for i in range(degree+1)]).T
+    return np.array([np.array(x.T**i) for i in range(degree + 1)]).T
 
 
 def polynomial_regression():
@@ -401,13 +413,12 @@ def polynomial_regression():
     for ind, degree in enumerate(degrees):
 
         # form the data to do polynomial regression
-        x, y = load_data()  
+        x, y = load_data()
         tx = build_poly(x, degree)
 
-        
         # least square and calculate RMSE
         weights, mse = least_squares(y, tx)
-        rmse = np.sqrt(2 * mse)   # RMSE = sqrt(2 * MSE)
+        rmse = np.sqrt(2 * mse)  # RMSE = sqrt(2 * MSE)
 
         print(
             "Processing {i}th experiment, degree={d}, rmse={loss}".format(
@@ -455,7 +466,8 @@ def split_data(x, y, ratio, seed=1):
     test_idx = indices[train_size:]
 
     return x[train_idx], x[test_idx], y[train_idx], y[test_idx]
-    
+
+
 def build_k_indices(y, k_fold, seed):
     """build k indices for k-fold.
 
@@ -477,6 +489,7 @@ def build_k_indices(y, k_fold, seed):
     indices = np.random.permutation(num_row)
     k_indices = [indices[k * interval : (k + 1) * interval] for k in range(k_fold)]
     return np.array(k_indices)
+
 
 def cross_validation(y, x, k_indices, k, lambda_, degree):
     """return the loss of ridge regression for a fold corresponding to k_indices
@@ -502,15 +515,16 @@ def cross_validation(y, x, k_indices, k, lambda_, degree):
     mask[ind] = False
     x_train = x[mask]
     y_train = y[mask]
-    
+
     x_test_poly = build_poly(x_test, degree)
     x_train_poly = build_poly(x_train, degree)
-    
+
     weights = ridge_regression_method(y_train, x_train_poly, lambda_)
-    
-    loss_tr = np.sqrt(2*compute_loss(y_train, x_train_poly, weights))
-    loss_te = np.sqrt(2*compute_loss(y_test, x_test_poly, weights))
+
+    loss_tr = np.sqrt(2 * compute_loss(y_train, x_train_poly, weights))
+    loss_te = np.sqrt(2 * compute_loss(y_test, x_test_poly, weights))
     return loss_tr, loss_te
+
 
 def plot_fitted_curve(y, x, weights, degree, ax):
     """plot the fitted curve."""
@@ -540,7 +554,6 @@ def plot_train_test(train_errors, test_errors, lambdas, degree):
     plt.title("Ridge regression for polynomial degree " + str(degree))
     leg = plt.legend(loc=1, shadow=True)
     leg.draw_frame(False)
-
 
 
 # ------------ Logistic regression -> sigmoid, calculate_loss, calculate_gradient ------------
@@ -584,12 +597,12 @@ def calculate_loss(y, tx, w):
 
     n = y.shape[0]
     pred = sigmoid(tx @ w)
-    
+
     # optional clip for numerical stability
     # eps = 1e-15
     # pred = np.clip(pred, eps, 1 - eps)
 
-    L = - (1 / n) * np.sum(y * np.log(pred) + (1 - y) * np.log(1 - pred))
+    L = -(1 / n) * np.sum(y * np.log(pred) + (1 - y) * np.log(1 - pred))
     return float(L)
 
 
@@ -674,9 +687,9 @@ def penalized_logistic_regression(y, tx, w, lambda_):
            [ 0.2467104 ],
            [ 0.57712843]])
     """
-    loss = calculate_loss(y, tx, w) 
-    gradient = tx.T @ (sigmoid(tx @ w) - y) / y.shape[0] + 2*lambda_*w
-    #hessian = calculate_hessian(y, tx, w)
+    loss = calculate_loss(y, tx, w)
+    gradient = tx.T @ (sigmoid(tx @ w) - y) / y.shape[0] + 2 * lambda_ * w
+    # hessian = calculate_hessian(y, tx, w)
     return float(loss), gradient
 
 
@@ -711,9 +724,10 @@ def learning_by_penalized_gradient(y, tx, w, gamma, lambda_):
            [0.24228716]])
     """
     loss, gradient = penalized_logistic_regression(y, tx, w, lambda_)
-    w = w - gradient*gamma
-    loss =  calculate_loss(y,tx,w)
+    w = w - gradient * gamma
+    loss = calculate_loss(y, tx, w)
     return loss, w
+
 
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
     """

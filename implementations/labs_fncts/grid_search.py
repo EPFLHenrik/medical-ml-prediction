@@ -3,6 +3,7 @@ from costs import compute_loss
 import matplotlib.pyplot as plt
 from plots import grid_visualization
 
+
 def grid_search(y, tx, grid_w0, grid_w1):
     """Algorithm for grid search.
 
@@ -20,8 +21,8 @@ def grid_search(y, tx, grid_w0, grid_w1):
 
     for ii in range(len(grid_w0)):
         for jj in range(len(grid_w1)):
-            losses[ii,jj] = compute_loss(y, tx, np.array([grid_w0[ii],grid_w1[jj]]))
-    
+            losses[ii, jj] = compute_loss(y, tx, np.array([grid_w0[ii], grid_w1[jj]]))
+
     return losses
 
 

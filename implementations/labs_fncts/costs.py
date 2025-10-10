@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def compute_loss(y, tx, w):
     """Calculate the loss using either MSE or MAE.
 
@@ -13,5 +14,5 @@ def compute_loss(y, tx, w):
     """
     N = y.shape[0]
     e = y - tx @ w
-    mse = np.sum(e**2)/(2*N)
+    mse = np.sum(e**2) / (2 * N)
     return mse

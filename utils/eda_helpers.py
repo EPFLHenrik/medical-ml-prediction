@@ -99,18 +99,20 @@ def dataset_describe(X, feature_names=None, max_features=10):
         else:
             mean = std = min_val = max_val = np.nan
 
-        summary.append({
-            "index": j,
-            "name": feature_names[j],
-            "type": ftype,
-            "n_unique": n_unique,
-            "missing": n_missing,
-            "missing_pct": missing_pct,
-            "mean": mean,
-            "std": std,
-            "min": min_val,
-            "max": max_val
-        })
+        summary.append(
+            {
+                "index": j,
+                "name": feature_names[j],
+                "type": ftype,
+                "n_unique": n_unique,
+                "missing": n_missing,
+                "missing_pct": missing_pct,
+                "mean": mean,
+                "std": std,
+                "min": min_val,
+                "max": max_val,
+            }
+        )
 
         # Clean, aligned printout
         print(
@@ -124,7 +126,6 @@ def dataset_describe(X, feature_names=None, max_features=10):
             break
 
     return summary
-
 
 
 def summarize_dataset(X, y=None):
@@ -145,7 +146,7 @@ def inspect_feature_types(X, max_features=10):
     Args:
         X (np.ndarray): Dataset array of shape (n_samples, n_features)
         max_features (int): Maximum number of features to print (default=10)
-    
+
     Returns:
         list of dicts: summary info for each feature
     """
@@ -172,19 +173,20 @@ def inspect_feature_types(X, max_features=10):
 
         print(f"{j:8d} | {ftype:10s} | {n_unique:8d} | {n_missing:8d}")
 
-        summary.append({
-            "feature_idx": j,
-            "type": ftype,
-            "n_unique": n_unique,
-            "missing": n_missing
-        })
+        summary.append(
+            {
+                "feature_idx": j,
+                "type": ftype,
+                "n_unique": n_unique,
+                "missing": n_missing,
+            }
+        )
 
         if j + 1 == max_features:
             print("... (truncated for readability)")
             break
 
     return summary
-
 
 
 # ---------------------------------------------------------------------
@@ -223,15 +225,18 @@ def find_outliers_iqr(x):
     upper = q3 + 1.5 * iqr
     return (x < lower) | (x > upper)
 
+
 def zscore_outliers(x, threshold=3):
     x = x[~np.isnan(x)]
     z = (x - np.mean(x)) / np.std(x)
     return np.abs(z) > threshold
 
+
 def quantile_clip(x, lower=0.01, upper=0.99):
     "Quantile clipping to remove extreme values"
     q_low, q_high = np.nanquantile(x, [lower, upper])
     return np.clip(x, q_low, q_high)
+
 
 def count_outliers_dataset(X, method="iqr"):
     outlier_counts = []
@@ -262,9 +267,11 @@ def correlation_matrix(X):
     X_valid = X[:, valid_mask]
     return np.corrcoef(X_valid, rowvar=False)
 
+
 # ---------------------------------------------------------------------
 # 5. Feature-level statistics
 # ---------------------------------------------------------------------
+
 
 def feature_skewness(x):
     """Compute skewness (asymmetry) of a 1D feature."""
@@ -301,6 +308,7 @@ def feature_entropy(x, bins=10):
 # ---------------------------------------------------------------------
 # 6. Data quality diagnostics
 # ---------------------------------------------------------------------
+
 
 def detect_constant_features(X):
     """Return indices of features with zero variance."""
@@ -353,6 +361,7 @@ def drop_high_missing_features(X, threshold=0.5):
 # 7. Feature transformations
 # ---------------------------------------------------------------------
 
+
 def normalize_feature(x):
     """Min-max normalization of a 1D array."""
     x = x.copy()
@@ -390,6 +399,7 @@ def replace_missing_with_mean(x):
 # 8. Relationship analysis
 # ---------------------------------------------------------------------
 
+
 def feature_target_correlation(X, y):
     """
     Compute correlation between each feature and the target.
@@ -423,6 +433,7 @@ def compute_variance_ratio(X):
 # ---------------------------------------------------------------------
 # 9. Visualization utilities
 # ---------------------------------------------------------------------
+
 
 def plot_feature_vs_target(X, y, feature_idx):
     """Visualize feature distribution by target class."""
@@ -474,8 +485,12 @@ def plot_outlier_distribution(x):
     """Boxplot showing outliers explicitly."""
     mask = ~np.isnan(x)
     outliers = np.abs(x[mask] - np.mean(x[mask])) > 3 * np.std(x[mask])
-    plt.boxplot(x[mask], vert=True, patch_artist=True, boxprops=dict(facecolor="lightgray"))
-    plt.scatter(np.ones(np.sum(outliers)), x[mask][outliers], color="red", label="Outliers")
+    plt.boxplot(
+        x[mask], vert=True, patch_artist=True, boxprops=dict(facecolor="lightgray")
+    )
+    plt.scatter(
+        np.ones(np.sum(outliers)), x[mask][outliers], color="red", label="Outliers"
+    )
     plt.title("Outlier Visualization")
     plt.legend()
     plt.grid(alpha=0.3)

@@ -4,7 +4,6 @@ from build_polynomial import *
 from plots import *
 
 
-
 def least_squares(y, tx):
     """Calculate the least squares solution.
        returns mse, and optimal weights.
@@ -21,11 +20,11 @@ def least_squares(y, tx):
     (array([ 0.21212121, -0.12121212]), 8.666684749742561e-33)
     """
     N = tx.shape[0]
-    w = np.linalg.solve(tx.T@tx,tx.T@y)
-    e = y - tx @ w     
+    w = np.linalg.solve(tx.T @ tx, tx.T @ y)
+    e = y - tx @ w
     # compute loss (MSE)
     mse = np.sum(e**2) / (2 * N)
-    
+
     return w, float(mse)
 
 
@@ -41,7 +40,7 @@ def polynomial_regression():
     f, axs = plt.subplots(num_row, num_col)
 
     for ind, degree in enumerate(degrees):
-        tx = build_poly(x,degree)
+        tx = build_poly(x, degree)
         # ***************************************************
         # INSERT YOUR CODE HERE
         # form the data to do polynomial regression.: TODO
@@ -51,7 +50,7 @@ def polynomial_regression():
         # INSERT YOUR CODE HERE
         # least square and calculate RMSE: TODO
         # ***************************************************
-        rmse = np.sqrt(2*mse)
+        rmse = np.sqrt(2 * mse)
 
         print(
             "Processing {i}th experiment, degree={d}, rmse={loss}".format(

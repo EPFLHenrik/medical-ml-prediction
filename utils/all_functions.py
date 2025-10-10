@@ -1,7 +1,7 @@
 import numpy as np
-#from helpers import batch_iter, load_data
+from helpers import batch_iter, load_data
 import matplotlib.pyplot as plt
-#from plots import *
+from plots import *
 
 def compute_loss(y, tx, w, loss_type = "MSE"):
     """Calculate the loss using either MSE or MAE.

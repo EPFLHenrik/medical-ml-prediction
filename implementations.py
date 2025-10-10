@@ -291,7 +291,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     # Define parameters to store w and loss
     ws = [initial_w]
     losses = [calculate_loss(y, tx, initial_w)]  # compute loss for initial_w as well
-    loss = [losses[0]]
+    loss = calculate_loss(y,tx,initial_w)
     w = initial_w.copy()
 
     for n_iter in range(max_iters):
@@ -422,7 +422,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     # Define parameters to store w and loss
     ws = [initial_w]
     losses = [calculate_loss(y, tx, initial_w)]  # compute loss for initial_w as well
-    loss = [losses[0]]
+    loss = calculate_loss(y,tx,initial_w)
     w = initial_w.copy()
 
     for n_iter in range(max_iters):

@@ -20,6 +20,7 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     # Define parameters to store w and loss
     ws = [initial_w]
     losses = [compute_loss(y,tx, initial_w)] # compute loss for initial_w as well
+    loss = losses[0]
     w = initial_w.copy()
 
     for n_iter in range(max_iters):
@@ -108,7 +109,7 @@ def compute_loss(y, tx, w):
     MSE = 1 / (2*N) * (e.T @ e) 
     return MSE
 
-def mean_squared_error_sgd(y, tx, initial_w, batch_size, max_iters, gamma, loss_type = "MSE"):
+def mean_squared_error_sgd(y, tx, initial_w, batch_size, max_iters, gamma):
     """The Stochastic Gradient Descent algorithm (SGD).
 
     Args:
@@ -127,7 +128,8 @@ def mean_squared_error_sgd(y, tx, initial_w, batch_size, max_iters, gamma, loss_
 
     # Define parameters to store w and loss
     ws = [initial_w]
-    losses = [compute_loss(y, tx, initial_w, loss_type)]  # include initial loss
+    losses = [compute_loss(y, tx, initial_w)]  # include initial loss
+    loss = losses[0]
     w = initial_w.copy()
 
     for n_iter in range(max_iters):
@@ -140,7 +142,7 @@ def mean_squared_error_sgd(y, tx, initial_w, batch_size, max_iters, gamma, loss_
             w = w - gamma * g
 
             # compute loss on full batch with current set of weights
-            loss = compute_loss(y,tx, w, loss_type)
+            loss = compute_loss(y,tx, w)
 
             losses.append(loss)
             ws.append(w)
@@ -284,6 +286,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     # Define parameters to store w and loss
     ws = [initial_w]
     losses = [calculate_loss(y,tx, initial_w)] # compute loss for initial_w as well
+    loss = losses[0]
     w = initial_w.copy()
 
     for n_iter in range(max_iters):
@@ -414,6 +417,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
      # Define parameters to store w and loss
     ws = [initial_w]
     losses = [calculate_loss(y,tx, initial_w)] # compute loss for initial_w as well
+    loss = losses[0]
     w = initial_w.copy()
 
     for n_iter in range(max_iters):

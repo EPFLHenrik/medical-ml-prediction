@@ -1,5 +1,3 @@
-from utils.all_functions import least_squares_method, ridge_regression_method, gradient_descent, stochastic_gradient_descent
-
 import numpy as np
 import matplotlib.pyplot as plt
 

@@ -313,7 +313,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
             )
         )
 
-    return w, np.array[loss]
+    return w, np.array(loss)
 
 
 def sigmoid(t):
@@ -440,7 +440,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
             )
         )
 
-    return w, np.array[loss]
+    return w, np.array(loss)
 
 
 def penalized_logistic_regression(y, tx, w, lambda_):

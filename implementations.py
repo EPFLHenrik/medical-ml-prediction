@@ -109,7 +109,7 @@ def compute_loss(y, tx, w):
     MSE = 1 / (2*N) * (e.T @ e) 
     return MSE
 
-def mean_squared_error_sgd(y, tx, initial_w, batch_size, max_iters, gamma):
+def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     """The Stochastic Gradient Descent algorithm (SGD).
 
     Args:
@@ -133,7 +133,7 @@ def mean_squared_error_sgd(y, tx, initial_w, batch_size, max_iters, gamma):
     w = initial_w.copy()
 
     for n_iter in range(max_iters):
-        for y_batch, tx_batch in batch_iter(y,tx,batch_size, num_batches=1, shuffle=True) : 
+        for y_batch, tx_batch in batch_iter(y,tx, batch_size=1, num_batches=1, shuffle=True) : 
  
             # compute stochastic gradient on bathc 
             g =  compute_stoch_gradient(y_batch, tx_batch, w)
@@ -171,7 +171,7 @@ def compute_stoch_gradient(y, tx, w):
     grad_L = -1/N * tx.T @ e
     return grad_L
 
-def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
+def batch_iter(y, tx, batch_size = 1, num_batches=1, shuffle=True):
     """
     Generate a minibatch iterator for a dataset.
     Takes as input two iterables (here the output desired values 'y' and the input data 'tx')
@@ -254,7 +254,7 @@ def ridge_regression(y, tx, lambda_):
     b = tx.T @ y
     w = np.linalg.solve(a, b)
     e = y - tx @ w
-    loss = (e @ e) / (2 * len(y)) + lambda_ * (w @ w)
+    loss = (e @ e) / (2 * len(y))
     return w, loss
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
@@ -286,7 +286,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     # Define parameters to store w and loss
     ws = [initial_w]
     losses = [calculate_loss(y,tx, initial_w)] # compute loss for initial_w as well
-    loss = losses[0]
+    loss = [losses[0]]
     w = initial_w.copy()
 
     for n_iter in range(max_iters):
@@ -308,7 +308,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
             )
         )
 
-    return w, loss
+    return w, losses(-1)
 
 def sigmoid(t):
     """apply sigmoid function on t.
@@ -417,7 +417,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
      # Define parameters to store w and loss
     ws = [initial_w]
     losses = [calculate_loss(y,tx, initial_w)] # compute loss for initial_w as well
-    loss = losses[0]
+    loss = [losses[0]]
     w = initial_w.copy()
 
     for n_iter in range(max_iters):
@@ -435,7 +435,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
             )
         )
 
-    return w, loss
+    return w, losses(-1)
 
 
 def penalized_logistic_regression(y, tx, w, lambda_):

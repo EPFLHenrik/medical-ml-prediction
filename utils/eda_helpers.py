@@ -1,9 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from utils.helpers import save_json
 
 
 # ---------------------------------------------------------------------
-# 1. Basic statistics
+# 1. Feature statistics
 # ---------------------------------------------------------------------
 def describe_feature(x):
     """
@@ -42,237 +43,6 @@ def describe_feature(x):
     }
 
 
-def dataset_describe(X, feature_names=None, max_features=10):
-    """
-    Provide a detailed summary of each feature in the dataset:
-    - feature name and index
-    - type (constant, binary, continuous)
-    - unique count
-    - missing count and %
-    - mean, std, min, max (for numeric features)
-
-    Args:
-        X (np.ndarray): Dataset array (n_samples, n_features)
-        feature_names (list or None): Optional list of feature names
-        max_features (int): Maximum number of features to display
-
-    Returns:
-        list of dicts: detailed summary per feature
-    """
-    n_samples, n_features = X.shape
-    summary = []
-
-    # Generate default names if none are provided
-    if feature_names is None:
-        feature_names = [f"feature_{j}" for j in range(n_features)]
-
-    print(f"\nDataset shape: {n_samples:,} samples × {n_features:,} features")
-    header = (
-        f"{'Idx':>4s} | {'Name':>15s} | {'Type':>10s} | {'Unique':>7s} | "
-        f"{'Missing':>8s} | {'%Miss':>6s} | "
-        f"{'Mean':>12s} | {'Std':>12s} | {'Min':>12s} | {'Max':>12s}"
-    )
-    print(header)
-    print("-" * len(header))
-
-    for j in range(n_features):
-        col = X[:, j]
-        mask = ~np.isnan(col)
-        n_missing = np.sum(~mask)
-        n_unique = len(np.unique(col[mask]))
-        missing_pct = 100 * n_missing / n_samples
-
-        # Infer type
-        if n_unique == 1:
-            ftype = "constant"
-        elif n_unique == 2:
-            ftype = "binary"
-        else:
-            ftype = "continuous"
-
-        # Compute stats safely
-        if np.any(mask):
-            mean = np.mean(col[mask])
-            std = np.std(col[mask])
-            min_val = np.min(col[mask])
-            max_val = np.max(col[mask])
-        else:
-            mean = std = min_val = max_val = np.nan
-
-        summary.append(
-            {
-                "index": j,
-                "name": feature_names[j],
-                "type": ftype,
-                "n_unique": n_unique,
-                "missing": n_missing,
-                "missing_pct": missing_pct,
-                "mean": mean,
-                "std": std,
-                "min": min_val,
-                "max": max_val,
-            }
-        )
-
-        # Clean, aligned printout
-        print(
-            f"{j:4d} | {feature_names[j][:15]:15s} | {ftype:10s} | "
-            f"{n_unique:7d} | {n_missing:8d} | {missing_pct:6.2f} | "
-            f"{mean:12.3g} | {std:12.3g} | {min_val:12.3g} | {max_val:12.3g}"
-        )
-
-        if j + 1 == max_features:
-            print("... (truncated for readability)")
-            break
-
-    return summary
-
-
-def summarize_dataset(X, y=None):
-    print(f"Samples: {X.shape[0]} | Features: {X.shape[1]}")
-    print(f"Total missing values: {np.isnan(X).sum()}")
-    print(f"Constant features: {len(detect_constant_features(X))}")
-    print(f"Binary features: {len(detect_binary_features(X))}")
-    if y is not None:
-        unique, counts = np.unique(y, return_counts=True)
-        print(f"Target balance: {dict(zip(unique, counts))}")
-
-
-def inspect_feature_types(X, max_features=10):
-    """
-    Inspect each feature to infer its data type (constant, binary, continuous),
-    number of unique values, and count of missing entries.
-
-    Args:
-        X (np.ndarray): Dataset array of shape (n_samples, n_features)
-        max_features (int): Maximum number of features to print (default=10)
-
-    Returns:
-        list of dicts: summary info for each feature
-    """
-    n_features = X.shape[1]
-    summary = []
-
-    print(f"\nInspecting {n_features} features:")
-    print(f"{'Feature':>8s} | {'Type':>10s} | {'Unique':>8s} | {'Missing':>8s}")
-    print("-" * 45)
-
-    for j in range(n_features):
-        col = X[:, j]
-        n_missing = np.isnan(col).sum()
-        unique_vals = np.unique(col[~np.isnan(col)])
-        n_unique = len(unique_vals)
-
-        # infer feature type roughly
-        if n_unique == 1:
-            ftype = "constant"
-        elif n_unique == 2:
-            ftype = "binary"
-        else:
-            ftype = "continuous"
-
-        print(f"{j:8d} | {ftype:10s} | {n_unique:8d} | {n_missing:8d}")
-
-        summary.append(
-            {
-                "feature_idx": j,
-                "type": ftype,
-                "n_unique": n_unique,
-                "missing": n_missing,
-            }
-        )
-
-        if j + 1 == max_features:
-            print("... (truncated for readability)")
-            break
-
-    return summary
-
-
-# ---------------------------------------------------------------------
-# 2. Missing values
-# ---------------------------------------------------------------------
-def count_missing(X):
-    """
-    Count missing values (NaNs) per feature.
-
-    Args:
-        X (np.ndarray): 2D array
-
-    Returns:
-        np.ndarray: counts of missing values per column
-    """
-    return np.sum(np.isnan(X), axis=0)
-
-
-# ---------------------------------------------------------------------
-# 3. Outlier detection
-# ---------------------------------------------------------------------
-def find_outliers_iqr(x):
-    """
-    Identify outliers in a 1D array using the IQR rule.
-
-    Args:
-        x (np.ndarray): 1D array of numeric values
-
-    Returns:
-        np.ndarray: boolean mask (True = outlier)
-    """
-    x = x[~np.isnan(x)]
-    q1, q3 = np.percentile(x, [25, 75])
-    iqr = q3 - q1
-    lower = q1 - 1.5 * iqr
-    upper = q3 + 1.5 * iqr
-    return (x < lower) | (x > upper)
-
-
-def zscore_outliers(x, threshold=3):
-    x = x[~np.isnan(x)]
-    z = (x - np.mean(x)) / np.std(x)
-    return np.abs(z) > threshold
-
-
-def quantile_clip(x, lower=0.01, upper=0.99):
-    "Quantile clipping to remove extreme values"
-    q_low, q_high = np.nanquantile(x, [lower, upper])
-    return np.clip(x, q_low, q_high)
-
-
-def count_outliers_dataset(X, method="iqr"):
-    outlier_counts = []
-    for j in range(X.shape[1]):
-        x = X[:, j]
-        if method == "iqr":
-            outlier_counts.append(np.sum(find_outliers_iqr(x)))
-        elif method == "zscore":
-            outlier_counts.append(np.sum(zscore_outliers(x)))
-    return np.array(outlier_counts)
-
-
-# ---------------------------------------------------------------------
-# 4. Correlation
-# ---------------------------------------------------------------------
-def correlation_matrix(X):
-    """
-    Compute the correlation matrix between all features.
-
-    Args:
-        X (np.ndarray): 2D array (n_samples, n_features)
-
-    Returns:
-        np.ndarray: correlation matrix (n_features x n_features)
-    """
-    # Ensure no constant columns (std=0)
-    valid_mask = np.std(X, axis=0) > 0
-    X_valid = X[:, valid_mask]
-    return np.corrcoef(X_valid, rowvar=False)
-
-
-# ---------------------------------------------------------------------
-# 5. Feature-level statistics
-# ---------------------------------------------------------------------
-
-
 def feature_skewness(x):
     """Compute skewness (asymmetry) of a 1D feature."""
     x = x[~np.isnan(x)]
@@ -305,16 +75,6 @@ def feature_entropy(x, bins=10):
     return -np.sum(hist * np.log2(hist))
 
 
-# ---------------------------------------------------------------------
-# 6. Data quality diagnostics
-# ---------------------------------------------------------------------
-
-
-def detect_constant_features(X):
-    """Return indices of features with zero variance."""
-    return np.where(np.std(X, axis=0) == 0)[0]
-
-
 def detect_duplicate_features(X, tol=1e-10):
     """
     Detect features that are nearly identical (correlation ≈ 1).
@@ -329,15 +89,6 @@ def detect_duplicate_features(X, tol=1e-10):
                 duplicates.append((i, j))
     return duplicates
 
-
-def detect_binary_features(X):
-    """Return indices of features containing only two unique values."""
-    binary_features = []
-    for i in range(X.shape[1]):
-        vals = np.unique(X[:, i][~np.isnan(X[:, i])])
-        if len(vals) == 2:
-            binary_features.append(i)
-    return np.array(binary_features)
 
 
 def detect_sparse_features(X, threshold=0.95):
@@ -356,11 +107,270 @@ def drop_high_missing_features(X, threshold=0.5):
     dropped = np.where(~keep_mask)[0]
     return X[:, keep_mask], dropped
 
+# ---------------------------------------------------------------------
+# 2. Missing values
+# ---------------------------------------------------------------------
+
+def count_missing(X):
+    """
+    Count missing values (NaNs) per feature.
+
+    Args:
+        X (np.ndarray): 2D array
+
+    Returns:
+        np.ndarray: counts of missing values per column
+    """
+    return np.sum(np.isnan(X), axis=0)
+
+def count_missing_unavailable(X, codes=None):
+    """
+    Count unavailable values per feature (NaN or coded missing values like 7, 9, 77, 99...).
+
+    Args:
+        X (np.ndarray): 2D numeric array
+        codes (list or None): List of integer codes representing unavailable responses
+
+    Returns:
+        np.ndarray: counts of unavailable values per column
+    """
+    if codes is None:
+        codes = [7, 9, 77, 99, 777, 999]
+
+    # Start with NaNs
+    missing_mask = np.isnan(X)
+
+    # Add coded-missing mask
+    coded_mask = np.isin(X, codes)
+
+    unavailable_mask = missing_mask | coded_mask
+    return np.sum(unavailable_mask, axis=0)
+
+
+# ---------------------------------------------------------------------
+# 3. Outlier detection
+# ---------------------------------------------------------------------
+def find_outliers_iqr(x):
+    """
+    Identify outliers in a 1D array using the IQR rule.
+
+    Args:
+        x (np.ndarray): 1D array of numeric values
+
+    Returns:
+        np.ndarray: boolean mask (True = outlier)
+    """
+    x = x[~np.isnan(x)]
+    q1, q3 = np.percentile(x, [25, 75])
+    iqr = q3 - q1
+    lower = q1 - 1.5 * iqr
+    upper = q3 + 1.5 * iqr
+    return (x < lower) | (x > upper)
+
+def zscore_outliers(x, threshold=3):
+    x = x[~np.isnan(x)]
+    z = (x - np.mean(x)) / np.std(x)
+    return np.abs(z) > threshold
+
+def quantile_clip(x, lower=0.01, upper=0.99):
+    "Quantile clipping to remove extreme values"
+    q_low, q_high = np.nanquantile(x, [lower, upper])
+    return np.clip(x, q_low, q_high)
+
+def count_outliers_dataset(X, method="iqr"):
+    outlier_counts = []
+    for j in range(X.shape[1]):
+        x = X[:, j]
+        if method == "iqr":
+            outlier_counts.append(np.sum(find_outliers_iqr(x)))
+        elif method == "zscore":
+            outlier_counts.append(np.sum(zscore_outliers(x)))
+    return np.array(outlier_counts)
+
+
+# ---------------------------------------------------------------------
+# Dataset describe
+# ---------------------------------------------------------------------
+
+def dataset_describe(
+    X,
+    feature_names=None,
+    max_features=10,
+    save_dir=None,
+    save_name="dataset_summary",
+    y=None,
+    extended=False,
+):
+    """
+    Provide a detailed summary of each feature in the dataset.
+    Default: lightweight (basic statistics).
+    Extended=True: adds skewness, kurtosis, entropy, variance, outlier %, target correlation, etc.
+
+    Parameters
+    ----------
+    X : np.ndarray
+        Dataset array (n_samples, n_features)
+    feature_names : list or None
+        Optional list of feature names
+    max_features : int
+        Number of features to preview in printout
+    save_dir : str or None
+        Directory to save JSON summary
+    save_name : str
+        JSON filename (without extension)
+    y : np.ndarray or None
+        Optional target for correlation analysis
+    extended : bool
+        Whether to compute advanced diagnostics (default=False)
+
+    Returns
+    -------
+    list of dicts: detailed summary per feature
+    """
+    X = np.asarray(X)
+    n_samples, n_features = X.shape
+    summary = []
+
+    if feature_names is None:
+        feature_names = [f"feature_{j}" for j in range(n_features)]
+
+    print(f"\nDataset shape: {n_samples:,} samples × {n_features:,} features")
+    header = (
+        f"{'Idx':>4s} | {'Name':>15s} | {'dtype':>8s} | {'Unique':>8s} | "
+        f"{'Miss':>6s} | {'%Miss':>7s} | {'Mean':>10s} | {'Std':>10s} | {'Min':>10s} | {'Max':>10s}"
+    )
+    print(header)
+    print("-" * len(header))
+
+    possible_missing_codes = [7, 9, 77, 99, 777, 999]
+
+    for j in range(n_features):
+        col = X[:, j]
+        name = feature_names[j]
+        dtype = str(col.dtype)
+        mask_valid = ~np.isnan(col)
+        n_missing = np.sum(~mask_valid)
+        missing_pct = 100 * n_missing / n_samples
+        unique_vals = np.unique(col[mask_valid])
+        n_unique = len(unique_vals)
+        unique_sample = unique_vals[:5].tolist() if n_unique > 0 else []
+
+        # dtype-based type
+        if np.issubdtype(col.dtype, np.floating):
+            inferred_type = "float"
+        elif np.issubdtype(col.dtype, np.integer):
+            inferred_type = "integer"
+        elif np.issubdtype(col.dtype, np.str_):
+            inferred_type = "string"
+        else:
+            inferred_type = str(col.dtype)
+
+        # Flag potential coded missing values
+        has_coded_missing = any(v in possible_missing_codes for v in unique_vals)
+
+        # Numeric stats
+        if np.issubdtype(col.dtype, np.number) and np.any(mask_valid):
+            mean = np.mean(col[mask_valid])
+            std = np.std(col[mask_valid])
+            min_val = np.min(col[mask_valid])
+            max_val = np.max(col[mask_valid])
+            variance = np.var(col[mask_valid])
+        else:
+            mean = std = min_val = max_val = variance = np.nan
+
+        # Extended diagnostics
+        skewness = kurtosis = entropy = outlier_pct = corr = np.nan
+        if extended and np.issubdtype(col.dtype, np.number) and np.any(mask_valid):
+            skewness = feature_skewness(col)
+            kurtosis = feature_kurtosis(col)
+            entropy = feature_entropy(col)
+            try:
+                outlier_mask = find_outliers_iqr(col)
+                outlier_pct = 100 * np.sum(outlier_mask) / np.sum(~np.isnan(col))
+            except Exception:
+                outlier_pct = np.nan
+
+            if y is not None:
+                valid_mask = ~np.isnan(col)
+                if np.std(col[valid_mask]) > 0 and np.std(y[valid_mask]) > 0:
+                    corr = np.corrcoef(col[valid_mask], y[valid_mask])[0, 1]
+                else:
+                    corr = np.nan
+
+
+        entry = {
+            "index": j,
+            "name": name,
+            "dtype": dtype,
+            "type_inferred": inferred_type,
+            "n_unique": int(n_unique),
+            "unique_values_sample": unique_sample,
+            "missing_count": int(n_missing),
+            "missing_pct": float(missing_pct),
+            "mean": float(mean),
+            "std": float(std),
+            "min": float(min_val),
+            "max": float(max_val),
+            "variance": float(variance),
+            "has_coded_missing": bool(has_coded_missing),
+        }
+
+        if extended:
+            entry.update({
+                "skewness": float(skewness),
+                "kurtosis": float(kurtosis),
+                "entropy": float(entropy),
+                "outlier_pct": float(outlier_pct),
+                "corr_with_target": float(corr),
+            })
+
+        summary.append(entry)
+
+        # Print preview
+        if j < max_features:
+            print(f"{j:4d} | {name[:15]:15s} | {inferred_type:>8s} | "
+                  f"{n_unique:8d} | {n_missing:6d} | {missing_pct:7.2f} | "
+                  f"{mean:10.3g} | {std:10.3g} | {min_val:10.3g} | {max_val:10.3g}")
+        elif j == max_features:
+            print("... (truncated preview)")
+
+    save_json(summary, save_name, save_dir=save_dir)
+    print(f"\nSaved dataset summary ({'extended' if extended else 'basic'}) for {n_features} features.\n")
+
+    return summary
+
+
+def summarize_dataset(X, y=None):
+    print(f"Samples: {X.shape[0]} | Features: {X.shape[1]}")
+    print(f"Total missing values: {np.isnan(X).sum()}")
+    if y is not None:
+        unique, counts = np.unique(y, return_counts=True)
+        print(f"Target balance: {dict(zip(unique, counts))}")
+
+
+# ---------------------------------------------------------------------
+# 4. Correlation
+# ---------------------------------------------------------------------
+def correlation_matrix(X):
+    """
+    Compute the correlation matrix between all features.
+
+    Args:
+        X (np.ndarray): 2D array (n_samples, n_features)
+
+    Returns:
+        np.ndarray: correlation matrix (n_features x n_features)
+    """
+    # Ensure no constant columns (std=0)
+    valid_mask = np.std(X, axis=0) > 0
+    X_valid = X[:, valid_mask]
+    return np.corrcoef(X_valid, rowvar=False)
+
+
 
 # ---------------------------------------------------------------------
 # 7. Feature transformations
 # ---------------------------------------------------------------------
-
 
 def normalize_feature(x):
     """Min-max normalization of a 1D array."""
@@ -399,7 +409,6 @@ def replace_missing_with_mean(x):
 # 8. Relationship analysis
 # ---------------------------------------------------------------------
 
-
 def feature_target_correlation(X, y):
     """
     Compute correlation between each feature and the target.
@@ -429,133 +438,3 @@ def compute_variance_ratio(X):
     total = np.nansum(variances)
     return variances / total if total != 0 else np.zeros_like(variances)
 
-
-# ---------------------------------------------------------------------
-# 9. Visualization utilities
-# ---------------------------------------------------------------------
-
-
-def plot_feature_vs_target(X, y, feature_idx):
-    """Visualize feature distribution by target class."""
-    feature = X[:, feature_idx]
-    mask1 = y == 1
-    mask0 = y == -1
-
-    plt.hist(feature[mask1], bins=30, alpha=0.6, label="Class 1", color="dodgerblue")
-    plt.hist(feature[mask0], bins=30, alpha=0.6, label="Class -1", color="salmon")
-    plt.xlabel(f"Feature {feature_idx}")
-    plt.ylabel("Count")
-    plt.title(f"Feature {feature_idx} distribution by class")
-    plt.legend()
-    plt.grid(alpha=0.3)
-    plt.show()
-
-
-def plot_feature_pairs(X, features):
-    """Pairwise scatterplots for a few features."""
-    n = len(features)
-    fig, axes = plt.subplots(n, n, figsize=(3 * n, 3 * n))
-    for i in range(n):
-        for j in range(n):
-            ax = axes[i, j]
-            if i == j:
-                ax.hist(X[:, features[i]], bins=30, color="gray")
-            else:
-                ax.scatter(X[:, features[j]], X[:, features[i]], s=5, alpha=0.5)
-            if i == n - 1:
-                ax.set_xlabel(f"f{features[j]}")
-            if j == 0:
-                ax.set_ylabel(f"f{features[i]}")
-    plt.tight_layout()
-    plt.show()
-
-
-def plot_target_balance(y):
-    """Plot distribution of target classes (for classification)."""
-    unique, counts = np.unique(y, return_counts=True)
-    plt.bar(unique.astype(str), counts, color=["salmon", "dodgerblue"])
-    plt.xlabel("Target class")
-    plt.ylabel("Count")
-    plt.title("Target Class Balance")
-    plt.grid(alpha=0.3)
-    plt.show()
-
-
-def plot_outlier_distribution(x):
-    """Boxplot showing outliers explicitly."""
-    mask = ~np.isnan(x)
-    outliers = np.abs(x[mask] - np.mean(x[mask])) > 3 * np.std(x[mask])
-    plt.boxplot(
-        x[mask], vert=True, patch_artist=True, boxprops=dict(facecolor="lightgray")
-    )
-    plt.scatter(
-        np.ones(np.sum(outliers)), x[mask][outliers], color="red", label="Outliers"
-    )
-    plt.title("Outlier Visualization")
-    plt.legend()
-    plt.grid(alpha=0.3)
-    plt.show()
-
-
-def plot_feature_importance(values, names=None, top_k=15):
-    """Visualize top correlated or most variant features."""
-    idx = np.argsort(np.abs(values))[::-1][:top_k]
-    vals = values[idx]
-    labels = [f"f{i}" for i in idx] if names is None else np.array(names)[idx]
-
-    plt.barh(labels, vals, color="steelblue")
-    plt.xlabel("Importance value")
-    plt.title("Top Feature Importances")
-    plt.gca().invert_yaxis()
-    plt.show()
-
-
-def plot_histogram(x, bins=30, title=None):
-    """Plot histogram of a feature."""
-    x = x[~np.isnan(x)]
-    plt.hist(x, bins=bins, color="steelblue", edgecolor="black")
-    plt.title(title or "Feature distribution")
-    plt.xlabel("Value")
-    plt.ylabel("Frequency")
-    plt.grid(alpha=0.3)
-    plt.show()
-
-
-def plot_box(x, title=None):
-    """Plot boxplot of a feature."""
-    x = x[~np.isnan(x)]
-    plt.boxplot(x, vert=True, patch_artist=True, boxprops=dict(facecolor="lightgray"))
-    plt.title(title or "Feature boxplot")
-    plt.ylabel("Value")
-    plt.grid(alpha=0.3)
-    plt.show()
-
-
-def plot_missing_values(X):
-    """
-    Plot bar chart of missing values per feature.
-
-    Args:
-        X (np.ndarray): dataset array
-    """
-    n_missing = count_missing(X)
-    plt.bar(np.arange(len(n_missing)), n_missing, color="salmon", edgecolor="black")
-    plt.xlabel("Feature index")
-    plt.ylabel("Missing values")
-    plt.title("Missing values per feature")
-    plt.show()
-
-
-def plot_correlation_heatmap(corr):
-    """
-    Plot correlation matrix heatmap.
-
-    Args:
-        corr (np.ndarray): correlation matrix
-    """
-    plt.imshow(corr, cmap="coolwarm", vmin=-1, vmax=1)
-    plt.colorbar(label="Correlation coefficient")
-    plt.title("Feature Correlation Heatmap")
-    plt.xlabel("Feature index")
-    plt.ylabel("Feature index")
-    plt.show()

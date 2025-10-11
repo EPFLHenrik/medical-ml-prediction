@@ -1,0 +1,107 @@
+1. gamma = 0.01, max_iters = 300
+
+Final loss: 0.535300
+Iterations: 228
+
+Top 20 features by |weight|:
+
+_AGE80                     w = 0.16835
+BPHIGH4                    w = -0.14842
+GENHLTH                    w = 0.13200
+TOLDHI2                    w = -0.13071
+EMPLOY1                    w = 0.11202
+PNEUVAC3                   w = -0.10306
+SEX                        w = -0.09506
+CHCCOPD1                   w = -0.09482
+DIABETE3                   w = -0.08725
+_RFHLTH                    w = 0.07243
+VETERAN3                   w = -0.07015
+CHCKIDNY                   w = -0.06987
+CHOLCHK                    w = -0.06536
+SMOKE100                   w = -0.06440
+QLACTLM2                   w = -0.06403
+USEEQUIP                   w = -0.06365
+BLOODCHO                   w = -0.06155
+-> HAVARTH3                   w = -0.06142
+CVDSTRK3                   w = -0.05658
+-> PHYSHLTH                   w = 0.05581
+
+2. gamma = 0.05, max_iters = 300
+
+Final loss: 0.528979
+Iterations: 99
+
+Top 20 features by |weight|:
+
+_AGE80                     w = 0.22320
+BPHIGH4                    w = -0.18979
+TOLDHI2                    w = -0.17354
+GENHLTH                    w = 0.16964
+SEX                        w = -0.14834
+EMPLOY1                    w = 0.12317
+PNEUVAC3                   w = -0.11815
+CHCCOPD1                   w = -0.11684
+DIABETE3                   w = -0.09763
+CHCKIDNY                   w = -0.08455
+VETERAN3                   w = -0.08290
+CHOLCHK                    w = -0.07922
+BLOODCHO                   w = -0.07810
+_RFHLTH                    w = 0.07636
+SMOKE100                   w = -0.07463
+CVDSTRK3                   w = -0.06610
+QLACTLM2                   w = -0.06153
+USEEQUIP                   w = -0.05914
+-> HAVARTH3                   w = -0.05157
+-> BPMEDS                     w = -0.05116
+
+3. gamma = 0.1, max_iters = 300
+
+Final loss: 0.527567
+Iterations: 69
+
+Top 20 features by |weight|:
+
+_AGE80                     w = 0.24679
+BPHIGH4                    w = -0.20321
+TOLDHI2                    w = -0.18844
+GENHLTH                    w = 0.18744
+SEX                        w = -0.17210
+CHCCOPD1                   w = -0.12521
+EMPLOY1                    w = 0.12232
+PNEUVAC3                   w = -0.12024
+DIABETE3                   w = -0.09782
+CHCKIDNY                   w = -0.08931
+BLOODCHO                   w = -0.08415
+CHOLCHK                    w = -0.08336
+VETERAN3                   w = -0.08286
+SMOKE100                   w = -0.07501
+_RFHLTH                    w = 0.07406
+CVDSTRK3                   w = -0.06782
+QLACTLM2                   w = -0.05974
+USEEQUIP                   w = -0.05622
+BPMEDS                     w = -0.05261
+-> INCOME2                    w = -0.05112
+
+OTHER variables: 
+DRNK3GE5            :  0.02645
+MEDCOST             : -0.02783
+_LMTACT1            : -0.02960
+_SMOKER3            : -0.04065
+CHCSCNCR            : -0.03659
+HTM4                :  0.04176
+ALCDAY5             : -0.04519
+DIFFWALK            : -0.02786
+BLIND               : -0.04506
+SMOKDAY2            :  0.03551
+
+--- GENERAL LR CONCLUSIONS ---
+_BMI5 doesn't appear but is graphically interesting; 
+Look for numerical correlation;
+CHCCOPD1 and PRENUVAC3 are logically correlated;
+BLOODCHO and TOLDHI2, CHOLCHK;
+Keep just one between GENHLTH and _RFHLTH;
+QLACTLM2, USEEQUIP, _LMTACT1, DIFFWALK, BLIND;
+BPHIGH4 and BPMEDS are consequential;
+INCOME2 and EMPLOY1 could be merged;
+Keep just one between _SMOKER3, SMOKE100 and SMOKEDAY2;
+Keep up to one between DRNK3GE5 and ALCDAY5;

@@ -1,0 +1,1928 @@
+[
+  {
+    "index": 0,
+    "name": "_STATE",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 1,
+    "name": "FMONTH",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 2,
+    "name": "IDATE",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 3,
+    "name": "IMONTH",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 4,
+    "name": "IDAY",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 5,
+    "name": "IYEAR",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 6,
+    "name": "DISPCODE",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 7,
+    "name": "SEQNO",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 8,
+    "name": "_PSU",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 9,
+    "name": "CTELENUM",
+    "missing_count": 139415,
+    "missing_pct": 42.48708610785195
+  },
+  {
+    "index": 10,
+    "name": "PVTRESD1",
+    "missing_count": 139415,
+    "missing_pct": 42.48708610785195
+  },
+  {
+    "index": 11,
+    "name": "COLGHOUS",
+    "missing_count": 328103,
+    "missing_pct": 99.99024791625398
+  },
+  {
+    "index": 12,
+    "name": "STATERES",
+    "missing_count": 139416,
+    "missing_pct": 42.48739086046901
+  },
+  {
+    "index": 13,
+    "name": "CELLFON3",
+    "missing_count": 139415,
+    "missing_pct": 42.48708610785195
+  },
+  {
+    "index": 14,
+    "name": "LADULT",
+    "missing_count": 328103,
+    "missing_pct": 99.99024791625398
+  },
+  {
+    "index": 15,
+    "name": "NUMADULT",
+    "missing_count": 139433,
+    "missing_pct": 42.492571654959086
+  },
+  {
+    "index": 16,
+    "name": "NUMMEN",
+    "missing_count": 139524,
+    "missing_pct": 42.52030414311183
+  },
+  {
+    "index": 17,
+    "name": "NUMWOMEN",
+    "missing_count": 139525,
+    "missing_pct": 42.52060889572889
+  },
+  {
+    "index": 18,
+    "name": "CTELNUM1",
+    "missing_count": 188720,
+    "missing_pct": 57.512913892148056
+  },
+  {
+    "index": 19,
+    "name": "CELLFON2",
+    "missing_count": 188720,
+    "missing_pct": 57.512913892148056
+  },
+  {
+    "index": 20,
+    "name": "CADULT",
+    "missing_count": 188721,
+    "missing_pct": 57.513218644765104
+  },
+  {
+    "index": 21,
+    "name": "PVTRESD2",
+    "missing_count": 188720,
+    "missing_pct": 57.512913892148056
+  },
+  {
+    "index": 22,
+    "name": "CCLGHOUS",
+    "missing_count": 327334,
+    "missing_pct": 99.75589315373246
+  },
+  {
+    "index": 23,
+    "name": "CSTATE",
+    "missing_count": 188719,
+    "missing_pct": 57.51260913953099
+  },
+  {
+    "index": 24,
+    "name": "LANDLINE",
+    "missing_count": 189287,
+    "missing_pct": 57.68570862602282
+  },
+  {
+    "index": 25,
+    "name": "HHADULT",
+    "missing_count": 192544,
+    "missing_pct": 58.67828789979734
+  },
+  {
+    "index": 26,
+    "name": "GENHLTH",
+    "missing_count": 2,
+    "missing_pct": 0.000609505234126198
+  },
+  {
+    "index": 27,
+    "name": "PHYSHLTH",
+    "missing_count": 1,
+    "missing_pct": 0.000304752617063099
+  },
+  {
+    "index": 28,
+    "name": "MENTHLTH",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 29,
+    "name": "POORHLTH",
+    "missing_count": 159860,
+    "missing_pct": 48.71775336370701
+  },
+  {
+    "index": 30,
+    "name": "HLTHPLN1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 31,
+    "name": "PERSDOC2",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 32,
+    "name": "MEDCOST",
+    "missing_count": 1,
+    "missing_pct": 0.000304752617063099
+  },
+  {
+    "index": 33,
+    "name": "CHECKUP1",
+    "missing_count": 1,
+    "missing_pct": 0.000304752617063099
+  },
+  {
+    "index": 34,
+    "name": "BPHIGH4",
+    "missing_count": 1,
+    "missing_pct": 0.000304752617063099
+  },
+  {
+    "index": 35,
+    "name": "BPMEDS",
+    "missing_count": 196334,
+    "missing_pct": 59.833300318466485
+  },
+  {
+    "index": 36,
+    "name": "BLOODCHO",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 37,
+    "name": "CHOLCHK",
+    "missing_count": 43801,
+    "missing_pct": 13.348469379980802
+  },
+  {
+    "index": 38,
+    "name": "TOLDHI2",
+    "missing_count": 43801,
+    "missing_pct": 13.348469379980802
+  },
+  {
+    "index": 39,
+    "name": "CVDSTRK3",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 40,
+    "name": "ASTHMA3",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 41,
+    "name": "ASTHNOW",
+    "missing_count": 284153,
+    "missing_pct": 86.59637039633078
+  },
+  {
+    "index": 42,
+    "name": "CHCSCNCR",
+    "missing_count": 1,
+    "missing_pct": 0.000304752617063099
+  },
+  {
+    "index": 43,
+    "name": "CHCOCNCR",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 44,
+    "name": "CHCCOPD1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 45,
+    "name": "HAVARTH3",
+    "missing_count": 1,
+    "missing_pct": 0.000304752617063099
+  },
+  {
+    "index": 46,
+    "name": "ADDEPEV2",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 47,
+    "name": "CHCKIDNY",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 48,
+    "name": "DIABETE3",
+    "missing_count": 5,
+    "missing_pct": 0.0015237630853154951
+  },
+  {
+    "index": 49,
+    "name": "DIABAGE2",
+    "missing_count": 285915,
+    "missing_pct": 87.13334450759595
+  },
+  {
+    "index": 50,
+    "name": "SEX",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 51,
+    "name": "MARITAL",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 52,
+    "name": "EDUCA",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 53,
+    "name": "RENTHOM1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 54,
+    "name": "NUMHHOL2",
+    "missing_count": 139415,
+    "missing_pct": 42.48708610785195
+  },
+  {
+    "index": 55,
+    "name": "NUMPHON2",
+    "missing_count": 318245,
+    "missing_pct": 96.98599661724595
+  },
+  {
+    "index": 56,
+    "name": "CPDEMO1",
+    "missing_count": 139415,
+    "missing_pct": 42.48708610785195
+  },
+  {
+    "index": 57,
+    "name": "VETERAN3",
+    "missing_count": 1,
+    "missing_pct": 0.000304752617063099
+  },
+  {
+    "index": 58,
+    "name": "EMPLOY1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 59,
+    "name": "CHILDREN",
+    "missing_count": 3,
+    "missing_pct": 0.000914257851189297
+  },
+  {
+    "index": 60,
+    "name": "INCOME2",
+    "missing_count": 2471,
+    "missing_pct": 0.7530437167629177
+  },
+  {
+    "index": 61,
+    "name": "INTERNET",
+    "missing_count": 3207,
+    "missing_pct": 0.9773416429213586
+  },
+  {
+    "index": 62,
+    "name": "WEIGHT2",
+    "missing_count": 3946,
+    "missing_pct": 1.2025538269309888
+  },
+  {
+    "index": 63,
+    "name": "HEIGHT3",
+    "missing_count": 4407,
+    "missing_pct": 1.3430447833970773
+  },
+  {
+    "index": 64,
+    "name": "PREGNANT",
+    "missing_count": 279663,
+    "missing_pct": 85.22803114571747
+  },
+  {
+    "index": 65,
+    "name": "QLACTLM2",
+    "missing_count": 6933,
+    "missing_pct": 2.1128498940984657
+  },
+  {
+    "index": 66,
+    "name": "USEEQUIP",
+    "missing_count": 7743,
+    "missing_pct": 2.3596995139195758
+  },
+  {
+    "index": 67,
+    "name": "BLIND",
+    "missing_count": 8293,
+    "missing_pct": 2.5273134533042803
+  },
+  {
+    "index": 68,
+    "name": "DECIDE",
+    "missing_count": 8728,
+    "missing_pct": 2.6598808417267286
+  },
+  {
+    "index": 69,
+    "name": "DIFFWALK",
+    "missing_count": 9149,
+    "missing_pct": 2.788181693510293
+  },
+  {
+    "index": 70,
+    "name": "DIFFDRES",
+    "missing_count": 9432,
+    "missing_pct": 2.87442668413915
+  },
+  {
+    "index": 71,
+    "name": "DIFFALON",
+    "missing_count": 9862,
+    "missing_pct": 3.0054703094762827
+  },
+  {
+    "index": 72,
+    "name": "SMOKE100",
+    "missing_count": 10541,
+    "missing_pct": 3.212397336462127
+  },
+  {
+    "index": 73,
+    "name": "SMOKDAY2",
+    "missing_count": 191379,
+    "missing_pct": 58.323251100918824
+  },
+  {
+    "index": 74,
+    "name": "STOPSMK2",
+    "missing_count": 282510,
+    "missing_pct": 86.09566184649611
+  },
+  {
+    "index": 75,
+    "name": "LASTSMK2",
+    "missing_count": 237369,
+    "missing_pct": 72.33882395965075
+  },
+  {
+    "index": 76,
+    "name": "USENOW3",
+    "missing_count": 11007,
+    "missing_pct": 3.354412056013531
+  },
+  {
+    "index": 77,
+    "name": "ALCDAY5",
+    "missing_count": 11765,
+    "missing_pct": 3.58541453974736
+  },
+  {
+    "index": 78,
+    "name": "AVEDRNK2",
+    "missing_count": 170906,
+    "missing_pct": 52.084050771786
+  },
+  {
+    "index": 79,
+    "name": "DRNK3GE5",
+    "missing_count": 171212,
+    "missing_pct": 52.17730507260732
+  },
+  {
+    "index": 80,
+    "name": "MAXDRNKS",
+    "missing_count": 171522,
+    "missing_pct": 52.27177838389687
+  },
+  {
+    "index": 81,
+    "name": "FRUITJU1",
+    "missing_count": 20738,
+    "missing_pct": 6.319959772654547
+  },
+  {
+    "index": 82,
+    "name": "FRUIT1",
+    "missing_count": 21567,
+    "missing_pct": 6.572599692199857
+  },
+  {
+    "index": 83,
+    "name": "FVBEANS",
+    "missing_count": 22468,
+    "missing_pct": 6.847181800173709
+  },
+  {
+    "index": 84,
+    "name": "FVGREEN",
+    "missing_count": 23149,
+    "missing_pct": 7.054718332393679
+  },
+  {
+    "index": 85,
+    "name": "FVORANG",
+    "missing_count": 23759,
+    "missing_pct": 7.240617428802169
+  },
+  {
+    "index": 86,
+    "name": "VEGETAB1",
+    "missing_count": 24502,
+    "missing_pct": 7.467048623280053
+  },
+  {
+    "index": 87,
+    "name": "EXERANY2",
+    "missing_count": 26205,
+    "missing_pct": 7.98604233013851
+  },
+  {
+    "index": 88,
+    "name": "EXRACT11",
+    "missing_count": 107829,
+    "missing_pct": 32.8611699452969
+  },
+  {
+    "index": 89,
+    "name": "EXEROFT1",
+    "missing_count": 109141,
+    "missing_pct": 33.26100537888369
+  },
+  {
+    "index": 90,
+    "name": "EXERHMM1",
+    "missing_count": 109407,
+    "missing_pct": 33.34206957502248
+  },
+  {
+    "index": 91,
+    "name": "EXRACT21",
+    "missing_count": 109690,
+    "missing_pct": 33.428314565651334
+  },
+  {
+    "index": 92,
+    "name": "EXEROFT2",
+    "missing_count": 181261,
+    "missing_pct": 55.23976412147439
+  },
+  {
+    "index": 93,
+    "name": "EXERHMM2",
+    "missing_count": 181400,
+    "missing_pct": 55.282124735246164
+  },
+  {
+    "index": 94,
+    "name": "STRENGTH",
+    "missing_count": 28647,
+    "missing_pct": 8.730248221006597
+  },
+  {
+    "index": 95,
+    "name": "LMTJOIN3",
+    "missing_count": 226907,
+    "missing_pct": 69.15050207993662
+  },
+  {
+    "index": 96,
+    "name": "ARTHDIS2",
+    "missing_count": 227043,
+    "missing_pct": 69.1919484358572
+  },
+  {
+    "index": 97,
+    "name": "ARTHSOCL",
+    "missing_count": 227197,
+    "missing_pct": 69.23888033888491
+  },
+  {
+    "index": 98,
+    "name": "JOINPAIN",
+    "missing_count": 229088,
+    "missing_pct": 69.81516753775124
+  },
+  {
+    "index": 99,
+    "name": "SEATBELT",
+    "missing_count": 29911,
+    "missing_pct": 9.115455528974355
+  },
+  {
+    "index": 100,
+    "name": "FLUSHOT6",
+    "missing_count": 30600,
+    "missing_pct": 9.32543008213083
+  },
+  {
+    "index": 101,
+    "name": "FLSHTMY2",
+    "missing_count": 186763,
+    "missing_pct": 56.916513020555556
+  },
+  {
+    "index": 102,
+    "name": "IMFVPLAC",
+    "missing_count": 186001,
+    "missing_pct": 56.68429152635348
+  },
+  {
+    "index": 103,
+    "name": "PNEUVAC3",
+    "missing_count": 31022,
+    "missing_pct": 9.454035686531457
+  },
+  {
+    "index": 104,
+    "name": "HIVTST6",
+    "missing_count": 32080,
+    "missing_pct": 9.776463955384216
+  },
+  {
+    "index": 105,
+    "name": "HIVTSTD3",
+    "missing_count": 243418,
+    "missing_pct": 74.18227254026544
+  },
+  {
+    "index": 106,
+    "name": "WHRTST10",
+    "missing_count": 243561,
+    "missing_pct": 74.22585216450547
+  },
+  {
+    "index": 107,
+    "name": "PDIABTST",
+    "missing_count": 266689,
+    "missing_pct": 81.27417069194081
+  },
+  {
+    "index": 108,
+    "name": "PREDIAB1",
+    "missing_count": 266689,
+    "missing_pct": 81.27417069194081
+  },
+  {
+    "index": 109,
+    "name": "INSULIN",
+    "missing_count": 306425,
+    "missing_pct": 93.38382068356012
+  },
+  {
+    "index": 110,
+    "name": "BLDSUGAR",
+    "missing_count": 306426,
+    "missing_pct": 93.38412543617719
+  },
+  {
+    "index": 111,
+    "name": "FEETCHK2",
+    "missing_count": 306428,
+    "missing_pct": 93.38473494141131
+  },
+  {
+    "index": 112,
+    "name": "DOCTDIAB",
+    "missing_count": 306429,
+    "missing_pct": 93.38503969402836
+  },
+  {
+    "index": 113,
+    "name": "CHKHEMO3",
+    "missing_count": 306429,
+    "missing_pct": 93.38503969402836
+  },
+  {
+    "index": 114,
+    "name": "FEETCHK",
+    "missing_count": 306629,
+    "missing_pct": 93.445990217441
+  },
+  {
+    "index": 115,
+    "name": "EYEEXAM",
+    "missing_count": 306429,
+    "missing_pct": 93.38503969402836
+  },
+  {
+    "index": 116,
+    "name": "DIABEYE",
+    "missing_count": 306430,
+    "missing_pct": 93.38534444664543
+  },
+  {
+    "index": 117,
+    "name": "DIABEDU",
+    "missing_count": 306430,
+    "missing_pct": 93.38534444664543
+  },
+  {
+    "index": 118,
+    "name": "CAREGIV1",
+    "missing_count": 247299,
+    "missing_pct": 75.36501744708733
+  },
+  {
+    "index": 119,
+    "name": "CRGVREL1",
+    "missing_count": 310302,
+    "missing_pct": 94.56534657991375
+  },
+  {
+    "index": 120,
+    "name": "CRGVLNG1",
+    "missing_count": 310320,
+    "missing_pct": 94.57083212702089
+  },
+  {
+    "index": 121,
+    "name": "CRGVHRS1",
+    "missing_count": 310346,
+    "missing_pct": 94.57875569506453
+  },
+  {
+    "index": 122,
+    "name": "CRGVPRB1",
+    "missing_count": 310367,
+    "missing_pct": 94.58515550002285
+  },
+  {
+    "index": 123,
+    "name": "CRGVPERS",
+    "missing_count": 310392,
+    "missing_pct": 94.59277431544943
+  },
+  {
+    "index": 124,
+    "name": "CRGVHOUS",
+    "missing_count": 310403,
+    "missing_pct": 94.59612659423713
+  },
+  {
+    "index": 125,
+    "name": "CRGVMST2",
+    "missing_count": 310450,
+    "missing_pct": 94.61044996723909
+  },
+  {
+    "index": 126,
+    "name": "CRGVEXPT",
+    "missing_count": 265347,
+    "missing_pct": 80.86519267984214
+  },
+  {
+    "index": 127,
+    "name": "VIDFCLT2",
+    "missing_count": 325762,
+    "missing_pct": 99.27682203970927
+  },
+  {
+    "index": 128,
+    "name": "VIREDIF3",
+    "missing_count": 325769,
+    "missing_pct": 99.2789553080287
+  },
+  {
+    "index": 129,
+    "name": "VIPRFVS2",
+    "missing_count": 325769,
+    "missing_pct": 99.2789553080287
+  },
+  {
+    "index": 130,
+    "name": "VINOCRE2",
+    "missing_count": 327339,
+    "missing_pct": 99.75741691681777
+  },
+  {
+    "index": 131,
+    "name": "VIEYEXM2",
+    "missing_count": 326264,
+    "missing_pct": 99.42980785347494
+  },
+  {
+    "index": 132,
+    "name": "VIINSUR2",
+    "missing_count": 325775,
+    "missing_pct": 99.28078382373108
+  },
+  {
+    "index": 133,
+    "name": "VICTRCT4",
+    "missing_count": 325777,
+    "missing_pct": 99.28139332896522
+  },
+  {
+    "index": 134,
+    "name": "VIGLUMA2",
+    "missing_count": 325777,
+    "missing_pct": 99.28139332896522
+  },
+  {
+    "index": 135,
+    "name": "VIMACDG2",
+    "missing_count": 325780,
+    "missing_pct": 99.2823075868164
+  },
+  {
+    "index": 136,
+    "name": "CIMEMLOS",
+    "missing_count": 241493,
+    "missing_pct": 73.59562375241897
+  },
+  {
+    "index": 137,
+    "name": "CDHOUSE",
+    "missing_count": 318477,
+    "missing_pct": 97.05669922440458
+  },
+  {
+    "index": 138,
+    "name": "CDASSIST",
+    "missing_count": 318489,
+    "missing_pct": 97.06035625580934
+  },
+  {
+    "index": 139,
+    "name": "CDHELP",
+    "missing_count": 325051,
+    "missing_pct": 99.0601429289774
+  },
+  {
+    "index": 140,
+    "name": "CDSOCIAL",
+    "missing_count": 318505,
+    "missing_pct": 97.06523229768236
+  },
+  {
+    "index": 141,
+    "name": "CDDISCUS",
+    "missing_count": 318515,
+    "missing_pct": 97.06827982385299
+  },
+  {
+    "index": 142,
+    "name": "WTCHSALT",
+    "missing_count": 297518,
+    "missing_pct": 90.66938912337909
+  },
+  {
+    "index": 143,
+    "name": "LONGWTCH",
+    "missing_count": 309300,
+    "missing_pct": 94.25998445761653
+  },
+  {
+    "index": 144,
+    "name": "DRADVISE",
+    "missing_count": 297543,
+    "missing_pct": 90.67700793880567
+  },
+  {
+    "index": 145,
+    "name": "ASTHMAGE",
+    "missing_count": 327354,
+    "missing_pct": 99.76198820607371
+  },
+  {
+    "index": 146,
+    "name": "ASATTACK",
+    "missing_count": 327645,
+    "missing_pct": 99.85067121763909
+  },
+  {
+    "index": 147,
+    "name": "ASERVIST",
+    "missing_count": 327907,
+    "missing_pct": 99.93051640330961
+  },
+  {
+    "index": 148,
+    "name": "ASDRVIST",
+    "missing_count": 327907,
+    "missing_pct": 99.93051640330961
+  },
+  {
+    "index": 149,
+    "name": "ASRCHKUP",
+    "missing_count": 327648,
+    "missing_pct": 99.85158547549027
+  },
+  {
+    "index": 150,
+    "name": "ASACTLIM",
+    "missing_count": 327648,
+    "missing_pct": 99.85158547549027
+  },
+  {
+    "index": 151,
+    "name": "ASYMPTOM",
+    "missing_count": 327649,
+    "missing_pct": 99.85189022810734
+  },
+  {
+    "index": 152,
+    "name": "ASNOSLEP",
+    "missing_count": 327793,
+    "missing_pct": 99.89577460496442
+  },
+  {
+    "index": 153,
+    "name": "ASTHMED3",
+    "missing_count": 327650,
+    "missing_pct": 99.85219498072439
+  },
+  {
+    "index": 154,
+    "name": "ASINHALR",
+    "missing_count": 327650,
+    "missing_pct": 99.85219498072439
+  },
+  {
+    "index": 155,
+    "name": "HAREHAB1",
+    "missing_count": 327362,
+    "missing_pct": 99.76442622701023
+  },
+  {
+    "index": 156,
+    "name": "STREHAB1",
+    "missing_count": 327618,
+    "missing_pct": 99.84244289697838
+  },
+  {
+    "index": 157,
+    "name": "CVDASPRN",
+    "missing_count": 314089,
+    "missing_pct": 95.7194447407317
+  },
+  {
+    "index": 158,
+    "name": "ASPUNSAF",
+    "missing_count": 318284,
+    "missing_pct": 96.99788196931142
+  },
+  {
+    "index": 159,
+    "name": "RLIVPAIN",
+    "missing_count": 323942,
+    "missing_pct": 98.72217227665443
+  },
+  {
+    "index": 160,
+    "name": "RDUCHART",
+    "missing_count": 323941,
+    "missing_pct": 98.72186752403736
+  },
+  {
+    "index": 161,
+    "name": "RDUCSTRK",
+    "missing_count": 323942,
+    "missing_pct": 98.72217227665443
+  },
+  {
+    "index": 162,
+    "name": "ARTTODAY",
+    "missing_count": 313550,
+    "missing_pct": 95.5551830801347
+  },
+  {
+    "index": 163,
+    "name": "ARTHWGT",
+    "missing_count": 313560,
+    "missing_pct": 95.55823060630533
+  },
+  {
+    "index": 164,
+    "name": "ARTHEXER",
+    "missing_count": 313564,
+    "missing_pct": 95.55944961677358
+  },
+  {
+    "index": 165,
+    "name": "ARTHEDU",
+    "missing_count": 313572,
+    "missing_pct": 95.56188763771009
+  },
+  {
+    "index": 166,
+    "name": "TETANUS",
+    "missing_count": 298044,
+    "missing_pct": 90.82968899995429
+  },
+  {
+    "index": 167,
+    "name": "HPVADVC2",
+    "missing_count": 320046,
+    "missing_pct": 97.53485608057659
+  },
+  {
+    "index": 168,
+    "name": "HPVADSHT",
+    "missing_count": 327036,
+    "missing_pct": 99.66507687384765
+  },
+  {
+    "index": 169,
+    "name": "SHINGLE2",
+    "missing_count": 307336,
+    "missing_pct": 93.6614503177046
+  },
+  {
+    "index": 170,
+    "name": "HADMAM",
+    "missing_count": 311136,
+    "missing_pct": 94.81951026254438
+  },
+  {
+    "index": 171,
+    "name": "HOWLONG",
+    "missing_count": 314308,
+    "missing_pct": 95.78618556386853
+  },
+  {
+    "index": 172,
+    "name": "HADPAP2",
+    "missing_count": 311142,
+    "missing_pct": 94.82133877824675
+  },
+  {
+    "index": 173,
+    "name": "LASTPAP2",
+    "missing_count": 312277,
+    "missing_pct": 95.16723299861337
+  },
+  {
+    "index": 174,
+    "name": "HPVTEST",
+    "missing_count": 311151,
+    "missing_pct": 94.82408155180032
+  },
+  {
+    "index": 175,
+    "name": "HPLSTTST",
+    "missing_count": 322950,
+    "missing_pct": 98.41985768052783
+  },
+  {
+    "index": 176,
+    "name": "HADHYST2",
+    "missing_count": 311321,
+    "missing_pct": 94.87588949670105
+  },
+  {
+    "index": 177,
+    "name": "PROFEXAM",
+    "missing_count": 323914,
+    "missing_pct": 98.71363920337666
+  },
+  {
+    "index": 178,
+    "name": "LENGEXAM",
+    "missing_count": 324421,
+    "missing_pct": 98.86814878022764
+  },
+  {
+    "index": 179,
+    "name": "BLDSTOOL",
+    "missing_count": 287897,
+    "missing_pct": 87.73736419461503
+  },
+  {
+    "index": 180,
+    "name": "LSTBLDS3",
+    "missing_count": 313435,
+    "missing_pct": 95.52013652917243
+  },
+  {
+    "index": 181,
+    "name": "HADSIGM3",
+    "missing_count": 287921,
+    "missing_pct": 87.74467825742454
+  },
+  {
+    "index": 182,
+    "name": "HADSGCO1",
+    "missing_count": 298973,
+    "missing_pct": 91.1128041812059
+  },
+  {
+    "index": 183,
+    "name": "LASTSIG3",
+    "missing_count": 298976,
+    "missing_pct": 91.1137184390571
+  },
+  {
+    "index": 184,
+    "name": "PCPSAAD2",
+    "missing_count": 323261,
+    "missing_pct": 98.51463574443446
+  },
+  {
+    "index": 185,
+    "name": "PCPSADI1",
+    "missing_count": 323267,
+    "missing_pct": 98.51646426013684
+  },
+  {
+    "index": 186,
+    "name": "PCPSARE1",
+    "missing_count": 323272,
+    "missing_pct": 98.51798802322214
+  },
+  {
+    "index": 187,
+    "name": "PSATEST1",
+    "missing_count": 323272,
+    "missing_pct": 98.51798802322214
+  },
+  {
+    "index": 188,
+    "name": "PSATIME",
+    "missing_count": 325495,
+    "missing_pct": 99.19545309095342
+  },
+  {
+    "index": 189,
+    "name": "PCPSARS1",
+    "missing_count": 325498,
+    "missing_pct": 99.1963673488046
+  },
+  {
+    "index": 190,
+    "name": "PCPSADE1",
+    "missing_count": 327539,
+    "missing_pct": 99.81836744023039
+  },
+  {
+    "index": 191,
+    "name": "PCDMDECN",
+    "missing_count": 327956,
+    "missing_pct": 99.9454492815457
+  },
+  {
+    "index": 192,
+    "name": "SCNTMNY1",
+    "missing_count": 276513,
+    "missing_pct": 84.2680604019687
+  },
+  {
+    "index": 193,
+    "name": "SCNTMEL1",
+    "missing_count": 273642,
+    "missing_pct": 83.39311563838055
+  },
+  {
+    "index": 194,
+    "name": "SCNTPAID",
+    "missing_count": 302161,
+    "missing_pct": 92.08435552440307
+  },
+  {
+    "index": 195,
+    "name": "SCNTWRK1",
+    "missing_count": 302172,
+    "missing_pct": 92.08770780319075
+  },
+  {
+    "index": 196,
+    "name": "SCNTLPAD",
+    "missing_count": 309175,
+    "missing_pct": 94.22189038048364
+  },
+  {
+    "index": 197,
+    "name": "SCNTLWK1",
+    "missing_count": 299744,
+    "missing_pct": 91.34776844896155
+  },
+  {
+    "index": 198,
+    "name": "SXORIENT",
+    "missing_count": 203924,
+    "missing_pct": 62.14637268197541
+  },
+  {
+    "index": 199,
+    "name": "TRNSGNDR",
+    "missing_count": 203990,
+    "missing_pct": 62.16648635470157
+  },
+  {
+    "index": 200,
+    "name": "RCSGENDR",
+    "missing_count": 283588,
+    "missing_pct": 86.42418516769013
+  },
+  {
+    "index": 201,
+    "name": "RCSRLTN2",
+    "missing_count": 283743,
+    "missing_pct": 86.47142182333491
+  },
+  {
+    "index": 202,
+    "name": "CASTHDX2",
+    "missing_count": 289046,
+    "missing_pct": 88.08752495162052
+  },
+  {
+    "index": 203,
+    "name": "CASTHNO2",
+    "missing_count": 323324,
+    "missing_pct": 98.53383515930943
+  },
+  {
+    "index": 204,
+    "name": "EMTSUPRT",
+    "missing_count": 313056,
+    "missing_pct": 95.40463528730552
+  },
+  {
+    "index": 205,
+    "name": "LSATISFY",
+    "missing_count": 313066,
+    "missing_pct": 95.40768281347616
+  },
+  {
+    "index": 206,
+    "name": "ADPLEASR",
+    "missing_count": 312994,
+    "missing_pct": 95.38574062504762
+  },
+  {
+    "index": 207,
+    "name": "ADDOWN",
+    "missing_count": 313007,
+    "missing_pct": 95.38970240906944
+  },
+  {
+    "index": 208,
+    "name": "ADSLEEP",
+    "missing_count": 313014,
+    "missing_pct": 95.39183567738888
+  },
+  {
+    "index": 209,
+    "name": "ADENERGY",
+    "missing_count": 313018,
+    "missing_pct": 95.39305468785713
+  },
+  {
+    "index": 210,
+    "name": "ADEAT1",
+    "missing_count": 313027,
+    "missing_pct": 95.39579746141071
+  },
+  {
+    "index": 211,
+    "name": "ADFAIL",
+    "missing_count": 313032,
+    "missing_pct": 95.39732122449601
+  },
+  {
+    "index": 212,
+    "name": "ADTHINK",
+    "missing_count": 313044,
+    "missing_pct": 95.40097825590077
+  },
+  {
+    "index": 213,
+    "name": "ADMOVE",
+    "missing_count": 313055,
+    "missing_pct": 95.40433053468847
+  },
+  {
+    "index": 214,
+    "name": "MISTMNT",
+    "missing_count": 313067,
+    "missing_pct": 95.40798756609323
+  },
+  {
+    "index": 215,
+    "name": "ADANXEV",
+    "missing_count": 313074,
+    "missing_pct": 95.41012083441267
+  },
+  {
+    "index": 216,
+    "name": "QSTVER",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 217,
+    "name": "QSTLANG",
+    "missing_count": 14,
+    "missing_pct": 0.004266536638883386
+  },
+  {
+    "index": 218,
+    "name": "MSCODE",
+    "missing_count": 142438,
+    "missing_pct": 43.4083532692337
+  },
+  {
+    "index": 219,
+    "name": "_STSTR",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 220,
+    "name": "_STRWT",
+    "missing_count": 22,
+    "missing_pct": 0.006704557575388179
+  },
+  {
+    "index": 221,
+    "name": "_RAWRAKE",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 222,
+    "name": "_WT2RAKE",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 223,
+    "name": "_CHISPNC",
+    "missing_count": 90436,
+    "missing_pct": 27.560607676718423
+  },
+  {
+    "index": 224,
+    "name": "_CRACE1",
+    "missing_count": 279532,
+    "missing_pct": 85.1881085528822
+  },
+  {
+    "index": 225,
+    "name": "_CPRACE",
+    "missing_count": 279532,
+    "missing_pct": 85.1881085528822
+  },
+  {
+    "index": 226,
+    "name": "_CLLCPWT",
+    "missing_count": 283603,
+    "missing_pct": 86.42875645694608
+  },
+  {
+    "index": 227,
+    "name": "_DUALUSE",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 228,
+    "name": "_DUALCOR",
+    "missing_count": 123084,
+    "missing_pct": 37.510171118594485
+  },
+  {
+    "index": 229,
+    "name": "_LLCPWT",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 230,
+    "name": "_RFHLTH",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 231,
+    "name": "_HCVU651",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 232,
+    "name": "_RFHYPE5",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 233,
+    "name": "_CHOLCHK",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 234,
+    "name": "_RFCHOL",
+    "missing_count": 43801,
+    "missing_pct": 13.348469379980802
+  },
+  {
+    "index": 235,
+    "name": "_LTASTH1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 236,
+    "name": "_CASTHM1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 237,
+    "name": "_ASTHMS1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 238,
+    "name": "_DRDXAR1",
+    "missing_count": 1883,
+    "missing_pct": 0.5738491779298155
+  },
+  {
+    "index": 239,
+    "name": "_PRACE1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 240,
+    "name": "_MRACE1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 241,
+    "name": "_HISPANC",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 242,
+    "name": "_RACE",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 243,
+    "name": "_RACEG21",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 244,
+    "name": "_RACEGR3",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 245,
+    "name": "_RACE_G1",
+    "missing_count": 5438,
+    "missing_pct": 1.6572447315891323
+  },
+  {
+    "index": 246,
+    "name": "_AGEG5YR",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 247,
+    "name": "_AGE65YR",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 248,
+    "name": "_AGE80",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 249,
+    "name": "_AGE_G",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 250,
+    "name": "HTIN4",
+    "missing_count": 12721,
+    "missing_pct": 3.876758041659683
+  },
+  {
+    "index": 251,
+    "name": "HTM4",
+    "missing_count": 11368,
+    "missing_pct": 3.46442775077331
+  },
+  {
+    "index": 252,
+    "name": "WTKG3",
+    "missing_count": 23006,
+    "missing_pct": 7.0111387081536565
+  },
+  {
+    "index": 253,
+    "name": "_BMI5",
+    "missing_count": 27073,
+    "missing_pct": 8.25056760174928
+  },
+  {
+    "index": 254,
+    "name": "_BMI5CAT",
+    "missing_count": 27073,
+    "missing_pct": 8.25056760174928
+  },
+  {
+    "index": 255,
+    "name": "_RFBMI5",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 256,
+    "name": "_CHLDCNT",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 257,
+    "name": "_EDUCAG",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 258,
+    "name": "_INCOMG",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 259,
+    "name": "_SMOKER3",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 260,
+    "name": "_RFSMOK3",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 261,
+    "name": "DRNKANY5",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 262,
+    "name": "DROCDY3_",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 263,
+    "name": "_RFBING5",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 264,
+    "name": "_DRNKWEK",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 265,
+    "name": "_RFDRHV5",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 266,
+    "name": "FTJUDA1_",
+    "missing_count": 28366,
+    "missing_pct": 8.644612735611867
+  },
+  {
+    "index": 267,
+    "name": "FRUTDA1_",
+    "missing_count": 26927,
+    "missing_pct": 8.206073719658068
+  },
+  {
+    "index": 268,
+    "name": "BEANDAY_",
+    "missing_count": 29382,
+    "missing_pct": 8.954241394547974
+  },
+  {
+    "index": 269,
+    "name": "GRENDAY_",
+    "missing_count": 27893,
+    "missing_pct": 8.50046474774102
+  },
+  {
+    "index": 270,
+    "name": "ORNGDAY_",
+    "missing_count": 28958,
+    "missing_pct": 8.825026284913221
+  },
+  {
+    "index": 271,
+    "name": "VEGEDA1_",
+    "missing_count": 30593,
+    "missing_pct": 9.323296813811389
+  },
+  {
+    "index": 272,
+    "name": "_MISFRTN",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 273,
+    "name": "_MISVEGN",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 274,
+    "name": "_FRTRESP",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 275,
+    "name": "_VEGRESP",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 276,
+    "name": "_FRUTSUM",
+    "missing_count": 32115,
+    "missing_pct": 9.787130296981426
+  },
+  {
+    "index": 277,
+    "name": "_VEGESUM",
+    "missing_count": 37605,
+    "missing_pct": 11.46022216465784
+  },
+  {
+    "index": 278,
+    "name": "_FRTLT1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 279,
+    "name": "_VEGLT1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 280,
+    "name": "_FRT16",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 281,
+    "name": "_VEG23",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 282,
+    "name": "_FRUITEX",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 283,
+    "name": "_VEGETEX",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 284,
+    "name": "_TOTINDA",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 285,
+    "name": "METVL11_",
+    "missing_count": 108727,
+    "missing_pct": 33.13483779541957
+  },
+  {
+    "index": 286,
+    "name": "METVL21_",
+    "missing_count": 112425,
+    "missing_pct": 34.261812973318904
+  },
+  {
+    "index": 287,
+    "name": "MAXVO2_",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 288,
+    "name": "FC60_",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 289,
+    "name": "ACTIN11_",
+    "missing_count": 111072,
+    "missing_pct": 33.84948268243254
+  },
+  {
+    "index": 290,
+    "name": "ACTIN21_",
+    "missing_count": 114698,
+    "missing_pct": 34.95451567190333
+  },
+  {
+    "index": 291,
+    "name": "PADUR1_",
+    "missing_count": 113793,
+    "missing_pct": 34.678714553461226
+  },
+  {
+    "index": 292,
+    "name": "PADUR2_",
+    "missing_count": 184643,
+    "missing_pct": 56.27043747238179
+  },
+  {
+    "index": 293,
+    "name": "PAFREQ1_",
+    "missing_count": 111257,
+    "missing_pct": 33.90586191658921
+  },
+  {
+    "index": 294,
+    "name": "PAFREQ2_",
+    "missing_count": 182913,
+    "missing_pct": 55.743215444862635
+  },
+  {
+    "index": 295,
+    "name": "_MINAC11",
+    "missing_count": 115152,
+    "missing_pct": 35.09287336004998
+  },
+  {
+    "index": 296,
+    "name": "_MINAC21",
+    "missing_count": 116821,
+    "missing_pct": 35.60150547792829
+  },
+  {
+    "index": 297,
+    "name": "STRFREQ_",
+    "missing_count": 32496,
+    "missing_pct": 9.903241044082465
+  },
+  {
+    "index": 298,
+    "name": "PAMISS1_",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 299,
+    "name": "PAMIN11_",
+    "missing_count": 117355,
+    "missing_pct": 35.76424337543999
+  },
+  {
+    "index": 300,
+    "name": "PAMIN21_",
+    "missing_count": 119004,
+    "missing_pct": 36.26678044097704
+  },
+  {
+    "index": 301,
+    "name": "PA1MIN_",
+    "missing_count": 112859,
+    "missing_pct": 34.39407560912429
+  },
+  {
+    "index": 302,
+    "name": "PAVIG11_",
+    "missing_count": 113785,
+    "missing_pct": 34.676276532524724
+  },
+  {
+    "index": 303,
+    "name": "PAVIG21_",
+    "missing_count": 117012,
+    "missing_pct": 35.65971322778734
+  },
+  {
+    "index": 304,
+    "name": "PA1VIGM_",
+    "missing_count": 111793,
+    "missing_pct": 34.06920931933503
+  },
+  {
+    "index": 305,
+    "name": "_PACAT1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 306,
+    "name": "_PAINDX1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 307,
+    "name": "_PA150R2",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 308,
+    "name": "_PA300R2",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 309,
+    "name": "_PA30021",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 310,
+    "name": "_PASTRNG",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 311,
+    "name": "_PAREC1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 312,
+    "name": "_PASTAE1",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 313,
+    "name": "_LMTACT1",
+    "missing_count": 1883,
+    "missing_pct": 0.5738491779298155
+  },
+  {
+    "index": 314,
+    "name": "_LMTWRK1",
+    "missing_count": 1883,
+    "missing_pct": 0.5738491779298155
+  },
+  {
+    "index": 315,
+    "name": "_LMTSCL1",
+    "missing_count": 1883,
+    "missing_pct": 0.5738491779298155
+  },
+  {
+    "index": 316,
+    "name": "_RFSEAT2",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 317,
+    "name": "_RFSEAT3",
+    "missing_count": 0,
+    "missing_pct": 0.0
+  },
+  {
+    "index": 318,
+    "name": "_FLSHOT6",
+    "missing_count": 211378,
+    "missing_pct": 64.41799868956375
+  },
+  {
+    "index": 319,
+    "name": "_PNEUMO2",
+    "missing_count": 211378,
+    "missing_pct": 64.41799868956375
+  },
+  {
+    "index": 320,
+    "name": "_AIDTST3",
+    "missing_count": 32080,
+    "missing_pct": 9.776463955384216
+  }
+]

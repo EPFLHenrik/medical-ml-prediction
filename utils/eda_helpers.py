@@ -146,7 +146,6 @@ def count_missing_unavailable(X, codes=None):
     unavailable_mask = missing_mask | coded_mask
     return np.sum(unavailable_mask, axis=0)
 
-
 # ---------------------------------------------------------------------
 # 3. Outlier detection
 # ---------------------------------------------------------------------

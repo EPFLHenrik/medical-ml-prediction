@@ -1,0 +1,97 @@
+
+=== DEMOGRAPHICS_SOCIOECONOMIC ===
+pairs |r| > 0.6: 1
+RENTHOM1        <---->   RENTHOM1         r=+1.000
+_AGE80          <---->   EMPLOY1          r=+0.488
+_AGE80          <---->   CHILDREN         r=+0.476
+TRNSGNDR        <---->   SXORIENT         r=+0.458
+INCOME2         <---->   EDUCA            r=+0.452
+MARITAL         <---->   RENTHOM1         r=+0.384
+MARITAL         <---->   RENTHOM1         r=+0.384
+_AGE80          <---->   RENTHOM1         r=-0.352
+_AGE80          <---->   RENTHOM1         r=-0.352
+INCOME2         <---->   EMPLOY1          r=-0.335
+
+=== BODY_MEASURES ===
+pairs |r| > 0.6: 1
+WTKG3           <---->   _BMI5            r=+0.871
+HTM4            <---->   WTKG3            r=+0.469
+HTM4            <---->   _BMI5            r=-0.007
+
+=== HEALTH_STATUS ===
+pairs |r| > 0.6: 3
+_LMTACT1        <---->   _LMTSCL1         r=+0.827
+_LMTSCL1        <---->   _LMTWRK1         r=+0.785
+GENHLTH         <---->   _RFHLTH          r=+0.681
+_LMTACT1        <---->   _LMTWRK1         r=+0.581
+PHYSHLTH        <---->   POORHLTH         r=+0.578
+GENHLTH         <---->   PHYSHLTH         r=+0.508
+PHYSHLTH        <---->   QLACTLM2         r=-0.463
+_LMTACT1        <---->   QLACTLM2         r=+0.459
+DIFFWALK        <---->   DIFFDRES         r=+0.455
+POORHLTH        <---->   QLACTLM2         r=-0.440
+
+=== CHRONIC_CONDITIONS ===
+pairs |r| > 0.6: 0
+_ASTHMS1        <---->   _CASTHM1         r=+0.328
+DIABETE3        <---->   PREDIAB1         r=-0.271
+CHCCOPD1        <---->   JOINPAIN         r=-0.192
+CHCCOPD1        <---->   HAVARTH3         r=+0.187
+_ASTHMS1        <---->   CHCCOPD1         r=+0.165
+CHCCOPD1        <---->   ARTHSOCL         r=+0.158
+_CASTHM1        <---->   CHCCOPD1         r=-0.151
+CHCCOPD1        <---->   ADDEPEV2         r=+0.145
+CHCCOPD1        <---->   LMTJOIN3         r=+0.141
+CHCCOPD1        <---->   ARTHDIS2         r=+0.134
+
+=== LIFESTYLE_BEHAVIORS ===
+pairs |r| > 0.6: 10
+SMOKE100        <---->   SMOKDAY2         r=+nan
+SMOKE100        <---->   STOPSMK2         r=+nan
+SMOKDAY2        <---->   _SMOKER3         r=+1.000
+SMOKE100        <---->   _SMOKER3         r=+0.813
+SMOKDAY2        <---->   STOPSMK2         r=-0.256
+STOPSMK2        <---->   _SMOKER3         r=-0.256
+SMOKDAY2        <---->   DRNK3GE5         r=+0.185
+_SMOKER3        <---->   DRNK3GE5         r=+0.168
+STOPSMK2        <---->   WTCHSALT         r=+0.129
+USENOW3         <---->   DRNK3GE5         r=+0.108
+
+=== PHYSICAL_ACTIVITY ===
+pairs |r| > 0.6: 36
+EXERANY2        <---->   _TOTINDA         r=+1.000
+STRFREQ_        <---->   STRFREQ_         r=+1.000
+_PAREC1         <---->   _PASTAE1         r=+0.926
+EXERANY2        <---->   _PACAT1          r=+0.427
+EXERANY2        <---->   _PAREC1          r=+0.332
+EXERANY2        <---->   PA1MIN_          r=+nan
+EXERANY2        <---->   PA1VIGM_         r=+nan
+EXERANY2        <---->   PAVIG11_         r=+nan
+EXERANY2        <---->   PAVIG21_         r=+nan
+EXERANY2        <---->   PAMIN11_         r=+nan
+
+=== DIET_NUTRITION ===
+pairs |r| > 0.6: 5
+DROCDY3_        <---->   DROCDY3_         r=+1.000
+FRUTDA1_        <---->   _FRUTSUM         r=+0.875
+VEGEDA1_        <---->   _VEGESUM         r=+0.774
+_FRUITEX        <---->   _VEGETEX         r=+0.731
+_VEGESUM        <---->   GRENDAY_         r=+0.696
+_VEGESUM        <---->   ORNGDAY_         r=+0.595
+_FRUITEX        <---->   DROCDY3_         r=+0.546
+_FRUITEX        <---->   DROCDY3_         r=+0.546
+_VEGETEX        <---->   DROCDY3_         r=+0.506
+_VEGETEX        <---->   DROCDY3_         r=+0.506
+
+=== ACCESS_TO_CARE ===
+pairs |r| > 0.6: 1
+CHECKUP1        <---->   CHOLCHK          r=+0.546
+CHECKUP1        <---->   PERSDOC2         r=+0.316
+CHOLCHK         <---->   BLOODCHO         r=+nan
+BLOODCHO        <---->   PERSDOC2         r=+0.251
+CHECKUP1        <---->   BLOODCHO         r=+0.249
+CHOLCHK         <---->   PERSDOC2         r=+0.236
+CHECKUP1        <---->   FLUSHOT6         r=+0.197
+CHOLCHK         <---->   PNEUVAC3         r=+0.187
+CHECKUP1        <---->   PNEUVAC3         r=+0.185
+CHOLCHK         <---->   FLUSHOT6         r=+0.172

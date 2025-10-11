@@ -1,8 +1,10 @@
 Repository root: C:\Users\emmaa\OneDrive\Documents\0. EPFL\courses\CS_433 - Machine Learning\cs433_medical_ml
 
 cs433_medical_ml/
+    emma_structure.txt
     implementations.py
     LICENSE
+    main_repo_structure.txt
     README.md
     repo_structure.txt
     run.py
@@ -217,6 +219,8 @@ cs433_medical_ml/
             scatter_continuous_group_5_9.png
             scatter_continuous_group_7_11.png
             scatter_continuous_group_9_13.png
+    notebooks/
+        1. EDA_emma.ipynb
     utils/
         all_functions.py
         eda_helpers.py

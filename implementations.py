@@ -263,7 +263,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         # compute loss with new weights
         loss = calculate_loss(y, tx, w)
     # we want to return a numpy array for loss as required in the tests
-    return w, np.array[loss]
+    return w, np.array([loss])
 
 
 def sigmoid(t):
@@ -348,7 +348,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
         # compute loss with new weights but without penalty as requested
         loss = calculate_loss(y, tx, w)
     # we want to return a numpy array for loss as required in the tests
-    return w, np.array[loss]
+    return w, np.array([loss])
 
 
 def penalized_logistic_regression(y, tx, w, lambda_):

@@ -105,3 +105,7 @@ BPHIGH4 and BPMEDS are consequential;
 INCOME2 and EMPLOY1 could be merged;
 Keep just one between _SMOKER3, SMOKE100 and SMOKEDAY2;
 Keep up to one between DRNK3GE5 and ALCDAY5;
+
+
+--- CORRELATION ---
+Drop _LMTACT1 for sure;

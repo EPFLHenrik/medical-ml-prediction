@@ -1,0 +1,502 @@
+[
+  {
+    "index": 11,
+    "name": "COLGHOUS",
+    "unavailable_pct": 99.99024791625398
+  },
+  {
+    "index": 14,
+    "name": "LADULT",
+    "unavailable_pct": 99.99024791625398
+  },
+  {
+    "index": 22,
+    "name": "CCLGHOUS",
+    "unavailable_pct": 99.75589315373246
+  },
+  {
+    "index": 55,
+    "name": "NUMPHON2",
+    "unavailable_pct": 97.05273744038277
+  },
+  {
+    "index": 75,
+    "name": "LASTSMK2",
+    "unavailable_pct": 90.89460130738873
+  },
+  {
+    "index": 109,
+    "name": "INSULIN",
+    "unavailable_pct": 93.3905252411355
+  },
+  {
+    "index": 110,
+    "name": "BLDSUGAR",
+    "unavailable_pct": 93.49810291495878
+  },
+  {
+    "index": 111,
+    "name": "FEETCHK2",
+    "unavailable_pct": 93.58008136894875
+  },
+  {
+    "index": 112,
+    "name": "DOCTDIAB",
+    "unavailable_pct": 93.65413625489509
+  },
+  {
+    "index": 113,
+    "name": "CHKHEMO3",
+    "unavailable_pct": 93.83424505157939
+  },
+  {
+    "index": 114,
+    "name": "FEETCHK",
+    "unavailable_pct": 93.67059289621649
+  },
+  {
+    "index": 115,
+    "name": "EYEEXAM",
+    "unavailable_pct": 93.48774132597863
+  },
+  {
+    "index": 116,
+    "name": "DIABEYE",
+    "unavailable_pct": 93.46793240586953
+  },
+  {
+    "index": 117,
+    "name": "DIABEDU",
+    "unavailable_pct": 93.41216267694699
+  },
+  {
+    "index": 119,
+    "name": "CRGVREL1",
+    "unavailable_pct": 95.17149953525225
+  },
+  {
+    "index": 120,
+    "name": "CRGVLNG1",
+    "unavailable_pct": 94.64641077605253
+  },
+  {
+    "index": 121,
+    "name": "CRGVHRS1",
+    "unavailable_pct": 94.8978316851296
+  },
+  {
+    "index": 122,
+    "name": "CRGVPRB1",
+    "unavailable_pct": 95.14163377878008
+  },
+  {
+    "index": 123,
+    "name": "CRGVPERS",
+    "unavailable_pct": 94.62538284547519
+  },
+  {
+    "index": 124,
+    "name": "CRGVHOUS",
+    "unavailable_pct": 94.62660185594343
+  },
+  {
+    "index": 125,
+    "name": "CRGVMST2",
+    "unavailable_pct": 94.77593063830436
+  },
+  {
+    "index": 127,
+    "name": "VIDFCLT2",
+    "unavailable_pct": 99.27804105017752
+  },
+  {
+    "index": 128,
+    "name": "VIREDIF3",
+    "unavailable_pct": 99.28261233943347
+  },
+  {
+    "index": 129,
+    "name": "VIPRFVS2",
+    "unavailable_pct": 99.2856598656041
+  },
+  {
+    "index": 130,
+    "name": "VINOCRE2",
+    "unavailable_pct": 99.82354823472046
+  },
+  {
+    "index": 131,
+    "name": "VIEYEXM2",
+    "unavailable_pct": 99.44504548432809
+  },
+  {
+    "index": 132,
+    "name": "VIINSUR2",
+    "unavailable_pct": 99.30120224907431
+  },
+  {
+    "index": 133,
+    "name": "VICTRCT4",
+    "unavailable_pct": 99.28413610251879
+  },
+  {
+    "index": 134,
+    "name": "VIGLUMA2",
+    "unavailable_pct": 99.28444085513584
+  },
+  {
+    "index": 135,
+    "name": "VIMACDG2",
+    "unavailable_pct": 99.2905359074771
+  },
+  {
+    "index": 137,
+    "name": "CDHOUSE",
+    "unavailable_pct": 97.1252685632438
+  },
+  {
+    "index": 138,
+    "name": "CDASSIST",
+    "unavailable_pct": 97.09479330153748
+  },
+  {
+    "index": 139,
+    "name": "CDHELP",
+    "unavailable_pct": 99.06745699178691
+  },
+  {
+    "index": 140,
+    "name": "CDSOCIAL",
+    "unavailable_pct": 97.12252578969021
+  },
+  {
+    "index": 141,
+    "name": "CDDISCUS",
+    "unavailable_pct": 97.09509805415453
+  },
+  {
+    "index": 142,
+    "name": "WTCHSALT",
+    "unavailable_pct": 90.71814954210919
+  },
+  {
+    "index": 143,
+    "name": "LONGWTCH",
+    "unavailable_pct": 94.58424124217167
+  },
+  {
+    "index": 144,
+    "name": "DRADVISE",
+    "unavailable_pct": 90.73247291511116
+  },
+  {
+    "index": 145,
+    "name": "ASTHMAGE",
+    "unavailable_pct": 99.76351196915904
+  },
+  {
+    "index": 146,
+    "name": "ASATTACK",
+    "unavailable_pct": 99.85341399119265
+  },
+  {
+    "index": 147,
+    "name": "ASERVIST",
+    "unavailable_pct": 99.93051640330961
+  },
+  {
+    "index": 148,
+    "name": "ASDRVIST",
+    "unavailable_pct": 99.93051640330961
+  },
+  {
+    "index": 149,
+    "name": "ASRCHKUP",
+    "unavailable_pct": 99.85310923857558
+  },
+  {
+    "index": 150,
+    "name": "ASACTLIM",
+    "unavailable_pct": 99.86255656970454
+  },
+  {
+    "index": 151,
+    "name": "ASYMPTOM",
+    "unavailable_pct": 99.85676626998034
+  },
+  {
+    "index": 152,
+    "name": "ASNOSLEP",
+    "unavailable_pct": 99.89882213113505
+  },
+  {
+    "index": 153,
+    "name": "ASTHMED3",
+    "unavailable_pct": 99.85615676474622
+  },
+  {
+    "index": 154,
+    "name": "ASINHALR",
+    "unavailable_pct": 99.85493775427797
+  },
+  {
+    "index": 155,
+    "name": "HAREHAB1",
+    "unavailable_pct": 99.76899751626617
+  },
+  {
+    "index": 156,
+    "name": "STREHAB1",
+    "unavailable_pct": 99.8430524022125
+  },
+  {
+    "index": 157,
+    "name": "CVDASPRN",
+    "unavailable_pct": 95.72584454569004
+  },
+  {
+    "index": 158,
+    "name": "ASPUNSAF",
+    "unavailable_pct": 97.02530970484709
+  },
+  {
+    "index": 159,
+    "name": "RLIVPAIN",
+    "unavailable_pct": 98.72826732899568
+  },
+  {
+    "index": 160,
+    "name": "RDUCHART",
+    "unavailable_pct": 98.75752358023375
+  },
+  {
+    "index": 161,
+    "name": "RDUCSTRK",
+    "unavailable_pct": 98.8181693510293
+  },
+  {
+    "index": 162,
+    "name": "ARTTODAY",
+    "unavailable_pct": 95.58443933137276
+  },
+  {
+    "index": 163,
+    "name": "ARTHWGT",
+    "unavailable_pct": 95.59144864156521
+  },
+  {
+    "index": 164,
+    "name": "ARTHEXER",
+    "unavailable_pct": 95.61582885093026
+  },
+  {
+    "index": 165,
+    "name": "ARTHEDU",
+    "unavailable_pct": 95.58352507352157
+  },
+  {
+    "index": 166,
+    "name": "TETANUS",
+    "unavailable_pct": 91.73541377786582
+  },
+  {
+    "index": 167,
+    "name": "HPVADVC2",
+    "unavailable_pct": 97.77317262711993
+  },
+  {
+    "index": 168,
+    "name": "HPVADSHT",
+    "unavailable_pct": 99.71871333445075
+  },
+  {
+    "index": 169,
+    "name": "SHINGLE2",
+    "unavailable_pct": 93.76658997059137
+  },
+  {
+    "index": 170,
+    "name": "HADMAM",
+    "unavailable_pct": 94.83535739863166
+  },
+  {
+    "index": 171,
+    "name": "HOWLONG",
+    "unavailable_pct": 95.82488914623555
+  },
+  {
+    "index": 172,
+    "name": "HADPAP2",
+    "unavailable_pct": 94.85669008182607
+  },
+  {
+    "index": 173,
+    "name": "LASTPAP2",
+    "unavailable_pct": 95.28029621954379
+  },
+  {
+    "index": 174,
+    "name": "HPVTEST",
+    "unavailable_pct": 96.3042650128758
+  },
+  {
+    "index": 175,
+    "name": "HPLSTTST",
+    "unavailable_pct": 98.50335989760312
+  },
+  {
+    "index": 176,
+    "name": "HADHYST2",
+    "unavailable_pct": 94.89996495344904
+  },
+  {
+    "index": 177,
+    "name": "PROFEXAM",
+    "unavailable_pct": 98.71729623478141
+  },
+  {
+    "index": 178,
+    "name": "LENGEXAM",
+    "unavailable_pct": 98.87972937967605
+  },
+  {
+    "index": 180,
+    "name": "LSTBLDS3",
+    "unavailable_pct": 95.64965639142426
+  },
+  {
+    "index": 182,
+    "name": "HADSGCO1",
+    "unavailable_pct": 91.29108446218783
+  },
+  {
+    "index": 183,
+    "name": "LASTSIG3",
+    "unavailable_pct": 91.23470522803115
+  },
+  {
+    "index": 184,
+    "name": "PCPSAAD2",
+    "unavailable_pct": 98.57741478354946
+  },
+  {
+    "index": 185,
+    "name": "PCPSADI1",
+    "unavailable_pct": 98.58503359897603
+  },
+  {
+    "index": 186,
+    "name": "PCPSARE1",
+    "unavailable_pct": 98.57680527831533
+  },
+  {
+    "index": 187,
+    "name": "PSATEST1",
+    "unavailable_pct": 98.58290033065659
+  },
+  {
+    "index": 188,
+    "name": "PSATIME",
+    "unavailable_pct": 99.21434775321133
+  },
+  {
+    "index": 189,
+    "name": "PCPSARS1",
+    "unavailable_pct": 99.20215764852881
+  },
+  {
+    "index": 190,
+    "name": "PCPSADE1",
+    "unavailable_pct": 99.81958645069865
+  },
+  {
+    "index": 191,
+    "name": "PCDMDECN",
+    "unavailable_pct": 99.94666829201395
+  },
+  {
+    "index": 194,
+    "name": "SCNTPAID",
+    "unavailable_pct": 92.18096210401207
+  },
+  {
+    "index": 195,
+    "name": "SCNTWRK1",
+    "unavailable_pct": 92.14743931613513
+  },
+  {
+    "index": 196,
+    "name": "SCNTLPAD",
+    "unavailable_pct": 94.38066649397352
+  },
+  {
+    "index": 197,
+    "name": "SCNTLWK1",
+    "unavailable_pct": 91.42487086107852
+  },
+  {
+    "index": 203,
+    "name": "CASTHNO2",
+    "unavailable_pct": 98.56857695765463
+  },
+  {
+    "index": 204,
+    "name": "EMTSUPRT",
+    "unavailable_pct": 95.48539473082725
+  },
+  {
+    "index": 205,
+    "name": "LSATISFY",
+    "unavailable_pct": 95.45705273744038
+  },
+  {
+    "index": 206,
+    "name": "ADPLEASR",
+    "unavailable_pct": 95.65636094899965
+  },
+  {
+    "index": 207,
+    "name": "ADDOWN",
+    "unavailable_pct": 95.53263138647203
+  },
+  {
+    "index": 208,
+    "name": "ADSLEEP",
+    "unavailable_pct": 95.59266765203346
+  },
+  {
+    "index": 209,
+    "name": "ADENERGY",
+    "unavailable_pct": 95.65575144376552
+  },
+  {
+    "index": 210,
+    "name": "ADEAT1",
+    "unavailable_pct": 95.58535358922394
+  },
+  {
+    "index": 211,
+    "name": "ADFAIL",
+    "unavailable_pct": 95.49941335121216
+  },
+  {
+    "index": 212,
+    "name": "ADTHINK",
+    "unavailable_pct": 95.50672741402167
+  },
+  {
+    "index": 213,
+    "name": "ADMOVE",
+    "unavailable_pct": 95.54573574900574
+  },
+  {
+    "index": 214,
+    "name": "MISTMNT",
+    "unavailable_pct": 95.42749173358526
+  },
+  {
+    "index": 215,
+    "name": "ADANXEV",
+    "unavailable_pct": 95.43968183826779
+  }
+]

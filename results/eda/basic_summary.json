@@ -1,0 +1,11 @@
+{
+  "n_features": 321,
+  "float_features": 321,
+  "int_features": 0,
+  "string_features": 0,
+  "mixed_features": 0,
+  "features_with_missing": 239,
+  "low_missing (\u22645%)": 33,
+  "medium_missing (5\u201330%)": 29,
+  "high_missing (>30%)": 177
+}

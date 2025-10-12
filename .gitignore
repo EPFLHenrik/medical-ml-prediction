@@ -1,0 +1,8 @@
+# Ignored files
+*.csv
+useful_functions/__pycache__
+utils/__pycache__
+useful_functions/.ipynb_checkpoints
+
+venv_ml/
+results/eda/eda/scaling/x_train_normalized.npy

@@ -112,7 +112,7 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     """
 
     # Define parameters to store w and loss
-    loss = compute_loss(y, tx, initial_w) # compute loss for initial_w as well with MSE
+    loss = compute_loss(y, tx, initial_w)  # compute loss for initial_w as well with MSE
     w = initial_w.copy()
 
     for n_iter in range(max_iters):
@@ -366,5 +366,5 @@ def penalized_logistic_regression(y, tx, w, lambda_):
     """
     loss = calculate_loss(y, tx, w) + lambda_ * (w.T @ w)
     gradient = tx.T @ (sigmoid(tx @ w) - y) / y.shape[0] + 2 * lambda_ * w
-    
+
     return float(loss), gradient

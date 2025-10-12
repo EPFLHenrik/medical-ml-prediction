@@ -1,5 +1,7 @@
 import numpy as np
 from Node import Node
+import matplotlib.pyplot as plt
+
 class Decision_Tree():
 
     def __init__(self, maximum_depth=4, minimum_leaves=1, splitting_criterion="entropy", stopping_criterion=0.0):
@@ -168,5 +170,30 @@ class Decision_Tree():
         return pred_probs.round()
     
 
+    # def print_recursive(self, node, level=0) -> None:
+    #     if node != None:
+    #         self.print_recursive(node.left_child, level + 1)
+    #         print('    ' * 4 * level + '-> ' + node.node_def())                                
+    #         self.print_recursive(node.right_child, level + 1)
 
+    # def print_tree(self) -> None:
+    #     self.print_recursive(node=self.tree)
     
+    def print_recursive(self, node, level=0, left=0, parent=-1):
+        step = 1/abs(level-1)
+        if node != None: 
+            self.print_recursive(node.left_child, level-1, left+step, ([level,left]))
+            plt.scatter([left], [level])
+            if node.left_child is not None:
+                plt.text(left, level + 0.1, node.node_def(), ha="center", va="bottom", fontsize=10)
+            else:
+                ratio = node.data[:, -1].sum()/node.data.shape[0]
+                plt.text(left, level + 0.1, str(ratio), ha="center", va="bottom", fontsize=10)
+            if parent != -1:
+                plt.plot([left, parent[1]], [level, parent[0]], color="black")
+            self.print_recursive(node.right_child, level-1, left-step, ([level,left]))
+
+    def print_tree(self):
+        self.print_recursive(node=self.tree)
+        plt.show()
+            

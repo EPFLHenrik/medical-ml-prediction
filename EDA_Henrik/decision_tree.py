@@ -11,6 +11,7 @@ class Decision_Tree():
         self.stopping_criterion = stopping_criterion
 
     def split(self, data, split_feature, split_value):
+        # print("SPLIT")
         mask = data[:, split_feature] >= split_value
 
         higher_group = data[mask]
@@ -73,7 +74,7 @@ class Decision_Tree():
         return ig / si
 
 
-    def find_best_split(self, data):
+    def find_best_split(self, data, rf=None):
         # choose scoring function (all operate on y arrays)
         if self.splitting_criterion == "gini":
             def score_fn(y_parent, y_left, y_right):
@@ -90,11 +91,18 @@ class Decision_Tree():
         best_gain = -1
         best_feature = None
         best_split_val = None
+
+        all_features =  []
+        if rf is None or data.shape[1]-1 == 1:
+            all_features = data.shape[1]-1
+        else:
+            all_features = np.random.choice(data.shape[1]-1, size=int((data.shape[1]-1) * rf), replace=False)
         # -1 because data here includes the y-value and therefore we dont want the last value
-        for feature in range(data.shape[1]-1):
+        for feature in range(all_features):
             unique_vals = np.unique(data[:, feature])
             splits = [(unique_vals[i] + unique_vals[i+1])/2 for i in range(len(unique_vals)-1)]
-
+            if len(unique_vals) == 1:
+                splits = [unique_vals[0]]
             for val in splits:
                 mask = data[:, feature] >= val
                 higher_vals = data[mask]
@@ -103,6 +111,8 @@ class Decision_Tree():
                 lower_ys = lower_vals[:, -1]
 
                 score = score_fn(data[:, -1], higher_ys, lower_ys)
+
+                # print(feature, val, score)
 
                 if score > best_gain:
                     best_gain = score
@@ -134,7 +144,7 @@ class Decision_Tree():
 
         node = Node(data, split_feature=split_feature, split_value=split_val, information_gained=split_gain, predict_prob=label_prob)
 
-        if self.minimum_leaves > g1.shape[0] or self.minimum_leaves > g2.shape[0]:
+        if self.minimum_leaves >= g1.shape[0] or self.minimum_leaves >= g2.shape[0]:
             return node
         if split_gain <= self.stopping_criterion:
             return node
@@ -169,16 +179,6 @@ class Decision_Tree():
 
         return pred_probs.round()
     
-
-    # def print_recursive(self, node, level=0) -> None:
-    #     if node != None:
-    #         self.print_recursive(node.left_child, level + 1)
-    #         print('    ' * 4 * level + '-> ' + node.node_def())                                
-    #         self.print_recursive(node.right_child, level + 1)
-
-    # def print_tree(self) -> None:
-    #     self.print_recursive(node=self.tree)
-    
     def print_recursive(self, node, level=0, left=0, parent=-1):
         step = 1/abs(level-1)
         if node != None: 
@@ -188,7 +188,7 @@ class Decision_Tree():
                 plt.text(left, level + 0.1, node.node_def(), ha="center", va="bottom", fontsize=10)
             else:
                 ratio = node.data[:, -1].sum()/node.data.shape[0]
-                plt.text(left, level + 0.1, str(ratio), ha="center", va="bottom", fontsize=10)
+                plt.text(left, level + 0.1, str(np.round(ratio, 2)), ha="center", va="bottom", fontsize=10)
             if parent != -1:
                 plt.plot([left, parent[1]], [level, parent[0]], color="black")
             self.print_recursive(node.right_child, level-1, left-step, ([level,left]))

@@ -13,4 +13,4 @@ class Node:
 
     
     def node_def(self):
-        return f"Feature: {self.split_feature}\nValue: {np.round(self.split_value, 2)}\nInf Gained: {np.round(self.information_gained)}"
+        return f"Feature: {self.split_feature}\nValue: {np.round(self.split_value, 5)}\nInf Gained: {np.round(self.information_gained, 5)}"

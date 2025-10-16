@@ -368,3 +368,60 @@ def penalized_logistic_regression(y, tx, w, lambda_):
     gradient = tx.T @ (sigmoid(tx @ w) - y) / y.shape[0] + 2 * lambda_ * w
 
     return float(loss), gradient
+
+
+
+def weighted_logistic_regression(y, tx, initial_w, max_iters, gamma, lambda_=0.0, tol=None):
+    """
+    Weighted logistic regression using gradient descent.
+    Adds sample-level weighting to handle class imbalance.
+
+    Args:
+        y (np.ndarray): Binary labels (0/1), shape (N, 1) or (N,)
+        tx (np.ndarray): Feature matrix, shape (N, D)
+        initial_w (np.ndarray): Initial weights, shape (D, 1)
+        max_iters (int): Maximum number of iterations
+        gamma (float): Learning rate
+        lambda_ (float): Regularization strength (optional)
+        tol (float): Optional early stopping tolerance
+
+    Returns:
+        w (np.ndarray): Learned weights, shape (D, 1)
+        losses (list): List of loss values across iterations
+    """
+
+    if y.ndim == 1:
+        y = y.reshape(-1, 1)
+    w = initial_w.copy()
+    N = len(y)
+
+    # class weights: balance positive and negative classes
+    n_pos = np.sum(y == 1)
+    n_neg = N - n_pos
+    pos_weight = N / (2 * n_pos + 1e-10)
+    neg_weight = N / (2 * n_neg + 1e-10)
+    sample_weights = np.where(y == 1, pos_weight, neg_weight)
+
+    losses = []
+
+    for it in range(max_iters):
+        # predictions
+        pred = sigmoid(tx @ w)
+        pred = np.clip(pred, 1e-15, 1 - 1e-15)
+
+        # weighted loss (with optional L2 regularization)
+        loss = -np.sum(sample_weights * (y * np.log(pred) + (1 - y) * np.log(1 - pred))) / np.sum(sample_weights)
+        # loss += lambda_ * np.sum(w ** 2) # we dont add this right??
+        losses.append(loss)
+
+        # weighted gradient
+        grad = (tx.T @ (sample_weights * (pred - y))) / np.sum(sample_weights)
+        grad += 2 * lambda_ * w
+        w -= gamma * grad
+
+        if tol is not None and it > 5:
+            rel_change = abs(losses[-2] - losses[-1]) / (abs(losses[-2]) + 1e-10)
+            if rel_change < tol:
+                break
+
+    return w, np.array(losses)

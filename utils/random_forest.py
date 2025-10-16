@@ -1,7 +1,6 @@
 import numpy as np
-from Node import Node
-import matplotlib.pyplot as plt
-from decision_tree import Decision_Tree
+from utils.Node import Node
+from utils.decision_tree import Decision_Tree
 
 class Random_Forest():
 

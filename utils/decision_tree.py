@@ -1,5 +1,5 @@
 import numpy as np
-from Node import Node
+from utils.Node import Node
 import matplotlib.pyplot as plt
 
 class Decision_Tree():

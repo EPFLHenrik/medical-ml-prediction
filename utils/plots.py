@@ -2,7 +2,6 @@
 """function for plot."""
 import matplotlib.pyplot as plt
 import numpy as np
-from all_functions import get_best_parameters
 
 
 def plot_train_test(train_errors, test_errors, lambdas, degree):
@@ -148,3 +147,8 @@ def bias_variance_decomposition_visualization(degrees, rmse_tr, rmse_te):
     plt.legend(loc=1)
     plt.title("Bias-Variance Decomposition")
     plt.savefig("bias_variance")
+
+def get_best_parameters(w0, w1, losses):
+    """Get the best w from the result of grid search."""
+    min_row, min_col = np.unravel_index(np.argmin(losses), losses.shape)
+    return losses[min_row, min_col], w0[min_row], w1[min_col]

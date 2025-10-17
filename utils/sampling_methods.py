@@ -15,6 +15,9 @@ def undersample(X, y, ratio=1.0, seed=None):
         (X_resampled, y_resampled): Tuple of NumPy arrays containing
                                     the undersampled dataset.
     """
+    if y.ndim == 2:
+        y = y.ravel()
+
     if seed is not None:
         np.random.seed(seed)
 
@@ -43,7 +46,7 @@ def undersample(X, y, ratio=1.0, seed=None):
     np.random.shuffle(keep_idx)
 
     X_resampled = X[keep_idx]
-    y_resampled = y[keep_idx]
+    y_resampled = y[keep_idx].reshape(-1, 1)
 
     return X_resampled, y_resampled
 
@@ -66,6 +69,9 @@ def oversample(X, y, ratio=1.0, seed=None):
         (X_resampled, y_resampled): Tuple of NumPy arrays containing
                                     the oversampled dataset.
     """
+    if y.ndim == 2:
+        y = y.ravel()
+
     if seed is not None:
         np.random.seed(seed)
 
@@ -105,7 +111,7 @@ def oversample(X, y, ratio=1.0, seed=None):
     # shuffle combined data
     perm = np.random.permutation(len(y_resampled))
     X_resampled = X_resampled[perm]
-    y_resampled = y_resampled[perm]
+    y_resampled = y_resampled[perm].reshape(-1, 1)
 
     return X_resampled, y_resampled
 
@@ -128,6 +134,9 @@ def smote(X, y, k=5, ratio=1.0, seed=None):
         (X_resampled, y_resampled): Tuple of NumPy arrays containing
                                     the dataset after SMOTE oversampling.
     """
+    if y.ndim == 2:
+        y = y.ravel()
+
     if seed is not None:
         np.random.seed(seed)
 
@@ -177,7 +186,10 @@ def smote(X, y, k=5, ratio=1.0, seed=None):
     y_resampled = np.concatenate([y, y_new])
     perm = np.random.permutation(len(y_resampled))
 
-    return X_resampled[perm], y_resampled[perm]
+    X_resampled = X_resampled[perm]
+    y_resampled = y_resampled[perm].reshape(-1, 1)
+
+    return X_resampled, y_resampled
 
 def smote_then_undersample(X, y, k=5, over_ratio=1.0, under_ratio=1.0, seed=None):
     """
@@ -198,10 +210,14 @@ def smote_then_undersample(X, y, k=5, over_ratio=1.0, under_ratio=1.0, seed=None
     Returns:
         (X_resampled, y_resampled): Tuple of NumPy arrays after hybrid resampling.
     """
+    if y.ndim == 2:
+        y = y.ravel()
+    
     if seed is not None:
         np.random.seed(seed)
 
     X_sm, y_sm = smote(X, y, k=k, ratio=over_ratio, seed=seed)
     X_res, y_res = undersample(X_sm, y_sm, ratio=under_ratio, seed=seed)
+    y_res = y_res.reshape(-1, 1)
     return X_res, y_res
 

@@ -115,10 +115,11 @@ def compute_roc_auc(y, proba):
     fpr = [0.0]
 
     thresholds = np.unique(proba_sorted)
+
     for thr in thresholds:
         y_pred = (proba_sorted >= thr).astype(int)
-        tp = np.sum((y_pred == 1) & (y == 1))
-        fp = np.sum((y_pred == 1) & (y == 0))
+        tp = np.sum((y_pred == 1) & (y_sorted == 1))
+        fp = np.sum((y_pred == 1) & (y_sorted == 0))
         tpr.append(tp / (P + 1e-10))
         fpr.append(fp / (N + 1e-10))
 
@@ -130,6 +131,7 @@ def compute_roc_auc(y, proba):
 
     auc = np.trapz(tpr, fpr)
     return auc
+
 
 def train_logreg(y, tx, kind="logistic",
                  gamma=0.01, lambda_=0.0, max_iters=1000,
@@ -143,6 +145,8 @@ def train_logreg(y, tx, kind="logistic",
     n_features = tx.shape[1]
     if w_init is None:
         w_init = np.zeros((n_features, 1))
+    y = y.reshape(-1, 1)
+
 
     if kind == "logistic":
         # Standard logistic regression (5 args)
@@ -206,7 +210,7 @@ def cross_validate(
     # Set RNG safely 
     rng = np.random.default_rng(seed)
 
-    y = y.flatten()
+    y = y.reshape(-1, 1)
     n = len(y)
 
     # shuffle indices, create folds
@@ -229,9 +233,9 @@ def cross_validate(
                 print(f"[Warning] Sampling failed in fold {i+1}: {e}")
                 continue
 
-        # train model
+        # train modelc (y, tx order!!)
         model_args = model_kwargs or {}
-        model = model_fn(X_train, y_train, **model_args)
+        model = model_fn(y_train, X_train, **model_args)
 
         # predict
         if predict_fn is None:
@@ -260,3 +264,4 @@ def cross_validate(
 
     avg_metrics = {m: np.mean([fold[m] for fold in all_metrics]) for m in all_metrics[0]}
     return avg_metrics
+

@@ -115,7 +115,7 @@ def oversample(X, y, ratio=1.0, seed=None):
 
     return X_resampled, y_resampled
 
-def smote(X, y, k=5, ratio=1.0, seed=None):
+def smote_old(X, y, k=5, ratio=1.0, seed=None):
     """
     SMOTE (Synthetic Minority Oversampling Technique).
 
@@ -190,6 +190,75 @@ def smote(X, y, k=5, ratio=1.0, seed=None):
     y_resampled = y_resampled[perm].reshape(-1, 1)
 
     return X_resampled, y_resampled
+
+def smote(X, y, k=5, ratio=1.0, seed=None, batch_size=100):
+    """
+    Memory-efficient SMOTE using pure NumPy (no sklearn).
+
+    Args:
+        X (np.ndarray): Feature matrix (n_samples, n_features).
+        y (np.ndarray): Label vector (n_samples,).
+        k (int): Number of nearest minority neighbors.
+        ratio (float): Desired majority:minority ratio (1.0 = balance).
+        seed (int, optional): Random seed.
+        batch_size (int): Number of minority samples processed per batch
+                          (controls memory usage).
+    Returns:
+        (X_resampled, y_resampled)
+    """
+    if y.ndim == 2:
+        y = y.ravel()
+    if seed is not None:
+        np.random.seed(seed)
+
+    # Identify classes
+    labels, counts = np.unique(y, return_counts=True)
+    if len(labels) != 2:
+        raise ValueError("y must contain exactly two classes.")
+    minority_label = labels[np.argmin(counts)]
+    majority_label = labels[np.argmax(counts)]
+
+    X_min = X[y == minority_label]
+    X_maj = X[y == majority_label]
+    n_min, n_maj = len(X_min), len(X_maj)
+
+    # How many synthetic samples are needed
+    n_min_target = int(n_maj / ratio)
+    n_to_add = max(0, n_min_target - n_min)
+    if n_to_add == 0:
+        return X.copy(), y.copy()
+
+    # --- Compute k nearest neighbors (batched to save RAM) ---
+    nn_indices = []
+    for start in range(0, n_min, batch_size):
+        end = min(start + batch_size, n_min)
+        X_batch = X_min[start:end]
+        # compute distances to all minority samples
+        dists = np.sqrt(((X_batch[:, None, :] - X_min[None, :, :]) ** 2).sum(axis=2))
+        np.fill_diagonal(dists[:, start:end], np.inf)  # avoid self as neighbor
+        # pick k nearest for each
+        nn = np.argsort(dists, axis=1)[:, :k]
+        nn_indices.append(nn)
+    nn_indices = np.vstack(nn_indices)
+
+    # --- Generate synthetic samples ---
+    new_samples = []
+    for _ in range(n_to_add):
+        i = np.random.randint(0, n_min)
+        nn = np.random.choice(nn_indices[i])
+        lam = np.random.rand()
+        x_new = X_min[i] + lam * (X_min[nn] - X_min[i])
+        new_samples.append(x_new)
+
+    X_new = np.array(new_samples)
+    y_new = np.full(len(X_new), minority_label)
+
+    # Combine and shuffle
+    X_resampled = np.vstack([X, X_new])
+    y_resampled = np.concatenate([y, y_new]).reshape(-1, 1)
+    perm = np.random.permutation(len(y_resampled))
+
+    return X_resampled[perm], y_resampled[perm]
 
 def smote_then_undersample(X, y, k=5, over_ratio=1.0, under_ratio=1.0, seed=None):
     """

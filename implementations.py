@@ -249,6 +249,8 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         w: model parameters computed in max_iters iterations, shape=(D, 1)
         loss: array of ndim == 0, the loss value of the last iteration
     """
+    assert tx.shape[0] == y.shape[0], f"Shape mismatch: X={tx.shape}, y={y.shape}"
+    assert tx.shape[1] == w.shape[0], f"W shape mismatch: X={tx.shape}, w={w.shape}"
     # Define parameters to store w and loss
     loss = calculate_loss(y, tx, initial_w)
     w = initial_w.copy()
@@ -316,6 +318,7 @@ def calculate_gradient(y, tx, w):
     Returns:
         the gradient grad, a vector of shape (D, 1)
     """
+    y = y.reshape(-1, 1)  
     grad = tx.T @ (sigmoid(tx @ w) - y) / y.shape[0]
     return grad
 
@@ -336,6 +339,9 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
         loss: array of ndim == 0, the loss value of the last iteration
 
     """
+    assert tx.shape[0] == y.shape[0], f"Shape mismatch: X={tx.shape}, y={y.shape}"
+    assert tx.shape[1] == initial_w.shape[0], f"W shape mismatch: X={tx.shape}, w={initial_w.shape}"
+
     # Define parameters to store w and loss
     loss = calculate_loss(y, tx, initial_w)
     w = initial_w.copy()
@@ -364,6 +370,8 @@ def penalized_logistic_regression(y, tx, w, lambda_):
         loss: scalar number
         gradient: shape=(D, 1)
     """
+    assert tx.shape[0] == y.shape[0], f"Shape mismatch: X={tx.shape}, y={y.shape}"
+    assert tx.shape[1] == w.shape[0], f"W shape mismatch: X={tx.shape}, w={w.shape}"
     loss = calculate_loss(y, tx, w) + lambda_ * (w.T @ w)
     gradient = tx.T @ (sigmoid(tx @ w) - y) / y.shape[0] + 2 * lambda_ * w
 
@@ -394,6 +402,9 @@ def weighted_logistic_regression(y, tx, initial_w, max_iters, gamma, lambda_=0.0
         y = y.reshape(-1, 1)
     w = initial_w.copy()
     N = len(y)
+
+    assert tx.shape[0] == y.shape[0], f"Shape mismatch: X={tx.shape}, y={y.shape}"
+    assert tx.shape[1] == w.shape[0], f"W shape mismatch: X={tx.shape}, w={w.shape}"
 
     # class weights: balance positive and negative classes
     n_pos = np.sum(y == 1)

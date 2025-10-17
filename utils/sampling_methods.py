@@ -47,9 +47,6 @@ def undersample(X, y, ratio=1.0, seed=None):
 
     return X_resampled, y_resampled
 
-
-import numpy as np
-
 def oversample(X, y, ratio=1.0, seed=None):
     """
     Random oversampling of the minority class.
@@ -111,9 +108,6 @@ def oversample(X, y, ratio=1.0, seed=None):
     y_resampled = y_resampled[perm]
 
     return X_resampled, y_resampled
-
-
-import numpy as np
 
 def smote(X, y, k=5, ratio=1.0, seed=None):
     """
@@ -184,8 +178,6 @@ def smote(X, y, k=5, ratio=1.0, seed=None):
     perm = np.random.permutation(len(y_resampled))
 
     return X_resampled[perm], y_resampled[perm]
-
-import numpy as np
 
 def smote_then_undersample(X, y, k=5, over_ratio=1.0, under_ratio=1.0, seed=None):
     """

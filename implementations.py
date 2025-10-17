@@ -250,7 +250,8 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         loss: array of ndim == 0, the loss value of the last iteration
     """
     assert tx.shape[0] == y.shape[0], f"Shape mismatch: X={tx.shape}, y={y.shape}"
-    assert tx.shape[1] == w.shape[0], f"W shape mismatch: X={tx.shape}, w={w.shape}"
+    assert tx.shape[1] == initial_w.shape[0], f"W shape mismatch: X={tx.shape}, w={initial_w.shape}"
+    
     # Define parameters to store w and loss
     loss = calculate_loss(y, tx, initial_w)
     w = initial_w.copy()

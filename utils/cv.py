@@ -108,8 +108,8 @@ def compute_roc_auc(y, proba):
     y_sorted = y[desc_idx]
     proba_sorted = proba[desc_idx]
 
-    P = np.sum(y == 1)
-    N = np.sum(y == 0)
+    P = np.sum(y_sorted == 1)
+    N = np.sum(y_sorted == 0)
 
     tpr = [0.0]
     fpr = [0.0]
@@ -163,10 +163,12 @@ def train_logreg(y, tx, kind="logistic",
     else:
         raise ValueError("kind must be 'logistic', 'reg_logistic', or 'w_logistic'")
 
+    final_loss = losses[-1] if isinstance(losses, (list, np.ndarray)) and losses.ndim > 0 else float(losses)
+
     if verbose:
         print(f"[{kind}] Training finished — final loss: {losses[-1]:.6f}")
 
-    return w, losses[-1]
+    return w, final_loss
 
 
 def cross_validate(
@@ -240,7 +242,9 @@ def cross_validate(
         # predict
         if predict_fn is None:
             raise ValueError("predict_fn must be provided for evaluation.")
-        y_pred, y_proba = predict_fn(X_val, model)
+        
+        w = model[0] if isinstance(model, tuple) else model
+        y_pred, y_proba = predict_fn(X_val, w)
 
         # evaluate
         if metric_fn is None:
@@ -249,7 +253,7 @@ def cross_validate(
         if use_predictions:
             metrics = metric_fn(y_val, y_pred, y_proba)
         else:
-            metrics = metric_fn(y_val, X_val, model, returning="all")
+            metrics = metric_fn(y_val, X_val, w, returning="all")
 
         all_metrics.append(metrics)
 

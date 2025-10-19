@@ -1,0 +1,328 @@
+import numpy as np
+import sys, os
+from utils.random_forest import Random_Forest
+sys.path.append(os.path.join(os.getcwd(), '..'))
+from implementations import (
+    logistic_regression,
+    reg_logistic_regression,
+    weighted_logistic_regression,
+)
+from utils.sampling_methods import undersample, oversample, smote  
+from utils.all_functions import sigmoid  
+
+
+def predict(tx, w, threshold=0.5, return_prob=False):
+    prob = sigmoid(tx @ w)
+    if return_prob:
+        return prob
+    return (prob >= threshold).astype(int)
+
+def predict_rf(model, X, threshold=0.5):
+    """
+    model: trained Random_Forest instance
+    X: feature matrix
+    Returns (y_pred, y_proba)
+    """
+    X = np.asarray(X)
+    y_proba = model.predict_proba(X).flatten()
+    y_pred = (y_proba >= threshold).astype(int)
+    return y_pred, y_proba
+
+
+def compute_training_error(y, tx_or_none, model_or_w, threshold=0.5, returning="error"):
+    """
+    Flexible metric function supporting:
+      - (y, tx, w) where model_or_w are weights (logistic),
+      - (y, None, model) where model_or_w is a model object with predict_proba(X).
+    tx_or_none should be X (or None if model will be used to predict directly).
+    """
+    y = np.asarray(y).reshape(-1)
+    
+    # Obtain probabilities
+    if hasattr(model_or_w, "predict_proba"):
+        X_for_pred = tx_or_none
+        if X_for_pred is None:
+            raise ValueError("tx (X) must be provided when passing a model object.")
+        proba = np.asarray(model_or_w.predict_proba(X_for_pred)).flatten()
+    else:
+        # treat model_or_w as weights vector (logistic)
+        tx = np.asarray(tx_or_none)
+        w = np.asarray(model_or_w).reshape(-1, 1)
+        proba = sigmoid(tx @ w).flatten()
+    
+    y_pred = (proba >= threshold).astype(int)
+
+    # Confusion matrix
+    tp = np.sum((y_pred == 1) & (y == 1))
+    tn = np.sum((y_pred == 0) & (y == 0))
+    fp = np.sum((y_pred == 1) & (y == 0))
+    fn = np.sum((y_pred == 0) & (y == 1))
+
+    accuracy = (tp + tn) / (tp + tn + fp + fn + 1e-10)
+    error = 1 - accuracy
+    precision = tp / (tp + fp + 1e-10)
+    recall = tp / (tp + fn + 1e-10)
+    f1 = 2 * precision * recall / (precision + recall + 1e-10)
+    roc_auc = compute_roc_auc(y, proba)
+
+    metrics = {
+        "error": error,
+        "accuracy": accuracy,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
+        "roc_auc": roc_auc
+    }
+
+    if returning == "all":
+        return metrics
+    elif returning in metrics:
+        return metrics[returning]
+    else:
+        raise ValueError(f"Unknown metric '{returning}'")
+    
+
+def evaluate_thresholds(y, tx, w, thresholds=None):
+    """
+    Evaluate performance metrics (accuracy, error, precision, recall, F1, AUC)
+    at multiple thresholds using compute_training_error().
+    """
+    if thresholds is None:
+        thresholds = np.linspace(0.1, 0.9, 9)
+    
+    results = []
+    
+    for t in thresholds:
+        metrics = compute_training_error(y, tx, w, threshold=t, returning="all")
+        
+        results.append({
+            "threshold": t,
+            "accuracy": metrics["accuracy"],
+            "error": metrics["error"],
+            "precision": metrics["precision"],
+            "recall": metrics["recall"],
+            "f1": metrics["f1"],
+            "roc_auc": metrics["roc_auc"]
+        })
+    
+    return results
+
+
+def compute_roc_auc(y, proba):
+    # Sort by descending probability
+    desc_idx = np.argsort(-proba)
+    y_sorted = y[desc_idx]
+    proba_sorted = proba[desc_idx]
+
+    P = np.sum(y_sorted == 1)
+    N = np.sum(y_sorted == 0)
+
+    tpr = [0.0]
+    fpr = [0.0]
+
+    thresholds = np.unique(proba_sorted)
+
+    for thr in thresholds:
+        y_pred = (proba_sorted >= thr).astype(int)
+        tp = np.sum((y_pred == 1) & (y_sorted == 1))
+        fp = np.sum((y_pred == 1) & (y_sorted == 0))
+        tpr.append(tp / (P + 1e-10))
+        fpr.append(fp / (N + 1e-10))
+
+    tpr.append(1.0)
+    fpr.append(1.0)
+
+    tpr = np.array(tpr)
+    fpr = np.array(fpr)
+
+    auc = np.trapz(tpr, fpr)
+    return auc
+
+
+def train_logreg(y, tx, kind="logistic",
+                 gamma=0.01, lambda_=0.0, max_iters=1000,
+                 tol=None, w_init=None, verbose=True):
+    """
+    Unified training wrapper for logistic regression variants:
+    - Standard logistic regression
+    - Regularized logistic regression
+    - Weighted logistic regression
+    """
+    n_features = tx.shape[1]
+    if w_init is None:
+        w_init = np.zeros((n_features, 1))
+    y = y.reshape(-1, 1)
+
+
+    if kind == "logistic":
+        # Standard logistic regression (5 args)
+        w, losses = logistic_regression(y, tx, w_init, max_iters, gamma)
+
+    elif kind == "reg_logistic":
+        # Regularized logistic regression (6 args)
+        w, losses = reg_logistic_regression(y, tx, lambda_, w_init, max_iters, gamma)
+
+    elif kind == "w_logistic":
+        # Weighted logistic regression (7 args)
+        w, losses = weighted_logistic_regression(y, tx, w_init, max_iters, gamma, lambda_, tol)
+
+    else:
+        raise ValueError("kind must be 'logistic', 'reg_logistic', or 'w_logistic'")
+
+    final_loss = losses[-1] if isinstance(losses, (list, np.ndarray)) and losses.ndim > 0 else float(losses)
+
+    if verbose:
+        print(f"[{kind}] Training finished — final loss: {losses[-1]:.6f}")
+
+    return w, final_loss
+
+
+def train_random_forest(y, X,
+                        n_trees=10,
+                        max_depth=5,
+                        min_samples_leaf=1,
+                        min_information_gain=0.0,
+                        split_feature_ratio=None,
+                        bootstrap_sample_size=None,
+                        splitting_criterion="entropy",
+                        verbose=True):
+    """
+    Train and return a Random_Forest object.
+    Arguments named to mirror Random_Forest __init__.
+    """
+    # Ensure shapes are sane
+    y = np.asarray(y).reshape(-1)
+    X = np.asarray(X)
+
+    rf = Random_Forest(
+        base_learners_num=n_trees,
+        max_tree_depth=max_depth,
+        min_samples_leaf=min_samples_leaf,
+        min_information_gain=min_information_gain,
+        split_feature_ratio=split_feature_ratio,
+        bootstrap_sample_size=bootstrap_sample_size,
+        splitting_criterion=splitting_criterion
+    )
+
+    rf.train(X, y)
+
+    if verbose:
+        print(f"[RandomForest] Trained {n_trees} trees; max_depth={max_depth}")
+
+    return rf
+
+
+def cross_validate(
+    model_fn,
+    X,
+    y,
+    k_folds=5,
+    seed=None,
+    sampling_fn=None,
+    sampling_kwargs=None,
+    model_kwargs=None,
+    predict_fn=None,
+    metric_fn=None,
+    thresholds=None,
+    use_predictions=False,
+    verbose=True,
+):
+    """
+    General-purpose k-fold cross-validation with optional sampling,
+    flexible argument control, and multi-threshold evaluation.
+
+    Args:
+        model_fn (callable): Function or class used to train a model.
+                             Should return trained model or weights.
+        X (np.ndarray): Feature matrix (n_samples, n_features)
+        y (np.ndarray): Label vector (n_samples,)
+        k_folds (int): Number of folds for cross-validation.
+        seed (int, optional): Random seed for reproducibility.
+        sampling_fn (callable, optional): Sampling function (undersample, oversample, smote...).
+        sampling_kwargs (dict, optional): Arguments for the sampling function.
+        model_kwargs (dict, optional): Arguments for the model training function.
+        predict_fn (callable, optional): Function to generate predictions.
+                                         Must return (y_pred, y_proba) for logistic-like models.
+        metric_fn (callable, optional): Function computing metrics.
+        thresholds (float or list, optional): Threshold(s) for prediction evaluation.
+        use_predictions (bool): If True, metric_fn expects (y_true, y_pred, y_proba)
+                                instead of (y_true, X_val, model).
+        verbose (bool): Whether to print per-fold metrics.
+
+    Returns:
+        dict: Averaged metrics across folds. (or across folds × thresholds)
+    """
+    rng = np.random.default_rng(seed)
+    y = y.reshape(-1, 1)
+    n = len(y)
+
+    # shuffle indices,  create folds
+    indices = rng.permutation(n)
+    folds = np.array_split(indices, k_folds)
+    all_metrics = []
+
+    # ensure thresholds is iterable
+    if thresholds is not None and not isinstance(thresholds, (list, np.ndarray)):
+        thresholds = [thresholds]
+
+    for i, val_idx in enumerate(folds):
+        train_idx = np.setdiff1d(indices, val_idx)
+        X_train, y_train = X[train_idx], y[train_idx]
+        X_val, y_val = X[val_idx], y[val_idx]
+
+        # optional sampling on training data only
+        if sampling_fn is not None:
+            kwargs = sampling_kwargs or {}
+            try:
+                X_train, y_train = sampling_fn(X_train, y_train, **kwargs)
+            except Exception as e:
+                print(f"[Warning] Sampling failed in fold {i+1}: {e}")
+                continue
+
+        # train model (note y, X order)
+        model_args = model_kwargs or {}
+        model = model_fn(y_train, X_train, **model_args)
+        w = model[0] if isinstance(model, tuple) else model
+
+        if predict_fn is None:
+            raise ValueError("predict_fn must be provided for evaluation.")
+        if metric_fn is None:
+            raise ValueError("metric_fn must be provided for evaluation.")
+
+        # evaluate at one or multiple thresholds
+        if thresholds is not None:
+            for thr in thresholds:
+                y_pred, y_proba = predict_fn(X_val, w)
+                metrics = metric_fn(y_val, X_val, w, threshold=thr, returning="all")
+                metrics["threshold"] = thr
+                all_metrics.append(metrics)
+                if verbose:
+                    print(f"Fold {i+1}/{k_folds} @ thr={thr:.2f} → " +
+                          ", ".join([f"{k}:{v:.3f}" for k, v in metrics.items() if k != "threshold"]))
+        else:
+            y_pred, y_proba = predict_fn(model, X_val)
+            if use_predictions:
+                metrics = metric_fn(y_val, y_pred, y_proba)
+            else:
+                metrics = metric_fn(y_val, X_val, model, returning="all")
+            all_metrics.append(metrics)
+            if verbose:
+                msg = f"Fold {i+1}/{k_folds} → " + ", ".join([f"{k}:{v:.3f}" for k, v in metrics.items()])
+                print(msg)
+
+    if not all_metrics:
+        raise ValueError("No successful folds. Check your sampling or training function.")
+
+    # avg metrics
+    if thresholds is not None:
+        avg_metrics = {}
+        for t in thresholds:
+            subset = [m for m in all_metrics if abs(m["threshold"] - t) < 1e-9]
+            avg_metrics[t] = {k: np.mean([m[k] for m in subset])
+                              for k in subset[0] if k not in ["threshold"]}
+        return avg_metrics
+    else:
+        avg_metrics = {m: np.mean([fold[m] for fold in all_metrics]) for m in all_metrics[0]}
+        return avg_metrics
+
+    

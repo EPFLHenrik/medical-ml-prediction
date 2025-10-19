@@ -182,12 +182,13 @@ def cross_validate(
     model_kwargs=None,
     predict_fn=None,
     metric_fn=None,
+    thresholds=None,
     use_predictions=False,
     verbose=True,
 ):
     """
-    General-purpose k-fold cross-validation with optional sampling and flexible argument control.
-    (No inspect library used.)
+    General-purpose k-fold cross-validation with optional sampling,
+    flexible argument control, and multi-threshold evaluation.
 
     Args:
         model_fn (callable): Function or class used to train a model.
@@ -202,26 +203,28 @@ def cross_validate(
         predict_fn (callable, optional): Function to generate predictions.
                                          Must return (y_pred, y_proba) for logistic-like models.
         metric_fn (callable, optional): Function computing metrics.
+        thresholds (float or list, optional): Threshold(s) for prediction evaluation.
         use_predictions (bool): If True, metric_fn expects (y_true, y_pred, y_proba)
                                 instead of (y_true, X_val, model).
         verbose (bool): Whether to print per-fold metrics.
 
     Returns:
-        dict: Averaged metrics across folds.
+        dict: Averaged metrics across folds. (or across folds × thresholds)
     """
-    # Set RNG safely 
     rng = np.random.default_rng(seed)
-
     y = y.reshape(-1, 1)
     n = len(y)
 
-    # shuffle indices, create folds
+    # shuffle indices,  create folds
     indices = rng.permutation(n)
     folds = np.array_split(indices, k_folds)
     all_metrics = []
 
-    for i, val_idx in enumerate(folds):
+    # ensure thresholds is iterable
+    if thresholds is not None and not isinstance(thresholds, (list, np.ndarray)):
+        thresholds = [thresholds]
 
+    for i, val_idx in enumerate(folds):
         train_idx = np.setdiff1d(indices, val_idx)
         X_train, y_train = X[train_idx], y[train_idx]
         X_val, y_val = X[val_idx], y[val_idx]
@@ -235,37 +238,47 @@ def cross_validate(
                 print(f"[Warning] Sampling failed in fold {i+1}: {e}")
                 continue
 
-        # train modelc (y, tx order!!)
+        # train model (note y, X order)
         model_args = model_kwargs or {}
         model = model_fn(y_train, X_train, **model_args)
+        w = model[0] if isinstance(model, tuple) else model
 
-        # predict
         if predict_fn is None:
             raise ValueError("predict_fn must be provided for evaluation.")
-        
-        w = model[0] if isinstance(model, tuple) else model
-        y_pred, y_proba = predict_fn(X_val, w)
-
-        # evaluate
         if metric_fn is None:
             raise ValueError("metric_fn must be provided for evaluation.")
 
-        if use_predictions:
-            metrics = metric_fn(y_val, y_pred, y_proba)
+        # evaluate at one or multiple thresholds
+        if thresholds is not None:
+            for thr in thresholds:
+                y_pred, y_proba = predict_fn(X_val, w)
+                metrics = metric_fn(y_val, X_val, w, threshold=thr, returning="all")
+                metrics["threshold"] = thr
+                all_metrics.append(metrics)
+                if verbose:
+                    print(f"Fold {i+1}/{k_folds} @ thr={thr:.2f} → " +
+                          ", ".join([f"{k}:{v:.3f}" for k, v in metrics.items() if k != "threshold"]))
         else:
+            y_pred, y_proba = predict_fn(X_val, w)
             metrics = metric_fn(y_val, X_val, w, returning="all")
+            all_metrics.append(metrics)
+            if verbose:
+                msg = f"Fold {i+1}/{k_folds} → " + ", ".join([f"{k}:{v:.3f}" for k, v in metrics.items()])
+                print(msg)
 
-        all_metrics.append(metrics)
-
-        # print progress
-        if verbose:
-            msg = f"Fold {i+1}/{k_folds} → " + ", ".join([f"{k}:{v:.3f}" for k, v in metrics.items()])
-            print(msg)
-
-    # Compute mean metrics 
     if not all_metrics:
         raise ValueError("No successful folds. Check your sampling or training function.")
 
-    avg_metrics = {m: np.mean([fold[m] for fold in all_metrics]) for m in all_metrics[0]}
-    return avg_metrics
+    # avg metrics
+    if thresholds is not None:
+        avg_metrics = {}
+        for t in thresholds:
+            subset = [m for m in all_metrics if abs(m["threshold"] - t) < 1e-9]
+            avg_metrics[t] = {k: np.mean([m[k] for m in subset])
+                              for k in subset[0] if k not in ["threshold"]}
+        return avg_metrics
+    else:
+        avg_metrics = {m: np.mean([fold[m] for fold in all_metrics]) for m in all_metrics[0]}
+        return avg_metrics
 
+    

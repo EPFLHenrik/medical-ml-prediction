@@ -1,0 +1,42 @@
+[
+    {
+        "model": "w_logistic",
+        "sampling": "none",
+        "train_F1_mean": 0.4190620669107563,
+        "val_F1_mean": 0.41812961035697016,
+        "gap": 0.000932456553786154,
+        "verdict": "UNDERFITTING",
+        "mean_coef_norm": 0.6494268724898283,
+        "coef_var": 0.38395920551467555
+    },
+    {
+        "model": "w_logistic",
+        "sampling": "undersample",
+        "train_F1_mean": 0.6622718535530916,
+        "val_F1_mean": 0.41835068106364204,
+        "gap": 0.24392117248944956,
+        "verdict": "OK / WELL FITTED",
+        "mean_coef_norm": 0.6507648993286539,
+        "coef_var": 1.6107757035048507
+    },
+    {
+        "model": "w_logistic",
+        "sampling": "oversample",
+        "train_F1_mean": 0.6196882613678869,
+        "val_F1_mean": 0.41829477002218934,
+        "gap": 0.20139349134569756,
+        "verdict": "UNDERFITTING",
+        "mean_coef_norm": 0.6498316084020561,
+        "coef_var": 0.6294270885976286
+    },
+    {
+        "model": "w_logistic",
+        "sampling": "smote",
+        "train_F1_mean": 0.6277804779875981,
+        "val_F1_mean": 0.4169422619420108,
+        "gap": 0.21083821604558728,
+        "verdict": "UNDERFITTING",
+        "mean_coef_norm": 0.6865144421949568,
+        "coef_var": 2.5318558679085155
+    }
+]

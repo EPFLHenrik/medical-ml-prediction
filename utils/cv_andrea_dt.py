@@ -1,6 +1,5 @@
 import numpy as np
 import sys, os
-from utils.random_forest import Random_Forest
 sys.path.append(os.path.join(os.getcwd(), '..'))
 from implementations import (
     logistic_regression,
@@ -17,54 +16,49 @@ def predict(tx, w, threshold=0.5, return_prob=False):
         return prob
     return (prob >= threshold).astype(int)
 
-def predict_rf(model, X, threshold=0.5):
-    """
-    model: trained Random_Forest instance
-    X: feature matrix
-    Returns (y_pred, y_proba)
-    """
-    X = np.asarray(X)
-    y_proba = model.predict_proba(X).flatten()
-    y_pred = (y_proba >= threshold).astype(int)
-    return y_pred, y_proba
 
+def compute_training_error(y, tx, w, threshold=0.5, returning="error"):
+    """
+    Compute classification metrics for weighted logistic regression (NumPy-only).
 
-def compute_training_error(y, tx_or_none, model_or_w, threshold=0.5, returning="error"):
+    Parameters
+    ----------
+    y : np.ndarray
+        True binary labels (0 or 1)
+    tx : np.ndarray
+        Feature matrix
+    w : np.ndarray
+        Trained weights
+    threshold : float, optional
+        Decision threshold for classification
+    returning : str, optional
+        Which metric to return. Options:
+        "error", "accuracy", "precision", "recall", "f1", "roc_auc", or "all"
+
+    Returns
+    -------
+    float or dict
+        The requested metric value or a dict of all metrics.
     """
-    Flexible metric function supporting:
-      - (y, tx, w) where model_or_w are weights (logistic),
-      - (y, None, model) where model_or_w is a model object with predict_proba(X).
-    tx_or_none should be X (or None if model will be used to predict directly).
-    """
-    y = np.asarray(y).reshape(-1)
-    
-    # Obtain probabilities
-    if hasattr(model_or_w, "predict_proba"):
-        X_for_pred = tx_or_none
-        if X_for_pred is None:
-            raise ValueError("tx (X) must be provided when passing a model object.")
-        proba = np.asarray(model_or_w.predict_proba(X_for_pred)).flatten()
-    else:
-        # treat model_or_w as weights vector (logistic)
-        tx = np.asarray(tx_or_none)
-        w = np.asarray(model_or_w).reshape(-1, 1)
-        proba = sigmoid(tx @ w).flatten()
-    
+    # Predicted probabilities and binary labels
+    y = y.flatten()
+    proba = sigmoid(tx @ w).flatten()
     y_pred = (proba >= threshold).astype(int)
 
-    # Confusion matrix
+    # Confusion matrix components
     tp = np.sum((y_pred == 1) & (y == 1))
     tn = np.sum((y_pred == 0) & (y == 0))
     fp = np.sum((y_pred == 1) & (y == 0))
     fn = np.sum((y_pred == 0) & (y == 1))
 
+    # Basic metrics
     accuracy = (tp + tn) / (tp + tn + fp + fn + 1e-10)
     error = 1 - accuracy
     precision = tp / (tp + fp + 1e-10)
     recall = tp / (tp + fn + 1e-10)
     f1 = 2 * precision * recall / (precision + recall + 1e-10)
     roc_auc = compute_roc_auc(y, proba)
-
+    # Return
     metrics = {
         "error": error,
         "accuracy": accuracy,
@@ -177,41 +171,6 @@ def train_logreg(y, tx, kind="logistic",
     return w, final_loss
 
 
-def train_random_forest(y, X,
-                        n_trees=10,
-                        max_depth=5,
-                        min_samples_leaf=1,
-                        min_information_gain=0.0,
-                        split_feature_ratio=None,
-                        bootstrap_sample_size=None,
-                        splitting_criterion="entropy",
-                        verbose=True):
-    """
-    Train and return a Random_Forest object.
-    Arguments named to mirror Random_Forest __init__.
-    """
-    # Ensure shapes are sane
-    y = np.asarray(y).reshape(-1)
-    X = np.asarray(X)
-
-    rf = Random_Forest(
-        base_learners_num=n_trees,
-        max_tree_depth=max_depth,
-        min_samples_leaf=min_samples_leaf,
-        min_information_gain=min_information_gain,
-        split_feature_ratio=split_feature_ratio,
-        bootstrap_sample_size=bootstrap_sample_size,
-        splitting_criterion=splitting_criterion
-    )
-
-    rf.train(X, y)
-
-    if verbose:
-        print(f"[RandomForest] Trained {n_trees} trees; max_depth={max_depth}")
-
-    return rf
-
-
 def cross_validate(
     model_fn,
     X,
@@ -300,11 +259,8 @@ def cross_validate(
                     print(f"Fold {i+1}/{k_folds} @ thr={thr:.2f} → " +
                           ", ".join([f"{k}:{v:.3f}" for k, v in metrics.items() if k != "threshold"]))
         else:
-            y_pred, y_proba = predict_fn(model, X_val)
-            if use_predictions:
-                metrics = metric_fn(y_val, y_pred, y_proba)
-            else:
-                metrics = metric_fn(y_val, X_val, model, returning="all")
+            y_pred, y_proba = predict_fn(X_val, w)
+            metrics = metric_fn(y_val, X_val, w, returning="all")
             all_metrics.append(metrics)
             if verbose:
                 msg = f"Fold {i+1}/{k_folds} → " + ", ".join([f"{k}:{v:.3f}" for k, v in metrics.items()])
@@ -325,4 +281,109 @@ def cross_validate(
         avg_metrics = {m: np.mean([fold[m] for fold in all_metrics]) for m in all_metrics[0]}
         return avg_metrics
 
-    
+
+def analyze_cv_results(weights_list, train_metrics, val_metrics, class_weights_list=None, verbose=True):
+    """
+    Analyze cross-validation diagnostics for over/underfitting and weight stability (NumPy-only).
+
+    Parameters
+    ----------
+    weights_list : list of np.ndarray
+        Learned weight vectors from each fold. Shape per fold: (n_features, 1)
+    train_metrics : list of dict
+        Metrics computed on training sets (each with keys: f1, accuracy, etc.)
+    val_metrics : list of dict
+        Metrics computed on validation sets
+    class_weights_list : list of np.ndarray or list of dict, optional
+        If provided, contains class weights used per fold.
+    verbose : bool, optional
+        If True, prints summary diagnostics.
+
+    Returns
+    -------
+    dict
+        Summary with numeric diagnostics.
+    """
+    n_folds = len(weights_list)
+    weights = np.hstack([w.reshape(-1, 1) for w in weights_list]).T  # (n_folds, n_features)
+
+    # ---- 1) Compute mean/std for metrics ----
+    train_f1s = np.array([m["f1"] for m in train_metrics])
+    val_f1s   = np.array([m["f1"] for m in val_metrics])
+    train_mean, val_mean = train_f1s.mean(), val_f1s.mean()
+    train_std, val_std = train_f1s.std(ddof=1), val_f1s.std(ddof=1)
+    gap = train_mean - val_mean
+
+    # ---- 2) Coefficient diagnostics ----
+    mean_w = weights.mean(axis=0)
+    std_w = weights.std(axis=0, ddof=1)
+    rel_var = std_w / (np.abs(mean_w) + 1e-12)
+    coef_norms = np.linalg.norm(weights, axis=1)
+    mean_norm, std_norm = coef_norms.mean(), coef_norms.std(ddof=1)
+
+    # Pairwise distance (average distance between folds)
+    pairwise = np.sqrt(((weights[:, None, :] - weights[None, :, :]) ** 2).sum(axis=2))
+    mean_pairwise = np.mean(pairwise)
+    max_pairwise = np.max(pairwise)
+
+    # Sign flip count
+    mean_sign = np.sign(mean_w)
+    sign_flips = np.sum(np.sign(weights) != mean_sign, axis=0)
+    unstable_feats = np.argsort(-rel_var)[:5]  # top 5 unstable
+
+    # ---- 3) Class weight variability (if any) ----
+    if class_weights_list is not None and len(class_weights_list) > 1:
+        cw_arr = np.array([
+            list(cw.values()) if isinstance(cw, dict) else np.array(cw).flatten()
+            for cw in class_weights_list
+        ])
+        cw_mean = cw_arr.mean(axis=0)
+        cw_std = cw_arr.std(axis=0, ddof=1)
+        rel_cw_change = cw_std / (np.abs(cw_mean) + 1e-12)
+    else:
+        cw_mean = cw_std = rel_cw_change = None
+
+    # ---- 4) Diagnose fit quality ----
+    if gap > 0.08 and train_mean >= 0.8:
+        verdict = "OVERFITTING"
+    elif train_mean < 0.65 and val_mean < 0.65:
+        verdict = "UNDERFITTING"
+    elif val_std > 0.05:
+        verdict = "HIGH VARIANCE (unstable folds)"
+    else:
+        verdict = "OK / WELL FITTED"
+
+    summary = {
+        "train_mean": train_mean,
+        "val_mean": val_mean,
+        "train_std": train_std,
+        "val_std": val_std,
+        "gap": gap,
+        "verdict": verdict,
+        "mean_coef_norm": mean_norm,
+        "std_coef_norm": std_norm,
+        "mean_pairwise_dist": mean_pairwise,
+        "max_pairwise_dist": max_pairwise,
+        "unstable_features_idx": unstable_feats,
+        "top_rel_var": rel_var[unstable_feats],
+        "sign_flips_top": sign_flips[unstable_feats],
+        "coef_variability_mean": rel_var.mean(),
+    }
+
+    if cw_mean is not None:
+        summary["class_weight_mean"] = cw_mean
+        summary["class_weight_rel_change"] = rel_cw_change
+
+    if verbose:
+        print("\n=== Cross-validation Diagnostics ===")
+        print(f"Train F1 mean: {train_mean:.3f} ± {train_std:.3f}")
+        print(f"Val   F1 mean: {val_mean:.3f} ± {val_std:.3f}")
+        print(f"Gap (train - val): {gap:.3f} → {verdict}")
+        print(f"Weight L2 norm mean: {mean_norm:.3f} ± {std_norm:.3f}")
+        print(f"Mean pairwise distance between folds: {mean_pairwise:.3f}")
+        print(f"Top 5 unstable features (by relative var): {unstable_feats.tolist()}")
+        if cw_mean is not None:
+            print(f"Class weight relative change: {rel_cw_change}")
+        print("====================================\n")
+
+    return summary

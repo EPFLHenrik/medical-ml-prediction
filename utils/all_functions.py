@@ -571,7 +571,8 @@ def sigmoid(t):
     >>> sigmoid(np.array([0.1, 0.1]))
     array([0.52497919, 0.52497919])
     """
-    sig = (1 + np.exp(-t)) ** (-1)
+    t = np.clip(t, -709, 709)
+    sig = 1 / (1 + np.exp(-t))
     return sig
 
 

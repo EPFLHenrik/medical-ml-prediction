@@ -7,7 +7,8 @@ class Random_Forest():
 
     def __init__(self, base_learners_num=10, max_tree_depth=5, min_samples_leaf=1, min_information_gain=0.0, \
                  split_feature_ratio=None, bootstrap_sample_size=None, \
-                    splitting_criterion="entropy") -> None:
+                    splitting_criterion="entropy", \
+                        splits_by_feature=5, show_split_progress=False) -> None:
         self.base_learners_num = base_learners_num
         self.max_tree_depth = max_tree_depth
         self.min_samples_leaf = min_samples_leaf
@@ -15,6 +16,8 @@ class Random_Forest():
         self.split_feature_ratio = split_feature_ratio
         self.bootstrap_sample_size = bootstrap_sample_size
         self.splitting_criterion = splitting_criterion
+        self.splits_by_feature = splits_by_feature
+        self.show_split_progress = show_split_progress
 
     def create_bootstrap_samples(self, X, Y):
         bootstrapped_X = []
@@ -37,7 +40,8 @@ class Random_Forest():
 
         for index in range(self.base_learners_num):
             dec_tree = Decision_Tree(self.max_tree_depth, self.min_samples_leaf, self.splitting_criterion, 
-                                     self.min_information_gain)
+                                     self.min_information_gain, splits_by_feature=self.splits_by_feature,
+                                     show_split_progress=self.show_split_progress)
             
             dec_tree.train(bootstrapped_X[index], bootstrapped_Y[index])
             self.base_learners.append(dec_tree)

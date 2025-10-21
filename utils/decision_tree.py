@@ -5,7 +5,8 @@ from tqdm import tqdm
 
 class Decision_Tree():
 
-    def __init__(self, maximum_depth=4, minimum_leaves=1, splitting_criterion="entropy", stopping_criterion=0.0, splits_by_feature=5, show_split_progress=False, weighting=None):
+    def __init__(self, maximum_depth=4, minimum_leaves=1, splitting_criterion="entropy", stopping_criterion=0.0, splits_by_feature=5, show_split_progress=False, weighting=None,
+                 split_feature_ratio=None):
         self.maximum_depth = maximum_depth
         self.minimum_leaves = minimum_leaves
         self.splitting_criterion = splitting_criterion
@@ -13,6 +14,7 @@ class Decision_Tree():
         self.splits_by_feature = splits_by_feature
         self.show_split_progress = show_split_progress
         self.weighting = weighting
+        self.split_feature_ratio = split_feature_ratio
         self._split_pbar = tqdm(desc='split calls', unit='calls') if show_split_progress else None
 
     def split(self, data, split_feature, split_value):
@@ -84,7 +86,7 @@ class Decision_Tree():
         return ig / si
 
 
-    def find_best_split(self, data, rf=None):
+    def find_best_split(self, data):
         # choose scoring function (all operate on y arrays)
         if self.splitting_criterion == "gini":
             def score_fn(y_parent, y_left, y_right):
@@ -103,10 +105,12 @@ class Decision_Tree():
         best_split_val = None
 
         all_features =  []
-        if rf is None or data.shape[1]-1 == 1:
+        if self.split_feature_ratio is None or data.shape[1]-1 == 1:
             all_features = data.shape[1]-1
         else:
-            all_features = np.random.choice(data.shape[1]-1, size=int((data.shape[1]-1) * rf), replace=False)
+            print(data.shape)
+            all_features = np.random.choice(data.shape[1]-1, size=int((data.shape[1]-1) * self.split_feature_ratio), replace=False)
+            print(all_features.shape)
         # -1 because data here includes the y-value and therefore we dont want the last value
         for feature in range(all_features):
             unique_vals = np.unique(data[:, feature])
@@ -143,7 +147,7 @@ class Decision_Tree():
 
         self.tree = self.build_tree(data=train_data, current_depth=0)
 
-    def build_tree(self, data, current_depth):
+    def build_tree(self, data, current_depth, ):
         if current_depth >= self.maximum_depth:
             return None
         
@@ -190,18 +194,18 @@ class Decision_Tree():
         return pred_probs.round()
     
     def print_recursive(self, node, level=0, left=0, parent=-1):
-        step = 20 * (1/2)**(level)
+        step = 20 * (1/2)**(-level)
         if node != None: 
-            self.print_recursive(node.left_child, level-1, left+step, ([level,left]))
-            plt.scatter([left], [level])
+            self.print_recursive(node.left_child, level-1, left+step, ([level*5,left]))
+            plt.scatter([left], [level*5])
             if node.left_child is not None:
-                plt.text(left, level + 0.1, node.node_def(), ha="center", va="bottom", fontsize=7)
+                plt.text(left, 5*level + 0.1, node.node_def(), ha="center", va="bottom", fontsize=7)
             else:
                 ratio = node.data[:, -1].sum()/node.data.shape[0]
-                plt.text(left, level + 0.1, str(np.round(ratio, 2)), ha="center", va="bottom", fontsize=7)
+                plt.text(left, 5*level + 0.1, str(np.round(ratio, 2)), ha="center", va="bottom", fontsize=7)
             if parent != -1:
-                plt.plot([left, parent[1]], [level*10, parent[0]], color="black")
-            self.print_recursive(node.right_child, level-1, left-step, ([level,left]))
+                plt.plot([left, parent[1]], [level*5, parent[0]], color="black")
+            self.print_recursive(node.right_child, level-1, left-step, ([level*5,left]))
 
     def print_tree(self):
         import matplotlib.pyplot as plt

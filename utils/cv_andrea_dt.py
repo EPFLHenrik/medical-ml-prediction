@@ -282,6 +282,60 @@ def cross_validate(
         return avg_metrics
 
 
+def cross_validate_with_weights(X, y, interesting_columns, train_func, predict_func, K=5, random_state=42):
+    """
+    Performs K-fold cross-validation and prints per-fold weights and their variance.
+
+    Args:
+        X: feature matrix (n_samples x n_features)
+        y: labels (n_samples x 1)
+        interesting_columns: list of feature names
+        train_func: function (X_train, y_train) -> weights
+        predict_func: function (X_test, weights) -> predictions
+        K: number of folds
+        random_state: seed for reproducibility
+    """
+
+    np.random.seed(random_state)
+    n = X.shape[0]
+    indices = np.random.permutation(n)
+    fold_size = n // K
+
+    all_weights = []
+
+    for k in range(K):
+        # Split indices
+        start, end = k * fold_size, (k + 1) * fold_size if k < K - 1 else n
+        test_idx = indices[start:end]
+        train_idx = np.concatenate((indices[:start], indices[end:]))
+
+        X_train, X_test = X[train_idx], X[test_idx]
+        y_train, y_test = y[train_idx], y[test_idx]
+
+        # --- Train model ---
+        w = train_func(X_train, y_train)
+
+        # --- Save weights ---
+        all_weights.append(w)
+
+        # --- Optional evaluation ---
+        y_pred = predict_func(X_test, w)
+        acc = np.mean((y_pred > 0.5) == y_test)
+        print(f"\nFold {k+1}: accuracy = {acc:.4f}")
+        print("Weights:")
+        for name, val in zip(interesting_columns, w):
+            print(f"  {name:20s}: {val:+.4f}")
+
+    # --- Compute variance of each weight across folds ---
+    all_weights = np.array(all_weights)  # shape: (K, n_features)
+    var_per_feature = np.var(all_weights, axis=0)
+
+    print("\n=== Variance of weights across folds ===")
+    for name, var in zip(interesting_columns, var_per_feature):
+        print(f"{name:20s}: variance = {var:.6f}")
+
+    return all_weights, var_per_feature
+
 def analyze_cv_results(weights_list, train_metrics, val_metrics, class_weights_list=None, verbose=True):
     """
     Analyze cross-validation diagnostics for over/underfitting and weight stability (NumPy-only).
@@ -329,7 +383,7 @@ def analyze_cv_results(weights_list, train_metrics, val_metrics, class_weights_l
     # Sign flip count
     mean_sign = np.sign(mean_w)
     sign_flips = np.sum(np.sign(weights) != mean_sign, axis=0)
-    unstable_feats = np.argsort(-rel_var)[:5]  # top 5 unstable
+    unstable_feats = np.argsort(-rel_var)[:10]  # top 5 unstable
 
     # ---- 3) Class weight variability (if any) ----
     if class_weights_list is not None and len(class_weights_list) > 1:
@@ -381,7 +435,7 @@ def analyze_cv_results(weights_list, train_metrics, val_metrics, class_weights_l
         print(f"Gap (train - val): {gap:.3f} → {verdict}")
         print(f"Weight L2 norm mean: {mean_norm:.3f} ± {std_norm:.3f}")
         print(f"Mean pairwise distance between folds: {mean_pairwise:.3f}")
-        print(f"Top 5 unstable features (by relative var): {unstable_feats.tolist()}")
+        print(f"Top 10 unstable features (by relative var): {unstable_feats.tolist(), rel_var[unstable_feats].tolist()}")
         if cw_mean is not None:
             print(f"Class weight relative change: {rel_cw_change}")
         print("====================================\n")

@@ -6,7 +6,7 @@ from tqdm import tqdm
 class Decision_Tree():
 
     def __init__(self, maximum_depth=4, minimum_leaves=1, splitting_criterion="entropy", stopping_criterion=0.0, splits_by_feature=5, show_split_progress=False, weighting=None,
-                 split_feature_ratio=None):
+                 split_feature_ratio=None, split_row_ratio=None):
         self.maximum_depth = maximum_depth
         self.minimum_leaves = minimum_leaves
         self.splitting_criterion = splitting_criterion
@@ -15,6 +15,7 @@ class Decision_Tree():
         self.show_split_progress = show_split_progress
         self.weighting = weighting
         self.split_feature_ratio = split_feature_ratio
+        self.split_row_ratio = split_row_ratio
         self._split_pbar = tqdm(desc='split calls', unit='calls') if show_split_progress else None
 
     def split(self, data, split_feature, split_value):
@@ -104,20 +105,39 @@ class Decision_Tree():
         best_feature = None
         best_split_val = None
 
-        all_features =  []
-        if self.split_feature_ratio is None or data.shape[1]-1 == 1:
-            all_features = data.shape[1]-1
+        n_features = data.shape[1] - 1
+        n_rows = data.shape[0]
+
+        if self.split_feature_ratio is None or n_features == 1:
+            all_features = np.arange(n_features)
         else:
-            print(data.shape)
-            all_features = np.random.choice(data.shape[1]-1, size=int((data.shape[1]-1) * self.split_feature_ratio), replace=False)
-            print(all_features.shape)
-        # -1 because data here includes the y-value and therefore we dont want the last value
-        for feature in range(all_features):
-            unique_vals = np.unique(data[:, feature])
-            splits = [(unique_vals[i] + unique_vals[i+1])/2 for i in range(len(unique_vals)-1)]
-            splits = np.random.choice(splits, size=min(self.splits_by_feature, len(splits)), replace=False)
-            if len(unique_vals) == 1:
+            ratio = float(self.split_feature_ratio)
+            k = max(1, int(round(n_features * ratio)))
+            k = min(k, n_features)
+            all_features = np.random.choice(n_features, size=k, replace=False)
+
+        # optionally subsample rows to speed up split search
+        if self.split_row_ratio is None or self.split_row_ratio >= 1.0:
+            row_idx = np.arange(n_rows)
+        else:
+            r = float(self.split_row_ratio)
+            k_rows = max(2, int(round(n_rows * r)))
+            k_rows = min(k_rows, n_rows)
+            row_idx = np.random.choice(n_rows, size=k_rows, replace=False)
+
+        for feature in all_features:
+            unique_vals = np.unique(data[row_idx, feature])
+            if unique_vals.size <= 1:
+                unique_vals = np.unique(data[:, feature])
+
+            if unique_vals.size <= 1:
                 splits = [unique_vals[0]]
+            else:
+                splits = [(unique_vals[i] + unique_vals[i+1]) / 2 for i in range(len(unique_vals)-1)]
+                splits = list(splits)
+                if len(splits) > 0:
+                    splits = np.random.choice(splits, size=min(self.splits_by_feature, len(splits)), replace=False)
+
             for val in splits:
                 mask = data[:, feature] >= val
                 higher_vals = data[mask]

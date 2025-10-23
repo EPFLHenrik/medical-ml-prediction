@@ -30,7 +30,6 @@ Imbalanced distribution but thats natural
 
 
 #### Notes
-- Disease-related variables (`CVDINFR4`, `CVDCRHD4`, `_MICHD`) are naturally imbalanced - this is expected. 
 - Keep socioeconomic, sociodemocratic variables like marital status for now. We can exclude later after checking 
 feature coefficients in log regression or using Lasso regularization for log regression.
 - These variables will be re-evaluated after running the log regression and feature correlation checks.

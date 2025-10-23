@@ -99,6 +99,34 @@ def load_csv_data_streamed(data_path, sub_sample=False):
 
     return x_train, x_test, y_train, train_ids, test_ids
 
+def load_data(sub_sample=True, add_outlier=False):
+    """Load data and convert it to the metric system."""
+    path_dataset = "height_weight_genders.csv"
+    data = np.genfromtxt(path_dataset, delimiter=",", skip_header=1, usecols=[1, 2])
+    height = data[:, 0]
+    weight = data[:, 1]
+    gender = np.genfromtxt(
+        path_dataset,
+        delimiter=",",
+        skip_header=1,
+        usecols=[0],
+        converters={0: lambda x: 0 if "Male" in str(x) else 1},
+    )
+    # Convert to metric system
+    height *= 0.025
+    weight *= 0.454
+
+    # sub-sample
+    if sub_sample:
+        height = height[::50]
+        weight = weight[::50]
+
+    if add_outlier:
+        # outlier experiment
+        height = np.concatenate([height, [1.1, 1.2]])
+        weight = np.concatenate([weight, [51.5 / 0.454, 55.3 / 0.454]])
+
+    return height, weight, gender
 
 def create_csv_submission(ids, y_pred, name):
     """
@@ -223,36 +251,6 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
             start_index + batch_size
         )  # The first data point of the following batch
         yield y[start_index:end_index], tx[start_index:end_index]
-
-
-def load_data(sub_sample=True, add_outlier=False):
-    """Load data and convert it to the metric system."""
-    path_dataset = "height_weight_genders.csv"
-    data = np.genfromtxt(path_dataset, delimiter=",", skip_header=1, usecols=[1, 2])
-    height = data[:, 0]
-    weight = data[:, 1]
-    gender = np.genfromtxt(
-        path_dataset,
-        delimiter=",",
-        skip_header=1,
-        usecols=[0],
-        converters={0: lambda x: 0 if "Male" in str(x) else 1},
-    )
-    # Convert to metric system
-    height *= 0.025
-    weight *= 0.454
-
-    # sub-sample
-    if sub_sample:
-        height = height[::50]
-        weight = weight[::50]
-
-    if add_outlier:
-        # outlier experiment
-        height = np.concatenate([height, [1.1, 1.2]])
-        weight = np.concatenate([weight, [51.5 / 0.454, 55.3 / 0.454]])
-
-    return height, weight, gender
 
 
 def standardize(x):

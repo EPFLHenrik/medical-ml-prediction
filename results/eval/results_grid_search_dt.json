@@ -286,5 +286,149 @@
             "f1": 0.37034050297010523,
             "roc_auc": 0.18939642360769196
         }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 2.5,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 5,
+            "splitting_criterion": "entropy",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.14477577826199717,
+            "accuracy": 0.8552242217380028,
+            "precision": 0.3025699034013809,
+            "recall": 0.48606836485993216,
+            "f1": 0.3719383064537122,
+            "roc_auc": 0.18780422043510075
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 2.5,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 5,
+            "splitting_criterion": "gini",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.1547320462614486,
+            "accuracy": 0.8452679537385513,
+            "precision": 0.2946018527391738,
+            "recall": 0.5372525030264248,
+            "f1": 0.380212252190962,
+            "roc_auc": 0.18557895443388045
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 2.5,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 10,
+            "splitting_criterion": "entropy",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.14477577826199717,
+            "accuracy": 0.8552242217380028,
+            "precision": 0.3025699034013809,
+            "recall": 0.48606836485993216,
+            "f1": 0.3719383064537122,
+            "roc_auc": 0.18780422043510075
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 2.5,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 10,
+            "splitting_criterion": "gini",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.1547320462614486,
+            "accuracy": 0.8452679537385513,
+            "precision": 0.2946018527391738,
+            "recall": 0.5372525030264248,
+            "f1": 0.380212252190962,
+            "roc_auc": 0.18557895443388045
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 2.5,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 20,
+            "splitting_criterion": "entropy",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.14242613558444067,
+            "accuracy": 0.8575738644155594,
+            "precision": 0.3052320409216297,
+            "recall": 0.47713911146728333,
+            "f1": 0.3716562079284566,
+            "roc_auc": 0.19040067017466422
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 2.5,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 20,
+            "splitting_criterion": "gini",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.15693236015664416,
+            "accuracy": 0.8430676398433559,
+            "precision": 0.29170394956355905,
+            "recall": 0.5435180050577394,
+            "f1": 0.37954709504582357,
+            "roc_auc": 0.18723521376140712
+        }
     }
 ]

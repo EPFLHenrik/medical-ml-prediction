@@ -1,7 +1,7 @@
 import numpy as np
 from utils.Node import Node
 import matplotlib.pyplot as plt
-
+import sys
 
 
 class Decision_Tree():
@@ -232,7 +232,7 @@ class Decision_Tree():
     
     def print_recursive(self, node, level=0, left=0, parent=-1):
         step = 20 * (1/2)**(level) # level not -level
-        if node != None: 
+        if node is not None: 
             # self.print_recursive(node.left_child, level-1, left+step, ([level*5,left]))  # old
             self.print_recursive(node.left_child, level+1, left+step, ([level*5,left]))
             plt.scatter([left], [level*5])
@@ -247,8 +247,9 @@ class Decision_Tree():
             self.print_recursive(node.right_child, level+1, left-step, ([level*5,left]))
 
     def print_tree(self):
-        fig, ax = plt.subplots(figsize=(20, 12), dpi=100)
+        plt.figure(figsize=(20, 12), dpi=100)
         self.print_recursive(node=self.tree)
-        fig.savefig("figure.svg")
+        plt.axis("off")
+        plt.savefig("figure.svg", bbox_inches="tight")
         plt.show()
             

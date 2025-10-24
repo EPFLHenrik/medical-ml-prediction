@@ -129,7 +129,7 @@ def compute_roc_auc(y, proba):
     tpr = np.array(tpr)
     fpr = np.array(fpr)
 
-    auc = np.trapz(tpr, fpr)
+    auc = -np.trapz(tpr, fpr)
     return auc
 
 

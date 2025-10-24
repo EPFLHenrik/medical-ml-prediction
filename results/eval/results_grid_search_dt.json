@@ -1,0 +1,290 @@
+[
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 1.0,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 3,
+            "splitting_criterion": "entropy",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.29536623645755666,
+            "accuracy": 0.7046337635424432,
+            "precision": 0.2052874841885549,
+            "recall": 0.8093999082730547,
+            "f1": 0.32701079863673305,
+            "roc_auc": 0.18611686323238233
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 1.0,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 3,
+            "splitting_criterion": "gini",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.27435659103722665,
+            "accuracy": 0.7256434089627734,
+            "precision": 0.2142783742990213,
+            "recall": 0.7864294207450178,
+            "f1": 0.33655826109777653,
+            "roc_auc": 0.19321302668589962
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 1.5,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 3,
+            "splitting_criterion": "entropy",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.24624925716549706,
+            "accuracy": 0.7537507428345029,
+            "precision": 0.22731143002397775,
+            "recall": 0.7446948085980131,
+            "f1": 0.34824625104106055,
+            "roc_auc": 0.18234449399923372
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 1.5,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 3,
+            "splitting_criterion": "gini",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.23430295457662362,
+            "accuracy": 0.7656970454233764,
+            "precision": 0.23440166992355768,
+            "recall": 0.72830206923768,
+            "f1": 0.3544853074870927,
+            "roc_auc": 0.182785382481555
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 2.0,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 3,
+            "splitting_criterion": "entropy",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.1671750956161349,
+            "accuracy": 0.8328249043838651,
+            "precision": 0.27933352103378606,
+            "recall": 0.5604270758085683,
+            "f1": 0.3719305653090298,
+            "roc_auc": 0.1863192268021403
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 2.0,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 3,
+            "splitting_criterion": "gini",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.1698873939079965,
+            "accuracy": 0.8301126060920035,
+            "precision": 0.27584961914569484,
+            "recall": 0.5661544845705897,
+            "f1": 0.37034050297010523,
+            "roc_auc": 0.18939642360769196
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 1.0,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 5,
+            "splitting_criterion": "entropy",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.2898502140887146,
+            "accuracy": 0.7101497859112854,
+            "precision": 0.20775566118978697,
+            "recall": 0.8047958883452075,
+            "f1": 0.32979034512256555,
+            "roc_auc": 0.18609129065479832
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 1.0,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 5,
+            "splitting_criterion": "gini",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.27435659103722665,
+            "accuracy": 0.7256434089627734,
+            "precision": 0.2142783742990213,
+            "recall": 0.7864294207450178,
+            "f1": 0.33655826109777653,
+            "roc_auc": 0.19321302668589962
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 1.5,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 5,
+            "splitting_criterion": "entropy",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.24624925716549706,
+            "accuracy": 0.7537507428345029,
+            "precision": 0.22731143002397775,
+            "recall": 0.7446948085980131,
+            "f1": 0.34824625104106055,
+            "roc_auc": 0.18234449399923372
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 1.5,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 5,
+            "splitting_criterion": "gini",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.23430295457662362,
+            "accuracy": 0.7656970454233764,
+            "precision": 0.23440166992355768,
+            "recall": 0.72830206923768,
+            "f1": 0.3544853074870927,
+            "roc_auc": 0.182785382481555
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 2.0,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 5,
+            "splitting_criterion": "entropy",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.1671750956161349,
+            "accuracy": 0.8328249043838651,
+            "precision": 0.27933352103378606,
+            "recall": 0.5604270758085683,
+            "f1": 0.3719305653090298,
+            "roc_auc": 0.1863192268021403
+        }
+    },
+    {
+        "model_name": "Decision_Tree",
+        "sampling_method": "undersample",
+        "sampling_kwargs": {
+            "ratio": 2.0,
+            "seed": 42
+        },
+        "model_hyperparams": {
+            "maximum_depth": 6,
+            "minimum_leaves": 5,
+            "splitting_criterion": "gini",
+            "stopping_criterion": 0.0,
+            "splits_by_feature": 3,
+            "show_split_progress": false
+        },
+        "metrics": {
+            "error": 0.1698873939079965,
+            "accuracy": 0.8301126060920035,
+            "precision": 0.27584961914569484,
+            "recall": 0.5661544845705897,
+            "f1": 0.37034050297010523,
+            "roc_auc": 0.18939642360769196
+        }
+    }
+]

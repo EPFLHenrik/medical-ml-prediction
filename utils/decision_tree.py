@@ -1,11 +1,15 @@
 import numpy as np
 from utils.Node import Node
 import matplotlib.pyplot as plt
-from tqdm import tqdm
+
+
 
 class Decision_Tree():
 
-    def __init__(self, maximum_depth=4, minimum_leaves=1, splitting_criterion="entropy", stopping_criterion=0.0, splits_by_feature=5, show_split_progress=False, weighting=None,
+    def __init__(self, maximum_depth=5, minimum_leaves=1, 
+                 splitting_criterion="entropy", stopping_criterion=0.0, 
+                 splits_by_feature=5, show_split_progress=False, 
+                 weighting=None,
                  split_feature_ratio=None, split_row_ratio=None):
         self.maximum_depth = maximum_depth
         self.minimum_leaves = minimum_leaves
@@ -16,14 +20,15 @@ class Decision_Tree():
         self.weighting = weighting
         self.split_feature_ratio = split_feature_ratio
         self.split_row_ratio = split_row_ratio
-        self._split_pbar = tqdm(desc='split calls', unit='calls') if show_split_progress else None
+        # progress tracker (alternative for tqdm)
+        self._split_counter = 0
+        self._progress_interval = 100  # print every 100 splits
 
     def split(self, data, split_feature, split_value):
-        if self._split_pbar is not None:
-            try:
-                self._split_pbar.update(1)
-            except Exception:
-                pass
+        if self.show_split_progress:
+            self._split_counter += 1
+            if self._split_counter % self._progress_interval == 0:
+                print(f"[Progress] Split calls: {self._split_counter}", file=sys.stderr)
 
         mask = data[:, split_feature] >= split_value
 
@@ -80,7 +85,8 @@ class Decision_Tree():
 
     def gain_ratio_y(self, y_parent, y_left, y_right):
         """Gain Ratio = InformationGain(entropy) / SplitInfo."""
-        ig = self.information_gain_y(y_parent, y_left, y_right, self.entropy_y)
+        # ig = self.information_gain_y(y_parent, y_left, y_right, self.entropy_y)
+        ig = self.information_gain_y(y_parent, y_left, y_right, self.calc_entropy)
         si = self.split_info_y(y_left, y_right)
         if si <= 1e-12:
             return 0.0
@@ -101,7 +107,7 @@ class Decision_Tree():
         else:
             raise ValueError("criterion must be 'gini', 'entropy', or 'gain_ratio'")
         
-        best_gain = -100000
+        best_gain = -np.inf
         best_feature = None
         best_split_val = None
 
@@ -145,7 +151,7 @@ class Decision_Tree():
                 lower_vals = data[~mask]
                 lower_ys = lower_vals[:, -1]
 
-                score = score_fn(data[:, -1], higher_ys, lower_ys)
+                score = score_fn(data[row_idx, -1], higher_ys, lower_ys)
 
                 if score > best_gain:
                     best_gain = score
@@ -161,7 +167,7 @@ class Decision_Tree():
 
 
     def train(self, train_x, train_y):
-        self.labels = np.unique(train_x)
+        self.labels = np.unique(train_y)  # train y not train x
         train_y[train_y == -1] = 0
         train_data = np.concatenate((train_x, np.reshape(train_y, (-1, 1))), axis=1)
 
@@ -172,6 +178,17 @@ class Decision_Tree():
             return None
         
         split_gain, split_feature, split_val = self.find_best_split(data)
+        # safeguard: if no valid split was found, create a leaf node 
+        if split_feature is None:
+            label_prob = self.find_label_prob(data)
+            return Node(
+                data,
+                split_feature=None,
+                split_value=None,
+                information_gained=0.0,
+                predict_prob=label_prob
+            )
+        # split data into 2 groups
         g1, g2 = self.split(data, split_feature=split_feature, split_value=split_val)
 
         label_prob = self.find_label_prob(data)
@@ -214,9 +231,10 @@ class Decision_Tree():
         return pred_probs.round()
     
     def print_recursive(self, node, level=0, left=0, parent=-1):
-        step = 20 * (1/2)**(-level)
+        step = 20 * (1/2)**(level) # level not -level
         if node != None: 
-            self.print_recursive(node.left_child, level-1, left+step, ([level*5,left]))
+            # self.print_recursive(node.left_child, level-1, left+step, ([level*5,left]))  # old
+            self.print_recursive(node.left_child, level+1, left+step, ([level*5,left]))
             plt.scatter([left], [level*5])
             if node.left_child is not None:
                 plt.text(left, 5*level + 0.1, node.node_def(), ha="center", va="bottom", fontsize=7)
@@ -225,10 +243,10 @@ class Decision_Tree():
                 plt.text(left, 5*level + 0.1, str(np.round(ratio, 2)), ha="center", va="bottom", fontsize=7)
             if parent != -1:
                 plt.plot([left, parent[1]], [level*5, parent[0]], color="black")
-            self.print_recursive(node.right_child, level-1, left-step, ([level*5,left]))
+            # self.print_recursive(node.right_child, level-1, left-step, ([level*5,left]))  # old
+            self.print_recursive(node.right_child, level+1, left-step, ([level*5,left]))
 
     def print_tree(self):
-        import matplotlib.pyplot as plt
         fig, ax = plt.subplots(figsize=(20, 12), dpi=100)
         self.print_recursive(node=self.tree)
         fig.savefig("figure.svg")

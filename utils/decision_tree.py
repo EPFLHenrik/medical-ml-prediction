@@ -22,7 +22,7 @@ class Decision_Tree():
         self.split_row_ratio = split_row_ratio
         # progress tracker (alternative for tqdm)
         self._split_counter = 0
-        self._progress_interval = 100  # print every 100 splits
+        self._progress_interval = 5  # print every 5 splits
 
     def split(self, data, split_feature, split_value):
         if self.show_split_progress:

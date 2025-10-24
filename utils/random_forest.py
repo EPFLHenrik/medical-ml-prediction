@@ -24,10 +24,11 @@ class Random_Forest():
         bootstrapped_X = []
         bootstrapped_Y = []
 
-        for _ in range(self.base_learners_num):
-            if self.bootstrap_sample_size is None:
-                self.bootstrap_sample_size = X.shape[0]
+        if self.bootstrap_sample_size is None:
+            self.bootstrap_sample_size = X.shape[0]
 
+        for _ in range(self.base_learners_num):
+        
             samples = np.random.choice(X.shape[0], size = self.bootstrap_sample_size, replace=True)
             bootstrapped_X.append(X[samples])
             bootstrapped_Y.append(Y[samples])
@@ -43,7 +44,8 @@ class Random_Forest():
             print("Training base learner ", index+1, "/", self.base_learners_num)
             dec_tree = Decision_Tree(self.max_tree_depth, self.min_samples_leaf, self.splitting_criterion, 
                                      self.min_information_gain, splits_by_feature=self.splits_by_feature,
-                                     show_split_progress=self.show_split_progress, 
+                                     show_split_progress=self.show_split_progress,
+                                     split_feature_ratio=self.split_feature_ratio, 
                                      split_row_ratio=self.split_row_ratio)
             
             dec_tree.train(bootstrapped_X[index], bootstrapped_Y[index])

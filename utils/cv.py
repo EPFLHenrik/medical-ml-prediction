@@ -114,7 +114,8 @@ def compute_roc_auc(y, proba):
     tpr = [0.0]
     fpr = [0.0]
 
-    thresholds = np.unique(proba_sorted)
+    # sort from high to low
+    thresholds = np.unique(proba_sorted)[::-1]
 
     for thr in thresholds:
         y_pred = (proba_sorted >= thr).astype(int)
@@ -129,7 +130,7 @@ def compute_roc_auc(y, proba):
     tpr = np.array(tpr)
     fpr = np.array(fpr)
 
-    auc = -np.trapz(tpr, fpr)
+    auc = np.trapz(tpr, fpr)
     return auc
 
 

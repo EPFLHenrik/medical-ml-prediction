@@ -9,7 +9,7 @@ def print_repo_tree(
     Print the folder structure of the repository hierarchically,
     starting from the git root if available.
     """
-    # Find git repo root (if .git folder exists somewhere above)
+    # find git repo root (if .git folder exists somewhere above)
     current = os.getcwd()
     while current != os.path.dirname(current):  # stop at filesystem root
         if ".git" in os.listdir(current):
@@ -42,7 +42,7 @@ def save_repo_tree(
     """
     Save the folder structure of the repository hierarchically into a text file.
     """
-    # Detect the repo root
+    # detect the repo root
     current = os.getcwd()
     while current != os.path.dirname(current):
         if ".git" in os.listdir(current):
@@ -54,7 +54,7 @@ def save_repo_tree(
 
     filepath = os.path.join(repo_root, filename)
 
-    # Print and save at the same time
+    # print and save at the same time
     with open(filepath, "w", encoding="utf-8") as f, redirect_stdout(f):
         print(f"Repository root: {repo_root}\n")
         for root, dirs, files in os.walk(repo_root):
@@ -72,8 +72,8 @@ def save_repo_tree(
     print(f"\n✅ Repository structure saved to: {filepath}")
 
 
-# Print it
+# print it
 print_repo_tree(max_depth=3)
 
-# Run it
+# run it
 save_repo_tree("repo_structure.txt", max_depth=3)

@@ -53,7 +53,6 @@ def load_csv_data_streamed(data_path, sub_sample=False):
     More memory-efficient loader for large CSVs using the csv module.
     Loads x_train, x_test, y_train, train_ids, test_ids as NumPy arrays.
     """
-    # --- Load y_train ---
     y_train_path = os.path.join(data_path, "y_train.csv")
     y_train = []
     with open(y_train_path, "r") as f:
@@ -63,7 +62,6 @@ def load_csv_data_streamed(data_path, sub_sample=False):
             y_train.append(int(row[1]))
     y_train = np.array(y_train)
 
-    # --- Load x_train ---
     x_train_path = os.path.join(data_path, "x_train.csv")
     with open(x_train_path, "r") as f:
         reader = csv.reader(f)
@@ -78,7 +76,6 @@ def load_csv_data_streamed(data_path, sub_sample=False):
     train_ids = data[:, 0].astype(int)
     x_train = data[:, 1:]
 
-    # --- Load x_test ---
     x_test_path = os.path.join(data_path, "x_test.csv")
     with open(x_test_path, "r") as f:
         reader = csv.reader(f)
@@ -90,8 +87,7 @@ def load_csv_data_streamed(data_path, sub_sample=False):
     data = np.array(data, dtype=np.float32)
     test_ids = data[:, 0].astype(int)
     x_test = data[:, 1:]
-
-    # Optional sub-sampling
+    # optional sub-sampling
     if sub_sample:
         y_train = y_train[::50]
         x_train = x_train[::50]
@@ -112,7 +108,7 @@ def load_data(sub_sample=True, add_outlier=False):
         usecols=[0],
         converters={0: lambda x: 0 if "Male" in str(x) else 1},
     )
-    # Convert to metric system
+    # convert to metric system
     height *= 0.025
     weight *= 0.454
 
@@ -139,7 +135,7 @@ def create_csv_submission(ids, y_pred, name):
         y_pred (list,np.array): predictions on data correspondent to indices
         name (str): name of the file to be created
     """
-    # Check that y_pred only contains -1 and 1
+    # check that y_pred only contains -1 and 1
     if not all(i in [-1, 1] for i in y_pred):
         raise ValueError("y_pred can only contain values -1, 1")
 
@@ -179,7 +175,7 @@ def save_json(obj, filename, save_dir=None):
         filename (str): name without extension
         save_dir (str or None): directory to save in; if None, saves under ../results/eda/
     """
-    # Default save directory (repo root / results / eda)
+    # default save directory (repo root / results / eda)
     if save_dir is None:
         repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         save_dir = os.path.join(repo_root, "results", "eda")

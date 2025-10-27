@@ -83,7 +83,7 @@ def gradient_descent(y, tx, initial_w, max_iters, gamma, loss_type="MSE"):
         ws: a list of length max_iters + 1 containing the model parameters as numpy arrays of shape (2, ),
             for each iteration of GD (as well as the final weights)
     """
-    # Define parameters to store w and loss
+    # define parameters to store w and loss
     ws = [initial_w]
     losses = [
         compute_loss(y, tx, initial_w, loss_type)
@@ -184,14 +184,14 @@ def least_squares(y, tx):
     >>> least_squares(np.array([0.1,0.2]), np.array([[2.3, 3.2], [1., 0.1]]))
     (array([ 0.21212121, -0.12121212]), 8.666684749742561e-33)
     """
-    # Normal equations
-    a = tx.T @ tx  # Gram matrix
+    # normal equations
+    a = tx.T @ tx  # gram matrix
     b = tx.T @ y  # right-hand side
 
-    # Solve the system a w = b
+    # solve the system a w = b
     w = np.linalg.solve(a, b)
 
-    # Compute error and MSE
+    # compute error and MSE
     e = y - tx @ w
     mse = (e @ e) / (2 * len(y))
 
@@ -227,17 +227,17 @@ def ridge_regression_demo(x, y, degree, ratio, seed):
     # define parameter
     lambdas = np.logspace(-5, 0, 15)
 
-    # 1. split the data, and return train and test data
+    # split the data, and return train and test data
     x_tr, x_te, y_tr, y_te = split_data(x, y, ratio, seed)
 
-    # 2. form train and test data with polynomial basis function
+    # form train and test data with polynomial basis function
     tx_tr = build_poly(x_tr, degree)
     tx_te = build_poly(x_te, degree)
 
     rmse_tr = []
     rmse_te = []
     for ind, lambda_ in enumerate(lambdas):
-        # 3. ridge regression with a given lambda
+        # ridge regression with a given lambda
         w = ridge_regression_method(y_tr, tx_tr, lambda_)
 
         # training RMSE
@@ -295,7 +295,7 @@ def stochastic_gradient_descent(
         ws: a list of length max_iters containing the model parameters as numpy arrays of shape (2, ), for each iteration of SGD
     """
 
-    # Define parameters to store w and loss
+    # define parameters to store w and loss
     ws = [initial_w]
     losses = [compute_loss(y, tx, initial_w, loss_type)]  # include initial loss
     w = initial_w.copy()
@@ -357,7 +357,7 @@ def subgradient_descent(y, tx, initial_w, max_iters, gamma):
         losses: a list of length max_iters containing the loss value (scalar) for each iteration of SubGD
         ws: a list of length max_iters containing the model parameters as numpy arrays of shape (2, ), for each iteration of SubGD
     """
-    # Define parameters to store w and loss
+    # define parameters to store w and loss
     loss_type = "MAE"
     ws = [initial_w]
     losses = [
@@ -598,11 +598,6 @@ def calculate_loss(y, tx, w):
 
     n = y.shape[0]
     pred = sigmoid(tx @ w)
-
-    # optional clip for numerical stability
-    # eps = 1e-15
-    # pred = np.clip(pred, eps, 1 - eps)
-
     L = -(1 / n) * np.sum(y * np.log(pred) + (1 - y) * np.log(1 - pred))
     return float(L)
 

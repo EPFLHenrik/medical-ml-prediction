@@ -7,5 +7,6 @@ documents/dateset_description.pdf
 __pycache__/
 dataset/
 .vscode/
+results/submissions/
 results/eda/eda/scaling/
 .ipynb_checkpoints

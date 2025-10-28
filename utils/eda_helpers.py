@@ -4,9 +4,7 @@ import os
 import csv
 
 
-# ---------------------------------------------------------------------
-# 1. Basic statistics
-# ---------------------------------------------------------------------
+#basic statistics
 def describe_feature(x):
     """
     Compute basic descriptive statistics for a single feature vector.
@@ -64,7 +62,7 @@ def dataset_describe(X, feature_names=None, max_features=10):
     n_samples, n_features = X.shape
     summary = []
 
-    # Generate default names if none are provided
+    # generate default names if none are provided
     if feature_names is None:
         feature_names = [f"feature_{j}" for j in range(n_features)]
 
@@ -84,7 +82,7 @@ def dataset_describe(X, feature_names=None, max_features=10):
         n_unique = len(np.unique(col[mask]))
         missing_pct = 100 * n_missing / n_samples
 
-        # Infer type
+        # infer type
         if n_unique == 1:
             ftype = "constant"
         elif n_unique == 2:
@@ -92,7 +90,7 @@ def dataset_describe(X, feature_names=None, max_features=10):
         else:
             ftype = "continuous"
 
-        # Compute stats safely
+        # compute stats safely
         if np.any(mask):
             mean = np.mean(col[mask])
             std = np.std(col[mask])
@@ -116,7 +114,7 @@ def dataset_describe(X, feature_names=None, max_features=10):
             }
         )
 
-        # Clean, aligned printout
+        # clean, aligned printout
         print(
             f"{j:4d} | {feature_names[j][:15]:15s} | {ftype:10s} | "
             f"{n_unique:7d} | {n_missing:8d} | {missing_pct:6.2f} | "
@@ -191,9 +189,7 @@ def inspect_feature_types(X, max_features=10):
     return summary
 
 
-# ---------------------------------------------------------------------
-# 2. Missing values
-# ---------------------------------------------------------------------
+# missing values
 def count_missing(X):
     """
     Count missing values (NaNs) per feature.
@@ -207,9 +203,7 @@ def count_missing(X):
     return np.sum(np.isnan(X), axis=0)
 
 
-# ---------------------------------------------------------------------
-# 3. Outlier detection
-# ---------------------------------------------------------------------
+# outlier detection
 def find_outliers_iqr(x):
     """
     Identify outliers in a 1D array using the IQR rule.
@@ -251,9 +245,7 @@ def count_outliers_dataset(X, method="iqr"):
     return np.array(outlier_counts)
 
 
-# ---------------------------------------------------------------------
-# 4. Correlation
-# ---------------------------------------------------------------------
+# correlation
 def correlation_matrix(X):
     """
     Compute the correlation matrix between all features.
@@ -270,9 +262,7 @@ def correlation_matrix(X):
     return np.corrcoef(X_valid, rowvar=False)
 
 
-# ---------------------------------------------------------------------
-# 5. Feature-level statistics
-# ---------------------------------------------------------------------
+# feature level statistics
 
 
 def feature_skewness(x):
@@ -307,9 +297,7 @@ def feature_entropy(x, bins=10):
     return -np.sum(hist * np.log2(hist))
 
 
-# ---------------------------------------------------------------------
-# 6. Data quality diagnostics
-# ---------------------------------------------------------------------
+# data diagnostics
 
 
 def detect_constant_features(X):
@@ -359,9 +347,7 @@ def drop_high_missing_features(X, threshold=0.5):
     return X[:, keep_mask], dropped
 
 
-# ---------------------------------------------------------------------
-# 7. Feature transformations
-# ---------------------------------------------------------------------
+# feature transformations
 
 
 def normalize_feature(x):
@@ -397,9 +383,7 @@ def replace_missing_with_mean(x):
     return x
 
 
-# ---------------------------------------------------------------------
-# 8. Relationship analysis
-# ---------------------------------------------------------------------
+# relatedness between features and target
 
 
 def feature_target_correlation(X, y):
@@ -432,9 +416,7 @@ def compute_variance_ratio(X):
     return variances / total if total != 0 else np.zeros_like(variances)
 
 
-# ---------------------------------------------------------------------
-# 9. Visualization utilities
-# ---------------------------------------------------------------------
+# visualizations
 
 
 def plot_feature_vs_target(X, y, feature_idx):
@@ -668,7 +650,7 @@ def clean_data(x_data, x_indices):
         '_LMTSCL1','_FLSHOT6','_AIDTST3',
     ]
 
-    # No explicit DK/Ref "7…/9…" code in that variable’s own table
+    # no explicit DK/Ref "7…/9…" code in that variable’s own table
     no_dk_rf = [
         'ACTIN11_','ACTIN21_','CADULT','CCLGHOUS','CELLFON2','CELLFON3',
         'COLGHOUS','CRGVLNG1','CSTATE','CTELENUM','CTELNUM1','CVDASPRN','CVDCRHD4',

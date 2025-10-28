@@ -40,25 +40,24 @@ def compute_training_error(y, tx, w, threshold=0.5, returning="error"):
     float or dict
         The requested metric value or a dict of all metrics.
     """
-    # Predicted probabilities and binary labels
+    # predicted probabilities and binary labels
     y = y.flatten()
     proba = sigmoid(tx @ w).flatten()
     y_pred = (proba >= threshold).astype(int)
 
-    # Confusion matrix components
+    # confusion matrix components
     tp = np.sum((y_pred == 1) & (y == 1))
     tn = np.sum((y_pred == 0) & (y == 0))
     fp = np.sum((y_pred == 1) & (y == 0))
     fn = np.sum((y_pred == 0) & (y == 1))
 
-    # Basic metrics
+    # basic metrics
     accuracy = (tp + tn) / (tp + tn + fp + fn + 1e-10)
     error = 1 - accuracy
     precision = tp / (tp + fp + 1e-10)
     recall = tp / (tp + fn + 1e-10)
     f1 = 2 * precision * recall / (precision + recall + 1e-10)
     roc_auc = compute_roc_auc(y, proba)
-    # Return
     metrics = {
         "error": error,
         "accuracy": accuracy,
@@ -103,7 +102,7 @@ def evaluate_thresholds(y, tx, w, thresholds=None):
 
 
 def compute_roc_auc(y, proba):
-    # Sort by descending probability
+    # sort by descending probability
     desc_idx = np.argsort(-proba)
     y_sorted = y[desc_idx]
     proba_sorted = proba[desc_idx]
@@ -150,15 +149,15 @@ def train_logreg(y, tx, kind="logistic",
 
 
     if kind == "logistic":
-        # Standard logistic regression (5 args)
+        # standard logistic regression (5 args)
         w, losses = logistic_regression(y, tx, w_init, max_iters, gamma)
 
     elif kind == "reg_logistic":
-        # Regularized logistic regression (6 args)
+        # regularized logistic regression (6 args)
         w, losses = reg_logistic_regression(y, tx, lambda_, w_init, max_iters, gamma)
 
     elif kind == "w_logistic":
-        # Weighted logistic regression (7 args)
+        # weighted logistic regression (7 args)
         w, losses = weighted_logistic_regression(y, tx, w_init, max_iters, gamma, lambda_, tol)
 
     else:
@@ -305,7 +304,7 @@ def cross_validate_with_weights(X, y, interesting_columns, train_func, predict_f
     all_weights = []
 
     for k in range(K):
-        # Split indices
+        # split data
         start, end = k * fold_size, (k + 1) * fold_size if k < K - 1 else n
         test_idx = indices[start:end]
         train_idx = np.concatenate((indices[:start], indices[end:]))
@@ -313,13 +312,11 @@ def cross_validate_with_weights(X, y, interesting_columns, train_func, predict_f
         X_train, X_test = X[train_idx], X[test_idx]
         y_train, y_test = y[train_idx], y[test_idx]
 
-        # --- Train model ---
+        # train
         w = train_func(X_train, y_train)
-
-        # --- Save weights ---
         all_weights.append(w)
 
-        # --- Optional evaluation ---
+        # evaluate
         y_pred = predict_func(X_test, w)
         acc = np.mean((y_pred > 0.5) == y_test)
         print(f"\nFold {k+1}: accuracy = {acc:.4f}")
@@ -327,8 +324,8 @@ def cross_validate_with_weights(X, y, interesting_columns, train_func, predict_f
         for name, val in zip(interesting_columns, w):
             print(f"  {name:20s}: {val:+.4f}")
 
-    # --- Compute variance of each weight across folds ---
-    all_weights = np.array(all_weights)  # shape: (K, n_features)
+    # compute variance of each weight across folds
+    all_weights = np.array(all_weights) 
     var_per_feature = np.var(all_weights, axis=0)
 
     print("\n=== Variance of weights across folds ===")
@@ -360,33 +357,32 @@ def analyze_cv_results(weights_list, train_metrics, val_metrics, class_weights_l
         Summary with numeric diagnostics.
     """
     n_folds = len(weights_list)
-    weights = np.hstack([w.reshape(-1, 1) for w in weights_list]).T  # (n_folds, n_features)
+    weights = np.hstack([w.reshape(-1, 1) for w in weights_list]).T  
 
-    # ---- 1) Compute mean/std for metrics ----
+    # compute mean/std for metrics
     train_f1s = np.array([m["f1"] for m in train_metrics])
     val_f1s   = np.array([m["f1"] for m in val_metrics])
     train_mean, val_mean = train_f1s.mean(), val_f1s.mean()
     train_std, val_std = train_f1s.std(ddof=1), val_f1s.std(ddof=1)
     gap = train_mean - val_mean
 
-    # ---- 2) Coefficient diagnostics ----
+    # cooeff diagnostics
     mean_w = weights.mean(axis=0)
     std_w = weights.std(axis=0, ddof=1)
     rel_var = std_w / (np.abs(mean_w) + 1e-12)
     coef_norms = np.linalg.norm(weights, axis=1)
     mean_norm, std_norm = coef_norms.mean(), coef_norms.std(ddof=1)
 
-    # Pairwise distance (average distance between folds)
+    # pairwise distance (average distance between folds)
     pairwise = np.sqrt(((weights[:, None, :] - weights[None, :, :]) ** 2).sum(axis=2))
     mean_pairwise = np.mean(pairwise)
     max_pairwise = np.max(pairwise)
 
-    # Sign flip count
     mean_sign = np.sign(mean_w)
     sign_flips = np.sum(np.sign(weights) != mean_sign, axis=0)
     unstable_feats = np.argsort(-rel_var)[:10]  # top 5 unstable
 
-    # ---- 3) Class weight variability (if any) ----
+    # class variability
     if class_weights_list is not None and len(class_weights_list) > 1:
         cw_arr = np.array([
             list(cw.values()) if isinstance(cw, dict) else np.array(cw).flatten()
@@ -398,7 +394,7 @@ def analyze_cv_results(weights_list, train_metrics, val_metrics, class_weights_l
     else:
         cw_mean = cw_std = rel_cw_change = None
 
-    # ---- 4) Diagnose fit quality ----
+    # fit quality verdict
     if gap > 0.08 and train_mean >= 0.8:
         verdict = "OVERFITTING"
     elif train_mean < 0.65 and val_mean < 0.65:

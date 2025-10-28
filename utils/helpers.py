@@ -95,6 +95,7 @@ def load_csv_data_streamed(data_path, sub_sample=False):
 
     return x_train, x_test, y_train, train_ids, test_ids
 
+
 def load_data(sub_sample=True, add_outlier=False):
     """Load data and convert it to the metric system."""
     path_dataset = "height_weight_genders.csv"
@@ -123,6 +124,7 @@ def load_data(sub_sample=True, add_outlier=False):
         weight = np.concatenate([weight, [51.5 / 0.454, 55.3 / 0.454]])
 
     return height, weight, gender
+
 
 def create_csv_submission(ids, y_pred, name):
     """

@@ -1,7 +1,19 @@
 import numpy as np
+
+
 class Node:
 
-    def __init__(self, data, split_feature, split_value, information_gained, predict_prob, root=False, left_child=None, right_child=None):
+    def __init__(
+        self,
+        data,
+        split_feature,
+        split_value,
+        information_gained,
+        predict_prob,
+        root=False,
+        left_child=None,
+        right_child=None,
+    ):
         self.root = root
         self.data = data
         self.split_feature = split_feature
@@ -11,6 +23,5 @@ class Node:
         self.right_child = right_child
         self.predict_prob = predict_prob
 
-    
     def node_def(self):
         return f"Feature: {self.split_feature}\nValue: {np.round(self.split_value, 5)}\nInf Gained: {np.round(self.information_gained, 5)}"

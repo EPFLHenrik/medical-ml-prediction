@@ -148,10 +148,12 @@ def bias_variance_decomposition_visualization(degrees, rmse_tr, rmse_te):
     plt.title("Bias-Variance Decomposition")
     plt.savefig("bias_variance")
 
+
 def get_best_parameters(w0, w1, losses):
     """Get the best w from the result of grid search."""
     min_row, min_col = np.unravel_index(np.argmin(losses), losses.shape)
     return losses[min_row, min_col], w0[min_row], w1[min_col]
+
 
 def build_poly(x, degree):
     """polynomial basis functions for input data x, for j=0 up to j=degree.

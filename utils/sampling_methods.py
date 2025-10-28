@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def undersample(X, y, ratio=1.0, seed=None):
     """
     Random undersampling of the majority class.
@@ -38,7 +39,7 @@ def undersample(X, y, ratio=1.0, seed=None):
     n_maj_keep = int(n_min * ratio)
     n_maj_keep = min(n_maj_keep, len(majority_idx))
 
-    # randomly sample 
+    # randomly sample
     keep_majority = np.random.choice(majority_idx, size=n_maj_keep, replace=False)
 
     # combine and shuffle
@@ -49,6 +50,7 @@ def undersample(X, y, ratio=1.0, seed=None):
     y_resampled = y[keep_idx].reshape(-1, 1)
 
     return X_resampled, y_resampled
+
 
 def oversample(X, y, ratio=1.0, seed=None):
     """
@@ -114,6 +116,7 @@ def oversample(X, y, ratio=1.0, seed=None):
     y_resampled = y_resampled[perm].reshape(-1, 1)
 
     return X_resampled, y_resampled
+
 
 def smote_old(X, y, k=5, ratio=1.0, seed=None):
     """
@@ -191,6 +194,7 @@ def smote_old(X, y, k=5, ratio=1.0, seed=None):
 
     return X_resampled, y_resampled
 
+
 def smote(X, y, k=5, ratio=1.0, seed=None, batch_size=100):
     """
     Memory-efficient SMOTE using pure NumPy (no sklearn).
@@ -260,6 +264,7 @@ def smote(X, y, k=5, ratio=1.0, seed=None, batch_size=100):
 
     return X_resampled[perm], y_resampled[perm]
 
+
 def smote_then_undersample(X, y, k=5, over_ratio=1.0, under_ratio=1.0, seed=None):
     """
     Hybrid resampling: SMOTE oversampling followed by random undersampling.
@@ -281,7 +286,7 @@ def smote_then_undersample(X, y, k=5, over_ratio=1.0, under_ratio=1.0, seed=None
     """
     if y.ndim == 2:
         y = y.ravel()
-    
+
     if seed is not None:
         np.random.seed(seed)
 
@@ -289,4 +294,3 @@ def smote_then_undersample(X, y, k=5, over_ratio=1.0, under_ratio=1.0, seed=None
     X_res, y_res = undersample(X_sm, y_sm, ratio=under_ratio, seed=seed)
     y_res = y_res.reshape(-1, 1)
     return X_res, y_res
-

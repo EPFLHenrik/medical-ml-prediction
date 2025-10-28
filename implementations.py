@@ -250,8 +250,10 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         loss: array of ndim == 0, the loss value of the last iteration
     """
     assert tx.shape[0] == y.shape[0], f"Shape mismatch: X={tx.shape}, y={y.shape}"
-    assert tx.shape[1] == initial_w.shape[0], f"W shape mismatch: X={tx.shape}, w={initial_w.shape}"
-    
+    assert (
+        tx.shape[1] == initial_w.shape[0]
+    ), f"W shape mismatch: X={tx.shape}, w={initial_w.shape}"
+
     # Define parameters to store w and loss
     loss = calculate_loss(y, tx, initial_w)
     w = initial_w.copy()
@@ -319,7 +321,7 @@ def calculate_gradient(y, tx, w):
     Returns:
         the gradient grad, a vector of shape (D, 1)
     """
-    y = y.reshape(-1, 1)  
+    y = y.reshape(-1, 1)
     grad = tx.T @ (sigmoid(tx @ w) - y) / y.shape[0]
     return grad
 
@@ -341,7 +343,9 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
 
     """
     assert tx.shape[0] == y.shape[0], f"Shape mismatch: X={tx.shape}, y={y.shape}"
-    assert tx.shape[1] == initial_w.shape[0], f"W shape mismatch: X={tx.shape}, w={initial_w.shape}"
+    assert (
+        tx.shape[1] == initial_w.shape[0]
+    ), f"W shape mismatch: X={tx.shape}, w={initial_w.shape}"
 
     # Define parameters to store w and loss
     loss = calculate_loss(y, tx, initial_w)
@@ -379,8 +383,9 @@ def penalized_logistic_regression(y, tx, w, lambda_):
     return float(loss), gradient
 
 
-
-def weighted_logistic_regression(y, tx, initial_w, max_iters, gamma, lambda_=0.0, tol=None):
+def weighted_logistic_regression(
+    y, tx, initial_w, max_iters, gamma, lambda_=0.0, tol=None
+):
     """
     Weighted logistic regression using gradient descent.
     Adds sample-level weighting to handle class imbalance.
@@ -422,7 +427,9 @@ def weighted_logistic_regression(y, tx, initial_w, max_iters, gamma, lambda_=0.0
         pred = np.clip(pred, 1e-15, 1 - 1e-15)
 
         # weighted loss (with optional L2 regularization)
-        loss = -np.sum(sample_weights * (y * np.log(pred) + (1 - y) * np.log(1 - pred))) / np.sum(sample_weights)
+        loss = -np.sum(
+            sample_weights * (y * np.log(pred) + (1 - y) * np.log(1 - pred))
+        ) / np.sum(sample_weights)
         # loss += lambda_ * np.sum(w ** 2) # we dont add this right??
         losses.append(loss)
 

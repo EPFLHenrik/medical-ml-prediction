@@ -253,3 +253,14 @@ class Decision_Tree():
         plt.savefig("figure.svg", bbox_inches="tight")
         plt.show()
             
+    def get_feature_importances(self, node, d):
+        if node is not None:
+            d[node.split_feature] = d.get(node.split_feature, 0) + node.information_gained
+
+            d = self.get_feature_importances(node.left_child, d)
+            d = self.get_feature_importances(node.right_child, d)
+        return d
+
+        
+    def calculate_feature_importances(self):
+        return self.get_feature_importances(self.tree, {})

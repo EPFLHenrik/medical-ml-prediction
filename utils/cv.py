@@ -40,18 +40,18 @@ def compute_training_error(y, tx, w, threshold=0.5, returning="error"):
     float or dict
         The requested metric value or a dict of all metrics.
     """
-    # Predicted probabilities and binary labels
+    # predicted probabilities and binary labels
     y = y.flatten()
     proba = sigmoid(tx @ w).flatten()
     y_pred = (proba >= threshold).astype(int)
 
-    # Confusion matrix components
+    # confusion matrix components
     tp = np.sum((y_pred == 1) & (y == 1))
     tn = np.sum((y_pred == 0) & (y == 0))
     fp = np.sum((y_pred == 1) & (y == 0))
     fn = np.sum((y_pred == 0) & (y == 1))
 
-    # Basic metrics
+    # basic metrics
     accuracy = (tp + tn) / (tp + tn + fp + fn + 1e-10)
     error = 1 - accuracy
     precision = tp / (tp + fp + 1e-10)
@@ -103,7 +103,7 @@ def evaluate_thresholds(y, tx, w, thresholds=None):
 
 
 def compute_roc_auc(y, proba):
-    # Sort by descending probability
+    # sort by descending probability
     desc_idx = np.argsort(-proba)
     y_sorted = y[desc_idx]
     proba_sorted = proba[desc_idx]
@@ -150,15 +150,15 @@ def train_logreg(y, tx, kind="logistic",
 
 
     if kind == "logistic":
-        # Standard logistic regression (5 args)
+        # standard logistic regression (5 args)
         w, losses = logistic_regression(y, tx, w_init, max_iters, gamma)
 
     elif kind == "reg_logistic":
-        # Regularized logistic regression (6 args)
+        # regularized logistic regression (6 args)
         w, losses = reg_logistic_regression(y, tx, lambda_, w_init, max_iters, gamma)
 
     elif kind == "w_logistic":
-        # Weighted logistic regression (7 args)
+        # weighted logistic regression (7 args)
         w, losses = weighted_logistic_regression(y, tx, w_init, max_iters, gamma, lambda_, tol)
 
     else:

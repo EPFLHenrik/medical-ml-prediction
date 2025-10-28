@@ -211,7 +211,7 @@ def smote(X, y, k=5, ratio=1.0, seed=None, batch_size=100):
     if seed is not None:
         np.random.seed(seed)
 
-    # Identify classes
+    # identify classes
     labels, counts = np.unique(y, return_counts=True)
     if len(labels) != 2:
         raise ValueError("y must contain exactly two classes.")
@@ -222,13 +222,13 @@ def smote(X, y, k=5, ratio=1.0, seed=None, batch_size=100):
     X_maj = X[y == majority_label]
     n_min, n_maj = len(X_min), len(X_maj)
 
-    # How many synthetic samples are needed
+    # how many synthetic samples are needed
     n_min_target = int(n_maj / ratio)
     n_to_add = max(0, n_min_target - n_min)
     if n_to_add == 0:
         return X.copy(), y.copy()
 
-    # --- Compute k nearest neighbors (batched to save RAM) ---
+    # knn
     nn_indices = []
     for start in range(0, n_min, batch_size):
         end = min(start + batch_size, n_min)
@@ -241,7 +241,7 @@ def smote(X, y, k=5, ratio=1.0, seed=None, batch_size=100):
         nn_indices.append(nn)
     nn_indices = np.vstack(nn_indices)
 
-    # --- Generate synthetic samples ---
+    # generate synthetic samples
     new_samples = []
     for _ in range(n_to_add):
         i = np.random.randint(0, n_min)
@@ -253,7 +253,7 @@ def smote(X, y, k=5, ratio=1.0, seed=None, batch_size=100):
     X_new = np.array(new_samples)
     y_new = np.full(len(X_new), minority_label)
 
-    # Combine and shuffle
+    # combine and shuffle
     X_resampled = np.vstack([X, X_new])
     y_resampled = np.concatenate([y, y_new]).reshape(-1, 1)
     perm = np.random.permutation(len(y_resampled))

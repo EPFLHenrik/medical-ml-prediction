@@ -1,13 +1,14 @@
 import numpy as np
 import sys, os
-sys.path.append(os.path.join(os.getcwd(), '..'))
+
+sys.path.append(os.path.join(os.getcwd(), ".."))
 from implementations import (
     logistic_regression,
     reg_logistic_regression,
     weighted_logistic_regression,
 )
-from utils.sampling_methods import undersample, oversample, smote  
-from utils.all_functions import sigmoid  
+from utils.sampling_methods import undersample, oversample, smote
+from utils.all_functions import sigmoid
 
 
 def predict(tx, w, threshold=0.5, return_prob=False):
@@ -64,7 +65,7 @@ def compute_training_error(y, tx, w, threshold=0.5, returning="error"):
         "precision": precision,
         "recall": recall,
         "f1": f1,
-        "roc_auc": roc_auc
+        "roc_auc": roc_auc,
     }
 
     if returning == "all":
@@ -73,7 +74,7 @@ def compute_training_error(y, tx, w, threshold=0.5, returning="error"):
         return metrics[returning]
     else:
         raise ValueError(f"Unknown metric '{returning}'")
-    
+
 
 def evaluate_thresholds(y, tx, w, thresholds=None):
     """
@@ -82,22 +83,24 @@ def evaluate_thresholds(y, tx, w, thresholds=None):
     """
     if thresholds is None:
         thresholds = np.linspace(0.1, 0.9, 9)
-    
+
     results = []
-    
+
     for t in thresholds:
         metrics = compute_training_error(y, tx, w, threshold=t, returning="all")
-        
-        results.append({
-            "threshold": t,
-            "accuracy": metrics["accuracy"],
-            "error": metrics["error"],
-            "precision": metrics["precision"],
-            "recall": metrics["recall"],
-            "f1": metrics["f1"],
-            "roc_auc": metrics["roc_auc"]
-        })
-    
+
+        results.append(
+            {
+                "threshold": t,
+                "accuracy": metrics["accuracy"],
+                "error": metrics["error"],
+                "precision": metrics["precision"],
+                "recall": metrics["recall"],
+                "f1": metrics["f1"],
+                "roc_auc": metrics["roc_auc"],
+            }
+        )
+
     return results
 
 
@@ -133,9 +136,17 @@ def compute_roc_auc(y, proba):
     return auc
 
 
-def train_logreg(y, tx, kind="logistic",
-                 gamma=0.01, lambda_=0.0, max_iters=1000,
-                 tol=None, w_init=None, verbose=True):
+def train_logreg(
+    y,
+    tx,
+    kind="logistic",
+    gamma=0.01,
+    lambda_=0.0,
+    max_iters=1000,
+    tol=None,
+    w_init=None,
+    verbose=True,
+):
     """
     Unified training wrapper for logistic regression variants:
     - Standard logistic regression
@@ -147,7 +158,6 @@ def train_logreg(y, tx, kind="logistic",
         w_init = np.zeros((n_features, 1))
     y = y.reshape(-1, 1)
 
-
     if kind == "logistic":
         # standard logistic regression (5 args)
         w, losses = logistic_regression(y, tx, w_init, max_iters, gamma)
@@ -158,12 +168,18 @@ def train_logreg(y, tx, kind="logistic",
 
     elif kind == "w_logistic":
         # weighted logistic regression (7 args)
-        w, losses = weighted_logistic_regression(y, tx, w_init, max_iters, gamma, lambda_, tol)
+        w, losses = weighted_logistic_regression(
+            y, tx, w_init, max_iters, gamma, lambda_, tol
+        )
 
     else:
         raise ValueError("kind must be 'logistic', 'reg_logistic', or 'w_logistic'")
 
-    final_loss = losses[-1] if isinstance(losses, (list, np.ndarray)) and losses.ndim > 0 else float(losses)
+    final_loss = (
+        losses[-1]
+        if isinstance(losses, (list, np.ndarray)) and losses.ndim > 0
+        else float(losses)
+    )
 
     if verbose:
         print(f"[{kind}] Training finished — final loss: {losses[-1]:.6f}")
@@ -256,33 +272,52 @@ def cross_validate(
                 metrics["threshold"] = thr
                 all_metrics.append(metrics)
                 if verbose:
-                    print(f"Fold {i+1}/{k_folds} @ thr={thr:.2f} → " +
-                          ", ".join([f"{k}:{v:.3f}" for k, v in metrics.items() if k != "threshold"]))
+                    print(
+                        f"Fold {i+1}/{k_folds} @ thr={thr:.2f} → "
+                        + ", ".join(
+                            [
+                                f"{k}:{v:.3f}"
+                                for k, v in metrics.items()
+                                if k != "threshold"
+                            ]
+                        )
+                    )
         else:
             y_pred, y_proba = predict_fn(X_val, w)
             metrics = metric_fn(y_val, X_val, w, returning="all")
             all_metrics.append(metrics)
             if verbose:
-                msg = f"Fold {i+1}/{k_folds} → " + ", ".join([f"{k}:{v:.3f}" for k, v in metrics.items()])
+                msg = f"Fold {i+1}/{k_folds} → " + ", ".join(
+                    [f"{k}:{v:.3f}" for k, v in metrics.items()]
+                )
                 print(msg)
 
     if not all_metrics:
-        raise ValueError("No successful folds. Check your sampling or training function.")
+        raise ValueError(
+            "No successful folds. Check your sampling or training function."
+        )
 
     # avg metrics
     if thresholds is not None:
         avg_metrics = {}
         for t in thresholds:
             subset = [m for m in all_metrics if abs(m["threshold"] - t) < 1e-9]
-            avg_metrics[t] = {k: np.mean([m[k] for m in subset])
-                              for k in subset[0] if k not in ["threshold"]}
+            avg_metrics[t] = {
+                k: np.mean([m[k] for m in subset])
+                for k in subset[0]
+                if k not in ["threshold"]
+            }
         return avg_metrics
     else:
-        avg_metrics = {m: np.mean([fold[m] for fold in all_metrics]) for m in all_metrics[0]}
+        avg_metrics = {
+            m: np.mean([fold[m] for fold in all_metrics]) for m in all_metrics[0]
+        }
         return avg_metrics
 
 
-def cross_validate_with_weights(X, y, interesting_columns, train_func, predict_func, K=5, random_state=42):
+def cross_validate_with_weights(
+    X, y, interesting_columns, train_func, predict_func, K=5, random_state=42
+):
     """
     Performs K-fold cross-validation and prints per-fold weights and their variance.
 
@@ -325,7 +360,7 @@ def cross_validate_with_weights(X, y, interesting_columns, train_func, predict_f
             print(f"  {name:20s}: {val:+.4f}")
 
     # compute variance of each weight across folds
-    all_weights = np.array(all_weights) 
+    all_weights = np.array(all_weights)
     var_per_feature = np.var(all_weights, axis=0)
 
     print("\n=== Variance of weights across folds ===")
@@ -334,7 +369,10 @@ def cross_validate_with_weights(X, y, interesting_columns, train_func, predict_f
 
     return all_weights, var_per_feature
 
-def analyze_cv_results(weights_list, train_metrics, val_metrics, class_weights_list=None, verbose=True):
+
+def analyze_cv_results(
+    weights_list, train_metrics, val_metrics, class_weights_list=None, verbose=True
+):
     """
     Analyze cross-validation diagnostics for over/underfitting and weight stability (NumPy-only).
 
@@ -357,11 +395,11 @@ def analyze_cv_results(weights_list, train_metrics, val_metrics, class_weights_l
         Summary with numeric diagnostics.
     """
     n_folds = len(weights_list)
-    weights = np.hstack([w.reshape(-1, 1) for w in weights_list]).T  
+    weights = np.hstack([w.reshape(-1, 1) for w in weights_list]).T
 
     # compute mean/std for metrics
     train_f1s = np.array([m["f1"] for m in train_metrics])
-    val_f1s   = np.array([m["f1"] for m in val_metrics])
+    val_f1s = np.array([m["f1"] for m in val_metrics])
     train_mean, val_mean = train_f1s.mean(), val_f1s.mean()
     train_std, val_std = train_f1s.std(ddof=1), val_f1s.std(ddof=1)
     gap = train_mean - val_mean
@@ -384,10 +422,12 @@ def analyze_cv_results(weights_list, train_metrics, val_metrics, class_weights_l
 
     # class variability
     if class_weights_list is not None and len(class_weights_list) > 1:
-        cw_arr = np.array([
-            list(cw.values()) if isinstance(cw, dict) else np.array(cw).flatten()
-            for cw in class_weights_list
-        ])
+        cw_arr = np.array(
+            [
+                list(cw.values()) if isinstance(cw, dict) else np.array(cw).flatten()
+                for cw in class_weights_list
+            ]
+        )
         cw_mean = cw_arr.mean(axis=0)
         cw_std = cw_arr.std(axis=0, ddof=1)
         rel_cw_change = cw_std / (np.abs(cw_mean) + 1e-12)
@@ -432,7 +472,9 @@ def analyze_cv_results(weights_list, train_metrics, val_metrics, class_weights_l
         print(f"Gap (train - val): {gap:.3f} → {verdict}")
         print(f"Weight L2 norm mean: {mean_norm:.3f} ± {std_norm:.3f}")
         print(f"Mean pairwise distance between folds: {mean_pairwise:.3f}")
-        print(f"Top 10 unstable features (by relative var): {unstable_feats.tolist(), rel_var[unstable_feats].tolist()}")
+        print(
+            f"Top 10 unstable features (by relative var): {unstable_feats.tolist(), rel_var[unstable_feats].tolist()}"
+        )
         if cw_mean is not None:
             print(f"Class weight relative change: {rel_cw_change}")
         print("====================================\n")

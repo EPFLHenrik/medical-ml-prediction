@@ -4,7 +4,7 @@ import os
 import csv
 
 
-#basic statistics
+# basic statistics
 def describe_feature(x):
     """
     Compute basic descriptive statistics for a single feature vector.
@@ -544,9 +544,10 @@ def plot_correlation_heatmap(corr):
     plt.ylabel("Feature index")
     plt.show()
 
-def read_csv_numeric(path): 
-    # 1) read header for the name→index mapping 
-    with open(path, newline='', encoding='utf-8') as f: 
+
+def read_csv_numeric(path):
+    # 1) read header for the name→index mapping
+    with open(path, newline="", encoding="utf-8") as f:
         reader = csv.reader(f)
         header = next(reader)
     col_idx = {name: i for i, name in enumerate(header)}
@@ -559,7 +560,7 @@ def read_csv_numeric(path):
         skip_header=1,
         dtype=float,
         missing_values=["", "NA", "NaN"],
-        filling_values=np.nan
+        filling_values=np.nan,
     )
     # If the CSV has only one data row, genfromtxt returns 1D; force 2D
     if data.ndim == 1:
@@ -567,104 +568,366 @@ def read_csv_numeric(path):
 
     return col_idx, data
 
+
 def clean_data(x_data, x_indices):
     # 6-digit: DK/Ref codes like 777777 / 999999
     six_digit = [
-        'FLSHTMY2',
-        'HIVTSTD3',
+        "FLSHTMY2",
+        "HIVTSTD3",
     ]
 
     # 5-digit: DK/Ref codes like 99999 (e.g., WTKG3)
     five_digit = [
-        'PA1VIGM_',
-        'PAFREQ2_',
-        'WTKG3',
+        "PA1VIGM_",
+        "PAFREQ2_",
+        "WTKG3",
     ]
 
     # 4-digit: DK/Ref codes like 7777 / 9999 (e.g., WEIGHT2)
     four_digit = [
-        'BEANDAY_',
-        'FRUTDA1_',
-        'FTJUDA1_',
-        'GRENDAY_',
-        'HEIGHT3',
-        'ORNGDAY_',
-        'VEGEDA1_',
-        'WEIGHT2',
-        '_BMI5',
-        '_BMI5CAT',
+        "BEANDAY_",
+        "FRUTDA1_",
+        "FTJUDA1_",
+        "GRENDAY_",
+        "HEIGHT3",
+        "ORNGDAY_",
+        "VEGEDA1_",
+        "WEIGHT2",
+        "_BMI5",
+        "_BMI5CAT",
     ]
 
     # 3-digit: DK/Ref codes like 777 / 999 (e.g., ALCDAY5)
     triple_digit = [
-        'ALCDAY5',
-        'ASACTLIM',
-        'ASNOSLEP',
-        'BLDSUGAR',
-        'CDHELP',
-        'EXERHMM1',
-        'EXERHMM2',
-        'EXEROFT1',
-        'EXEROFT2',
-        'FEETCHK2',
-        'FRUIT1',
-        'FRUITJU1',
-        'FVBEANS',
-        'FVGREEN',
-        'FVORANG',
-        'LONGWTCH',
-        'STRENGTH',
-        'VEGETAB1',
-        '_RFBING5',
-        'MAXVO2_','FC60_',
+        "ALCDAY5",
+        "ASACTLIM",
+        "ASNOSLEP",
+        "BLDSUGAR",
+        "CDHELP",
+        "EXERHMM1",
+        "EXERHMM2",
+        "EXEROFT1",
+        "EXEROFT2",
+        "FEETCHK2",
+        "FRUIT1",
+        "FRUITJU1",
+        "FVBEANS",
+        "FVGREEN",
+        "FVORANG",
+        "LONGWTCH",
+        "STRENGTH",
+        "VEGETAB1",
+        "_RFBING5",
+        "MAXVO2_",
+        "FC60_",
     ]
 
     # 2-digit: DK/Ref codes like 77 / 99 (e.g., DRNK3GE5)
     double_digit = [
-        'ADDOWN','ADEAT1','ADENERGY','ADFAIL','ADMOVE','ADPLEASR','ADSLEEP','ADTHINK',
-        'ARTTODAY','ASINHALR','ASRCHKUP','ASTHMAGE','CDDISCUS','CDSOCIAL','CHKHEMO3','CRGVEXPT',
-        'CVDINFR4','DIABAGE2','DOCTDIAB','EXRACT11',
-        'EXRACT21','FEETCHK','HAREHAB1','HHADULT','HOWLONG','HPVADVC2','IMFVPLAC','INCOME2','JOINPAIN',
-        'LASTSMK2','LENGEXAM','LSTBLDS3','MENTHLTH','PAFREQ1_','PHYSHLTH','POORHLTH',
-        'PSATIME','RDUCHART','SCNTLWK1','SCNTWRK1','VINOCRE2','WHRTST10',
-        '_CRACE1','_DRDXAR1','_PRACE1','_RACE_G1','_WT2RAKE','AVEDRNK2',
-        'DRNK3GE5','MAXDRNKS','ARTHSOCL','STRFREQ_','CHILDREN',
+        "ADDOWN",
+        "ADEAT1",
+        "ADENERGY",
+        "ADFAIL",
+        "ADMOVE",
+        "ADPLEASR",
+        "ADSLEEP",
+        "ADTHINK",
+        "ARTTODAY",
+        "ASINHALR",
+        "ASRCHKUP",
+        "ASTHMAGE",
+        "CDDISCUS",
+        "CDSOCIAL",
+        "CHKHEMO3",
+        "CRGVEXPT",
+        "CVDINFR4",
+        "DIABAGE2",
+        "DOCTDIAB",
+        "EXRACT11",
+        "EXRACT21",
+        "FEETCHK",
+        "HAREHAB1",
+        "HHADULT",
+        "HOWLONG",
+        "HPVADVC2",
+        "IMFVPLAC",
+        "INCOME2",
+        "JOINPAIN",
+        "LASTSMK2",
+        "LENGEXAM",
+        "LSTBLDS3",
+        "MENTHLTH",
+        "PAFREQ1_",
+        "PHYSHLTH",
+        "POORHLTH",
+        "PSATIME",
+        "RDUCHART",
+        "SCNTLWK1",
+        "SCNTWRK1",
+        "VINOCRE2",
+        "WHRTST10",
+        "_CRACE1",
+        "_DRDXAR1",
+        "_PRACE1",
+        "_RACE_G1",
+        "_WT2RAKE",
+        "AVEDRNK2",
+        "DRNK3GE5",
+        "MAXDRNKS",
+        "ARTHSOCL",
+        "STRFREQ_",
+        "CHILDREN",
     ]
 
     # 1-digit: DK/Ref codes like 7 / 9 (e.g., EXERANY2)
     single_digit = [
-        'ADDEPEV2','ARTHDIS2','ARTHEDU','ARTHEXER','ARTHWGT','ASATTACK','ASDRVIST','ASERVIST','ASPUNSAF','ASTHMA3','ASTHMED3','ASYMPTOM',
-        'BLDSTOOL','BLIND','BLOODCHO','BPHIGH4','CASTHNO2','CDASSIST','CDHOUSE','CHCCOPD1','CHCKIDNY','CHECKUP1','CHOLCHK','CIMEMLOS',
-        'CPDEMO1','CRGVHRS1','CRGVMST2','DECIDE','DIABEDU','DIABEYE','DIFFALON','DRADVISE','EDUCA','EXERANY2','EYEEXAM','FLUSHOT6',
-        'HADHYST2','HADMAM','HADPAP2','HADSGCO1','HADSIGM3','HAVARTH3','HIVTST6','HLTHPLN1','HPVADSHT','HPVTEST','LANDLINE','LMTJOIN3',
-        'MEDCOST','MISTMNT','NUMHHOL2','PCPSAAD2','PCPSADE1','PCPSADI1','PCPSARE1','PDIABTST','PNEUVAC3','PREDIAB1','PROFEXAM','QLACTLM2',
-        'RENTHOM1','SCNTLPAD','SCNTMEL1','SCNTMNY1','SCNTPAID','SEATBELT','SMOKE100','STOPSMK2','STREHAB1','TETANUS','TOLDHI2',
-        'USEEQUIP','USENOW3','VICTRCT4','VIDFCLT2','VIEYEXM2','VIGLUMA2','VIMACDG2','VIPRFVS2','VIREDIF3','WTCHSALT','_CHOLCHK','_HCVU651',
-        '_LLCPWT','_LMTACT1','_MICHD','_PA150R2','_PA30021','_PA300R2','_PASTRNG','_RACEG21','_RFCHOL','_RFDRHV5','_RFHYPE5','_RFSEAT2',
-        '_SMOKER3','_TOTINDA','_VEGESUM','_RFSEAT3','PAMISS1_','GENHLTH','PERSDOC2','BPMEDS','CVDSTRK3','ASTHNOW','CHCOCNCR','CHCSCNCR',
-        'DIABETE3','MARITAL','VETERAN3','EMPLOY1','INTERNET','PREGNANT','DIFFWALK','DIFFDRES','CAREGIV1',
-        'CRGVHOUS','CRGVPERS','CRGVPRB1','CRGVREL1','LASTSIG3','SXORIENT','TRNSGNDR','RCSGENDR','RCSRLTN2','CASTHDX2',
-        'EMTSUPRT','LSATISFY','ADANXEV','_CHISPNC','_RFHLTH','_ASTHMS1','_CASTHM1','_LTASTH1','_MRACE1','_RACEGR3',
-        '_RACE','_RFBMI5','_CHLDCNT','_EDUCAG','_INCOMG','_RFSMOK3','_FRTLT1','_VEGLT1',
-        'DRNKANY5','_PACAT1','_PAINDX1','_PAREC1','_PASTAE1','_LMTWRK1','_PNEUMO2',
-        '_LMTSCL1','_FLSHOT6','_AIDTST3',
+        "ADDEPEV2",
+        "ARTHDIS2",
+        "ARTHEDU",
+        "ARTHEXER",
+        "ARTHWGT",
+        "ASATTACK",
+        "ASDRVIST",
+        "ASERVIST",
+        "ASPUNSAF",
+        "ASTHMA3",
+        "ASTHMED3",
+        "ASYMPTOM",
+        "BLDSTOOL",
+        "BLIND",
+        "BLOODCHO",
+        "BPHIGH4",
+        "CASTHNO2",
+        "CDASSIST",
+        "CDHOUSE",
+        "CHCCOPD1",
+        "CHCKIDNY",
+        "CHECKUP1",
+        "CHOLCHK",
+        "CIMEMLOS",
+        "CPDEMO1",
+        "CRGVHRS1",
+        "CRGVMST2",
+        "DECIDE",
+        "DIABEDU",
+        "DIABEYE",
+        "DIFFALON",
+        "DRADVISE",
+        "EDUCA",
+        "EXERANY2",
+        "EYEEXAM",
+        "FLUSHOT6",
+        "HADHYST2",
+        "HADMAM",
+        "HADPAP2",
+        "HADSGCO1",
+        "HADSIGM3",
+        "HAVARTH3",
+        "HIVTST6",
+        "HLTHPLN1",
+        "HPVADSHT",
+        "HPVTEST",
+        "LANDLINE",
+        "LMTJOIN3",
+        "MEDCOST",
+        "MISTMNT",
+        "NUMHHOL2",
+        "PCPSAAD2",
+        "PCPSADE1",
+        "PCPSADI1",
+        "PCPSARE1",
+        "PDIABTST",
+        "PNEUVAC3",
+        "PREDIAB1",
+        "PROFEXAM",
+        "QLACTLM2",
+        "RENTHOM1",
+        "SCNTLPAD",
+        "SCNTMEL1",
+        "SCNTMNY1",
+        "SCNTPAID",
+        "SEATBELT",
+        "SMOKE100",
+        "STOPSMK2",
+        "STREHAB1",
+        "TETANUS",
+        "TOLDHI2",
+        "USEEQUIP",
+        "USENOW3",
+        "VICTRCT4",
+        "VIDFCLT2",
+        "VIEYEXM2",
+        "VIGLUMA2",
+        "VIMACDG2",
+        "VIPRFVS2",
+        "VIREDIF3",
+        "WTCHSALT",
+        "_CHOLCHK",
+        "_HCVU651",
+        "_LLCPWT",
+        "_LMTACT1",
+        "_MICHD",
+        "_PA150R2",
+        "_PA30021",
+        "_PA300R2",
+        "_PASTRNG",
+        "_RACEG21",
+        "_RFCHOL",
+        "_RFDRHV5",
+        "_RFHYPE5",
+        "_RFSEAT2",
+        "_SMOKER3",
+        "_TOTINDA",
+        "_VEGESUM",
+        "_RFSEAT3",
+        "PAMISS1_",
+        "GENHLTH",
+        "PERSDOC2",
+        "BPMEDS",
+        "CVDSTRK3",
+        "ASTHNOW",
+        "CHCOCNCR",
+        "CHCSCNCR",
+        "DIABETE3",
+        "MARITAL",
+        "VETERAN3",
+        "EMPLOY1",
+        "INTERNET",
+        "PREGNANT",
+        "DIFFWALK",
+        "DIFFDRES",
+        "CAREGIV1",
+        "CRGVHOUS",
+        "CRGVPERS",
+        "CRGVPRB1",
+        "CRGVREL1",
+        "LASTSIG3",
+        "SXORIENT",
+        "TRNSGNDR",
+        "RCSGENDR",
+        "RCSRLTN2",
+        "CASTHDX2",
+        "EMTSUPRT",
+        "LSATISFY",
+        "ADANXEV",
+        "_CHISPNC",
+        "_RFHLTH",
+        "_ASTHMS1",
+        "_CASTHM1",
+        "_LTASTH1",
+        "_MRACE1",
+        "_RACEGR3",
+        "_RACE",
+        "_RFBMI5",
+        "_CHLDCNT",
+        "_EDUCAG",
+        "_INCOMG",
+        "_RFSMOK3",
+        "_FRTLT1",
+        "_VEGLT1",
+        "DRNKANY5",
+        "_PACAT1",
+        "_PAINDX1",
+        "_PAREC1",
+        "_PASTAE1",
+        "_LMTWRK1",
+        "_PNEUMO2",
+        "_LMTSCL1",
+        "_FLSHOT6",
+        "_AIDTST3",
     ]
 
     # no explicit DK/Ref "7…/9…" code in that variable’s own table
     no_dk_rf = [
-        'ACTIN11_','ACTIN21_','CADULT','CCLGHOUS','CELLFON2','CELLFON3',
-        'COLGHOUS','CRGVLNG1','CSTATE','CTELENUM','CTELNUM1','CVDASPRN','CVDCRHD4',
-        'DISPCODE','DROCDY3_','EXACTOT1','EXACTOT2','EXRACT11','EXRACT21','FMONTH',
-        'HPLSTTST','HTIN4','HTM4','IDATE','IDAY','IMONTH','INSULIN','IYEAR','LADULT',
-        'LASTPAP2','METVL11_','METVL21_','MSCODE','NUMADULT','NUMMEN','NUMPHON2','NUMWOMEN',
-        'PA1MIN_','PADUR1_','PADUR2_','PAINACT2','PAMIN11_','PAMIN21_','PAVIG11_','PAVIG21_','PCDMDECN',
-        'PCPSARS1','PSATEST1','PVTRESD1','PVTRESD2','QLHLTH2','QLMENTL2','QLSTRES2','QSTLANG','QSTVER',
-        'RDUCSTRK','RLIVPAIN','SEQNO','SEX','SHINGLE2','SMOKDAY2','STATERES','VIINSUR2',
-        '_AGE65YR','_AGE80','_AGEG5YR','_AGE_G','_CLLCPWT','_CPRACE',
-        '_DRNKWEK','_DUALCOR','_DUALUSE','_FRT16','_FRTRESP','_FRUITEX','_FRUTSUM','_HISPANC',
-        '_MINAC11','_MINAC21','_MISFRTN','_MISVEGN',
-        '_PSU','_RAWRAKE','_STATE','_STRWT',
-        '_STSTR','_VEG23','_VEGETEX','_VEGRESP',
+        "ACTIN11_",
+        "ACTIN21_",
+        "CADULT",
+        "CCLGHOUS",
+        "CELLFON2",
+        "CELLFON3",
+        "COLGHOUS",
+        "CRGVLNG1",
+        "CSTATE",
+        "CTELENUM",
+        "CTELNUM1",
+        "CVDASPRN",
+        "CVDCRHD4",
+        "DISPCODE",
+        "DROCDY3_",
+        "EXACTOT1",
+        "EXACTOT2",
+        "EXRACT11",
+        "EXRACT21",
+        "FMONTH",
+        "HPLSTTST",
+        "HTIN4",
+        "HTM4",
+        "IDATE",
+        "IDAY",
+        "IMONTH",
+        "INSULIN",
+        "IYEAR",
+        "LADULT",
+        "LASTPAP2",
+        "METVL11_",
+        "METVL21_",
+        "MSCODE",
+        "NUMADULT",
+        "NUMMEN",
+        "NUMPHON2",
+        "NUMWOMEN",
+        "PA1MIN_",
+        "PADUR1_",
+        "PADUR2_",
+        "PAINACT2",
+        "PAMIN11_",
+        "PAMIN21_",
+        "PAVIG11_",
+        "PAVIG21_",
+        "PCDMDECN",
+        "PCPSARS1",
+        "PSATEST1",
+        "PVTRESD1",
+        "PVTRESD2",
+        "QLHLTH2",
+        "QLMENTL2",
+        "QLSTRES2",
+        "QSTLANG",
+        "QSTVER",
+        "RDUCSTRK",
+        "RLIVPAIN",
+        "SEQNO",
+        "SEX",
+        "SHINGLE2",
+        "SMOKDAY2",
+        "STATERES",
+        "VIINSUR2",
+        "_AGE65YR",
+        "_AGE80",
+        "_AGEG5YR",
+        "_AGE_G",
+        "_CLLCPWT",
+        "_CPRACE",
+        "_DRNKWEK",
+        "_DUALCOR",
+        "_DUALUSE",
+        "_FRT16",
+        "_FRTRESP",
+        "_FRUITEX",
+        "_FRUTSUM",
+        "_HISPANC",
+        "_MINAC11",
+        "_MINAC21",
+        "_MISFRTN",
+        "_MISVEGN",
+        "_PSU",
+        "_RAWRAKE",
+        "_STATE",
+        "_STRWT",
+        "_STSTR",
+        "_VEG23",
+        "_VEGETEX",
+        "_VEGRESP",
     ]
 
     x_data[:, [x_indices["STRFREQ_"]] == 99, x_indices["STRFREQ_"]] = np.nan
@@ -682,9 +945,7 @@ def clean_data(x_data, x_indices):
     x_data[:, [x_indices["PAFREQ2_"]] == 99900, x_indices["PAFREQ2_"]] = np.nan
     x_data[:, [x_indices["PAFREQ1_"]] == 90, x_indices["PAFREQ1_"]] = np.nan
     x_data[:, [x_indices["PAFREQ2_"]] == 99, x_indices["PAFREQ2_"]] = np.nan
-    
-    
-    
+
     for c in x_indices:
         if c in single_digit:
             x_data[x_data[:, x_indices[c]] == 7, x_indices[c]] = np.nan
@@ -712,13 +973,23 @@ def clean_data(x_data, x_indices):
             x_data[x_data[:, x_indices[c]] == 888888, x_indices[c]] = 0
             x_data[x_data[:, x_indices[c]] == 999999, x_indices[c]] = np.nan
         else:
-            if c not in no_dk_rf: 
+            if c not in no_dk_rf:
                 raise Exception("Not in any group", c)
-        
-    x_data[x_data[:, x_indices["WEIGHT2"]] <= 1000, x_indices["WEIGHT2"]] = x_data[x_data[:, x_indices["WEIGHT2"]] <= 1000, x_indices["WEIGHT2"]] * 0.453592
-    x_data[x_data[:, x_indices["WEIGHT2"]] >= 9000, x_indices["WEIGHT2"]] = x_data[x_data[:, x_indices["WEIGHT2"]] >= 9000, x_indices["WEIGHT2"]] - 9000
-    x_data[x_data[:, x_indices["HEIGHT3"]] <= 1000, x_indices["HEIGHT3"]] = ((x_data[x_data[:, x_indices["HEIGHT3"]] <= 1000, x_indices["HEIGHT3"]]) // 100) * 30.48 + ((x_data[x_data[:, x_indices["HEIGHT3"]] <= 1000, x_indices["HEIGHT3"]]) % 100) * 2.54
-    x_data[x_data[:, x_indices["HEIGHT3"]] >= 9000, x_indices["HEIGHT3"]] = x_data[x_data[:, x_indices["HEIGHT3"]] >= 9000, x_indices["HEIGHT3"]] - 9000
+
+    x_data[x_data[:, x_indices["WEIGHT2"]] <= 1000, x_indices["WEIGHT2"]] = (
+        x_data[x_data[:, x_indices["WEIGHT2"]] <= 1000, x_indices["WEIGHT2"]] * 0.453592
+    )
+    x_data[x_data[:, x_indices["WEIGHT2"]] >= 9000, x_indices["WEIGHT2"]] = (
+        x_data[x_data[:, x_indices["WEIGHT2"]] >= 9000, x_indices["WEIGHT2"]] - 9000
+    )
+    x_data[x_data[:, x_indices["HEIGHT3"]] <= 1000, x_indices["HEIGHT3"]] = (
+        (x_data[x_data[:, x_indices["HEIGHT3"]] <= 1000, x_indices["HEIGHT3"]]) // 100
+    ) * 30.48 + (
+        (x_data[x_data[:, x_indices["HEIGHT3"]] <= 1000, x_indices["HEIGHT3"]]) % 100
+    ) * 2.54
+    x_data[x_data[:, x_indices["HEIGHT3"]] >= 9000, x_indices["HEIGHT3"]] = (
+        x_data[x_data[:, x_indices["HEIGHT3"]] >= 9000, x_indices["HEIGHT3"]] - 9000
+    )
     x_data[x_data[:, x_indices["WEIGHT2"]] > 200, x_indices["WEIGHT2"]] = np.nan
 
     return x_data

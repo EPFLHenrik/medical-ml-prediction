@@ -1,16 +1,16 @@
 
 === DEMOGRAPHICS_SOCIOECONOMIC ===
-pairs |r| > 0.6: 1
+pairs |r| > 0.6: 6
 RENTHOM1        <---->   RENTHOM1         r=+1.000
-_AGE80          <---->   EMPLOY1          r=+0.488
-_AGE80          <---->   CHILDREN         r=+0.476
-TRNSGNDR        <---->   SXORIENT         r=+0.458
+RENTHOM1        <---->   RENTHOM1         r=+1.000
+RENTHOM1        <---->   RENTHOM1         r=+1.000
+RENTHOM1        <---->   RENTHOM1         r=+1.000
+RENTHOM1        <---->   RENTHOM1         r=+1.000
+RENTHOM1        <---->   RENTHOM1         r=+1.000
 INCOME2         <---->   EDUCA            r=+0.452
-MARITAL         <---->   RENTHOM1         r=+0.384
-MARITAL         <---->   RENTHOM1         r=+0.384
-_AGE80          <---->   RENTHOM1         r=-0.352
-_AGE80          <---->   RENTHOM1         r=-0.352
-INCOME2         <---->   EMPLOY1          r=-0.335
+_AGE80          <---->   CHILDREN         r=-0.427
+MARITAL         <---->   RENTHOM1         r=+0.397
+MARITAL         <---->   RENTHOM1         r=+0.397
 
 === BODY_MEASURES ===
 pairs |r| > 0.6: 1
@@ -19,56 +19,56 @@ HTM4            <---->   WTKG3            r=+0.469
 HTM4            <---->   _BMI5            r=-0.007
 
 === HEALTH_STATUS ===
-pairs |r| > 0.6: 3
-_LMTACT1        <---->   _LMTSCL1         r=+0.827
-_LMTSCL1        <---->   _LMTWRK1         r=+0.785
-GENHLTH         <---->   _RFHLTH          r=+0.681
-_LMTACT1        <---->   _LMTWRK1         r=+0.581
+pairs |r| > 0.6: 4
+_LMTACT1        <---->   _LMTWRK1         r=+0.919
+_LMTACT1        <---->   _LMTSCL1         r=+0.902
+_LMTSCL1        <---->   _LMTWRK1         r=+0.892
+GENHLTH         <---->   _RFHLTH          r=+0.757
 PHYSHLTH        <---->   POORHLTH         r=+0.578
-GENHLTH         <---->   PHYSHLTH         r=+0.508
-PHYSHLTH        <---->   QLACTLM2         r=-0.463
-_LMTACT1        <---->   QLACTLM2         r=+0.459
-DIFFWALK        <---->   DIFFDRES         r=+0.455
-POORHLTH        <---->   QLACTLM2         r=-0.440
+QLACTLM2        <---->   DIFFWALK         r=+0.555
+PHYSHLTH        <---->   _RFHLTH          r=+0.541
+DIFFWALK        <---->   USEEQUIP         r=+0.534
+GENHLTH         <---->   PHYSHLTH         r=+0.517
+_LMTSCL1        <---->   DIFFWALK         r=+0.497
 
 === CHRONIC_CONDITIONS ===
-pairs |r| > 0.6: 0
-_ASTHMS1        <---->   _CASTHM1         r=+0.328
-DIABETE3        <---->   PREDIAB1         r=-0.271
+pairs |r| > 0.6: 1
+_ASTHMS1        <---->   _CASTHM1         r=-0.944
+DIABETE3        <---->   PREDIAB1         r=-0.336
+_ASTHMS1        <---->   CHCCOPD1         r=+0.264
+_CASTHM1        <---->   CHCCOPD1         r=-0.263
 CHCCOPD1        <---->   JOINPAIN         r=-0.192
 CHCCOPD1        <---->   HAVARTH3         r=+0.187
-_ASTHMS1        <---->   CHCCOPD1         r=+0.165
 CHCCOPD1        <---->   ARTHSOCL         r=+0.158
-_CASTHM1        <---->   CHCCOPD1         r=-0.151
+_ASTHMS1        <---->   JOINPAIN         r=-0.151
+_CASTHM1        <---->   JOINPAIN         r=+0.150
 CHCCOPD1        <---->   ADDEPEV2         r=+0.145
-CHCCOPD1        <---->   LMTJOIN3         r=+0.141
-CHCCOPD1        <---->   ARTHDIS2         r=+0.134
 
 === LIFESTYLE_BEHAVIORS ===
-pairs |r| > 0.6: 10
+pairs |r| > 0.6: 7
 SMOKE100        <---->   SMOKDAY2         r=+nan
 SMOKE100        <---->   STOPSMK2         r=+nan
 SMOKDAY2        <---->   _SMOKER3         r=+1.000
+DRNKANY5        <---->   ALCDAY5          r=-0.936
 SMOKE100        <---->   _SMOKER3         r=+0.813
 SMOKDAY2        <---->   STOPSMK2         r=-0.256
 STOPSMK2        <---->   _SMOKER3         r=-0.256
-SMOKDAY2        <---->   DRNK3GE5         r=+0.185
-_SMOKER3        <---->   DRNK3GE5         r=+0.168
-STOPSMK2        <---->   WTCHSALT         r=+0.129
-USENOW3         <---->   DRNK3GE5         r=+0.108
+SMOKDAY2        <---->   MAXDRNKS         r=-0.210
+_SMOKER3        <---->   MAXDRNKS         r=-0.204
+_SMOKER3        <---->   DRNK3GE5         r=-0.190
 
 === PHYSICAL_ACTIVITY ===
-pairs |r| > 0.6: 36
+pairs |r| > 0.6: 39
 EXERANY2        <---->   _TOTINDA         r=+1.000
+PAMIN11_        <---->   PAMIN11_         r=+1.000
 STRFREQ_        <---->   STRFREQ_         r=+1.000
-_PAREC1         <---->   _PASTAE1         r=+0.926
-EXERANY2        <---->   _PACAT1          r=+0.427
-EXERANY2        <---->   _PAREC1          r=+0.332
-EXERANY2        <---->   PA1MIN_          r=+nan
-EXERANY2        <---->   PA1VIGM_         r=+nan
-EXERANY2        <---->   PAVIG11_         r=+nan
-EXERANY2        <---->   PAVIG21_         r=+nan
-EXERANY2        <---->   PAMIN11_         r=+nan
+MAXVO2_         <---->   FC60_            r=+1.000
+PAMIN21_        <---->   _MINAC21         r=+0.937
+PAMIN11_        <---->   _MINAC11         r=+0.922
+PAMIN11_        <---->   _MINAC11         r=+0.922
+PA1VIGM_        <---->   PAVIG11_         r=+0.808
+PAVIG11_        <---->   PAMIN11_         r=+0.802
+PAVIG11_        <---->   PAMIN11_         r=+0.802
 
 === DIET_NUTRITION ===
 pairs |r| > 0.6: 5
@@ -86,11 +86,11 @@ _VEGETEX        <---->   DROCDY3_         r=+0.506
 === ACCESS_TO_CARE ===
 pairs |r| > 0.6: 1
 CHECKUP1        <---->   CHOLCHK          r=+0.546
-CHECKUP1        <---->   PERSDOC2         r=+0.316
+CHECKUP1        <---->   PERSDOC2         r=+0.352
 CHOLCHK         <---->   BLOODCHO         r=+nan
-BLOODCHO        <---->   PERSDOC2         r=+0.251
+BLOODCHO        <---->   PERSDOC2         r=+0.276
+CHOLCHK         <---->   PERSDOC2         r=+0.265
 CHECKUP1        <---->   BLOODCHO         r=+0.249
-CHOLCHK         <---->   PERSDOC2         r=+0.236
 CHECKUP1        <---->   FLUSHOT6         r=+0.197
 CHOLCHK         <---->   PNEUVAC3         r=+0.187
 CHECKUP1        <---->   PNEUVAC3         r=+0.185

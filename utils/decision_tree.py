@@ -94,7 +94,6 @@ class Decision_Tree:
 
     def gain_ratio_y(self, y_parent, y_left, y_right):
         """Gain Ratio = InformationGain(entropy) / SplitInfo."""
-        # ig = self.information_gain_y(y_parent, y_left, y_right, self.entropy_y)
         ig = self.information_gain_y(y_parent, y_left, y_right, self.calc_entropy)
         si = self.split_info_y(y_left, y_right)
         if si <= 1e-12:
@@ -140,7 +139,7 @@ class Decision_Tree:
             k = min(k, n_features)
             all_features = np.random.choice(n_features, size=k, replace=False)
 
-        # optionally subsample rows to speed up split search
+        # optionally subsample rows to speed up split search (mostly for random forest)
         if self.split_row_ratio is None or self.split_row_ratio >= 1.0:
             row_idx = np.arange(n_rows)
         else:
@@ -191,7 +190,7 @@ class Decision_Tree:
         return labels.sum() / labels.size
 
     def train(self, train_x, train_y):
-        self.labels = np.unique(train_y)  # train y not train x
+        self.labels = np.unique(train_y)
         train_y[train_y == -1] = 0
         train_data = np.concatenate((train_x, np.reshape(train_y, (-1, 1))), axis=1)
 
@@ -216,7 +215,7 @@ class Decision_Tree:
                 information_gained=0.0,
                 predict_prob=label_prob,
             )
-        # split data into 2 groups
+        
         g1, g2 = self.split(data, split_feature=split_feature, split_value=split_val)
 
         label_prob = self.find_label_prob(data)
@@ -264,9 +263,8 @@ class Decision_Tree:
         return pred_probs.round()
 
     def print_recursive(self, node, level=0, left=0, parent=-1):
-        step = 20 * (1 / 2) ** (level)  # level not -level
+        step = 20 * (1 / 2) ** (level)
         if node is not None:
-            # self.print_recursive(node.left_child, level-1, left+step, ([level*5,left]))  # old
             self.print_recursive(
                 node.left_child, level + 1, left + step, ([level * 5, left])
             )
@@ -292,7 +290,6 @@ class Decision_Tree:
                 )
             if parent != -1:
                 plt.plot([left, parent[1]], [level * 5, parent[0]], color="black")
-            # self.print_recursive(node.right_child, level-1, left-step, ([level*5,left]))  # old
             self.print_recursive(
                 node.right_child, level + 1, left - step, ([level * 5, left])
             )

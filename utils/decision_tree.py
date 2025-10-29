@@ -215,7 +215,7 @@ class Decision_Tree:
                 information_gained=0.0,
                 predict_prob=label_prob,
             )
-        
+
         g1, g2 = self.split(data, split_feature=split_feature, split_value=split_val)
 
         label_prob = self.find_label_prob(data)

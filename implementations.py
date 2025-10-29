@@ -98,7 +98,9 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     """
     w = initial_w.copy()
     for n_iters in range(max_iters):
-        for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=1, shuffle=True):
+        for y_batch, tx_batch in batch_iter(
+            y, tx, batch_size=1, num_batches=1, shuffle=True
+        ):
             grad = compute_stoch_gradient(y_batch, tx_batch, w)
             w -= gamma * grad
     loss = compute_loss(y, tx, w)
@@ -203,6 +205,7 @@ def ridge_regression(y, tx, lambda_):
     loss = (e @ e) / (2 * N)
     return w, np.array(loss)
 
+
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
     """
     Logistic regression using gradient descent.
@@ -237,6 +240,7 @@ def sigmoid(t):
         (float or np.ndarray): Sigmoid of input
     """
     return 1 / (1 + np.exp(-t))
+
 
 def calculate_loss(y, tx, w):
     """
@@ -311,7 +315,7 @@ def penalized_logistic_regression(y, tx, w, lambda_):
         loss (np.ndarray): 0-dim array
         grad (np.ndarray): Gradient, shape (D,)
     """
-    loss = calculate_loss(y, tx, w) + lambda_ * np.sum(w ** 2)
+    loss = calculate_loss(y, tx, w) + lambda_ * np.sum(w**2)
     grad = tx.T @ (sigmoid(tx @ w) - y) / y.shape[0] + 2 * lambda_ * w
     return np.array(loss), grad
 

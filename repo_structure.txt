@@ -2,6 +2,8 @@ Repository root: C:\Users\emmaa\OneDrive\Documents\0. EPFL\courses\CS_433 - Mach
 
 cs433_medical_ml/
     .env
+    .gitignore
+    CS433_PestoPasta_proj1.pdf
     implementations.py
     LICENSE
     main_repo_structure.txt
@@ -28,11 +30,11 @@ cs433_medical_ml/
             0510_meeting.md
             1009_meeting.md
             WorkFlow.md
-    EDA_Henrik/
     notebooks/
         1. EDA_initial.ipynb
         2. feature_selection_percategory.ipynb
         3. EDA_on_reduced_feature_set.ipynb
+        3.1 POC_dt_rf.ipynb
         4. decision_tree_train_gridsearch_eval.ipynb
         5. weighed_logreg_train_gridsearch_eval.ipynb
         6. variance_of_weights_of_weighed_logreg.ipynb
@@ -155,9 +157,10 @@ cs433_medical_ml/
             submission_weighed_log_reg_gamma0.4_lambda0.1.csv
             submission_weighed_log_reg_gamma1.csv
     utils/
+        __init__.py
         all_functions.py
-        cv.py
         cv_variability.py
+        cv.py
         decision_tree.py
         eda_helpers.py
         helpers.py
@@ -167,4 +170,3 @@ cs433_medical_ml/
         repo_structure.py
         sampling_methods.py
         update_dictionary.py
-        __init__.py

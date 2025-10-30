@@ -190,7 +190,7 @@ x_test_standardized = (x_test_interested - col_mean) / col_std
 # TRAIN ---------------------------------------
 
 lambda_ = 0.01
-gamma = 0.4
+gamma = 0.5
 max_iters = 500
 threshold = 0.80
 
